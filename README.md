@@ -29,34 +29,49 @@ npm run build     # → dist/
 npm run preview
 ```
 
-## Personalizar
+## Personalizar la marca — un solo archivo
 
-### Colores (cambiar en 2 lugares)
+Toda la marca (colores, tipografías y logo) vive en **`src/config/theme.mjs`**. Es lo único que se edita para rebrandear; de ahí se alimentan Tailwind, el CSS de los componentes (glass, glow, gradientes), el `<link>` de Google Fonts y el logo. **No toques el markup ni `global.css`.**
 
-**1. `src/styles/global.css` → bloque `:root`:**
-```css
-:root {
-  --accent:      #00F0FF;  /* Cyan eléctrico (interactivo) */
-  --accent-2:    #A78BFA;  /* Violeta suave (secundario) */
-  --bg-void:     #03030F;  /* Fondo void base */
-  --grad-indigo: #4F46E5;  /* Mesh gradient A */
-  --grad-violet: #7C3AED;  /* Mesh gradient B */
-  --grad-pink:   #DB2777;  /* Mesh gradient C */
-}
-```
-
-**2. `tailwind.config.mjs` → `theme.extend.colors`:**
 ```js
-colors: {
-  'accent':    '#00F0FF',
-  'accent-2':  '#A78BFA',
-  'bg-void':   '#03030F',
-  'bg-depth':  '#08082A',
-}
+// src/config/theme.mjs
+export const colors = {
+  accent: '#00F0FF', 'accent-2': '#A78BFA',
+  'bg-void': '#03030F', 'bg-depth': '#08082A',
+  'grad-indigo': '#4F46E5', 'grad-violet': '#7C3AED', 'grad-pink': '#DB2777',
+  'text-primary': '#EEF2FF', 'text-secondary': '#8892B0', 'text-dim': '#4A5578',
+};
+export const fonts = {
+  display: 'Sora, sans-serif',
+  body: 'Mulish, sans-serif',
+  googleHref: 'https://fonts.googleapis.com/css2?family=…',
+};
+export const logo = { image: '', icon: 'bolt', alt: 'Logo' };
 ```
 
-### Tipografía
-En `src/layouts/Layout.astro` y `html/*.html`, reemplazar el link de Google Fonts y las familias `font-display` / `font-body` en CSS.
+> Los derivados del acento (rgb, glow, dim, borde glass) se calculan solos a partir de `accent`.
+
+## Gestión de contenido (Decap CMS)
+
+Todo el contenido es editable desde **`/admin`** sin tocar código. Vive como JSON en `src/content/` y Astro lo lee en build.
+
+- `src/content/settings/site.json` — marca, nav, footer, contacto
+- `src/content/pages/{home,about,contact}.json` — páginas comunes
+- `src/content/services/*.json` — 6 servicios uniformes (features + planes), vía ruta dinámica `[slug]`
+- `src/content/services-custom/*.json` — 3 servicios con diseño propio (agentes-ia: comparativa · embudos-venta: plan único · creadores-ugc: stats)
+
+**Editar en local:** `npm run dev` + `npm run cms` → `http://localhost:4321/admin/index.html`.
+**En producción:** desplegar `oauth-worker/` y poner su URL en `public/admin/config.yml` (ver [`oauth-worker/README.md`](oauth-worker/README.md)).
+
+> El resaltado en gradiente de los titulares se controla con el campo **"Palabra resaltada"** (debe coincidir con una subcadena exacta del titular).
+
+## Crear un sitio nuevo
+
+1. Duplica el repo.
+2. Marca → edita `src/config/theme.mjs` (colores, fuentes + `googleHref`, logo).
+3. Contenido → edita en `/admin` o los JSON de `src/content/`.
+4. CMS → ajusta `backend.repo` y `base_url` en `public/admin/config.yml`.
+5. Deploy en Cloudflare Pages (`npm run build`, output `dist`).
 
 ## Servicios (9 páginas)
 
@@ -71,10 +86,6 @@ En `src/layouts/Layout.astro` y `html/*.html`, reemplazar el link de Google Font
 | `/servicios/embudos-venta` | Embudos de Venta |
 | `/servicios/creadores-ugc` | Creadores UGC |
 | `/servicios/creacion-contenido` | Creación de Contenido |
-
-## Versión HTML standalone
-
-La carpeta `html/` contiene versiones HTML puras (Tailwind CDN + CSS inline) sin build. Abrir directamente en navegador o con Live Server.
 
 ## Deploy
 

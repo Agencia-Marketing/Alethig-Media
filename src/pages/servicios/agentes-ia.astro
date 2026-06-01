@@ -1,39 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import s from '../../content/services-custom/agentes-ia.json';
+import { highlightHeading } from '../../lib/highlight';
 
-const features = [
-  { icon: 'schedule', title: 'Disponibilidad 24/7', desc: 'Tu agente de IA nunca duerme — atiende consultas, cualifica leads y cierra citas a cualquier hora.' },
-  { icon: 'hub', title: 'Cualificación Masiva', desc: 'Evalúa miles de prospectos simultáneamente con criterios personalizados para tu negocio.' },
-  { icon: 'integration_instructions', title: 'Integración CRM', desc: 'Conecta directamente con GoHighLevel, HubSpot o tu CRM actual sin fricciones técnicas.' },
-];
-
-const comparisonLeft = [
-  'Horario fijo de 8 horas',
-  'Atiende 1 cliente a la vez',
-  'Vacaciones y bajas',
-  'Alto coste mensual',
-  'Formación continua requerida',
-];
-
-const comparisonRight = [
-  'Activo 24/7 los 365 días',
-  'Atiende miles simultáneamente',
-  'Sin interrupciones',
-  'Inversión única de implantación',
-  'Aprendizaje autónomo continuo',
-];
+export const prerender = true;
 ---
-<Layout title="Agentes de IA | NEXUS Digital">
+<Layout title={`${s.title} | NEXUS Digital`}>
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
     <div class="absolute top-1/4 right-1/3 w-80 h-80 rounded-full bg-accent/5 blur-[120px] pointer-events-none"></div>
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="reveal">
-          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm">smart_toy</span>Agentes de IA</span>
-          <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5">
-            Escala sin límites con <span class="gradient-text">inteligencia artificial</span> autónoma
-          </h1>
-          <p class="text-body-lg text-text-secondary mb-8">Escala tu operación sin escalar tu equipo: agentes de IA que cualifican, venden y atienden de forma autónoma 24/7.</p>
+          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm">{s.heroTagIcon}</span>{s.title}</span>
+          <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(s.heroHeading, s.heroHighlight)}></h1>
+          <p class="text-body-lg text-text-secondary mb-8">{s.heroSub}</p>
           <div class="flex gap-4 flex-wrap">
             <a href="/contacto" class="btn-cyber-solid magnetic press">Solicitar servicio</a>
             <a href="#planes" class="btn-ghost magnetic press">Ver planes</a>
@@ -41,7 +21,7 @@ const comparisonRight = [
         </div>
         <div class="reveal">
           <div class="glass card-cyber rounded-2xl overflow-hidden animate-float">
-            <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80" alt="Agentes de IA NEXUS" class="w-full aspect-video object-cover opacity-80" />
+            <img src={s.image} alt={s.imageAlt} class="w-full aspect-video object-cover opacity-80" />
           </div>
         </div>
       </div>
@@ -51,7 +31,7 @@ const comparisonRight = [
   <section class="bg-bg-depth py-14">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-3 gap-5 stagger-fade">
-        {features.map(f => (
+        {s.features.map(f => (
           <div class="glass card-cyber rounded-2xl p-7">
             <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
               <span class="material-symbols-outlined text-accent text-2xl">{f.icon}</span>
@@ -68,13 +48,13 @@ const comparisonRight = [
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="text-center mb-14 reveal">
         <span class="tag-cyber mb-4 inline-flex">Comparativa</span>
-        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-2">Empleado tradicional <span class="gradient-text">vs</span> Agente de IA</h2>
+        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-2" set:html={highlightHeading(s.comparisonHeading, s.comparisonHighlight)}></h2>
       </div>
       <div class="grid md:grid-cols-2 gap-6 reveal">
         <div class="glass card-cyber rounded-2xl p-8">
-          <p class="font-display font-bold text-lg mb-5 text-text-secondary">Empleado Tradicional</p>
+          <p class="font-display font-bold text-lg mb-5 text-text-secondary">{s.compareLeftTitle}</p>
           <ul class="space-y-3">
-            {comparisonLeft.map(item => (
+            {s.comparisonLeft.map(item => (
               <li class="flex items-center gap-3 text-text-secondary text-sm">
                 <span class="material-symbols-outlined text-red-400 text-base">cancel</span>
                 {item}
@@ -83,9 +63,9 @@ const comparisonRight = [
           </ul>
         </div>
         <div class="glass lumen-border card-cyber rounded-2xl p-8" style="background: linear-gradient(135deg, rgba(0,240,255,0.06) 0%, rgba(79,70,229,0.08) 100%);">
-          <p class="font-display font-bold text-lg mb-5 text-accent">Agente de IA NEXUS</p>
+          <p class="font-display font-bold text-lg mb-5 text-accent">{s.compareRightTitle}</p>
           <ul class="space-y-3">
-            {comparisonRight.map(item => (
+            {s.comparisonRight.map(item => (
               <li class="flex items-center gap-3 text-text-primary text-sm">
                 <span class="material-symbols-outlined text-accent text-base">check_circle</span>
                 {item}
@@ -105,18 +85,18 @@ const comparisonRight = [
       </div>
       <div class="max-w-lg mx-auto reveal">
         <div class="glass lumen-border card-cyber rounded-2xl p-10 text-center" style="background: linear-gradient(135deg, rgba(0,240,255,0.06) 0%, rgba(79,70,229,0.08) 100%);">
-          <span class="tag-cyber mb-4 inline-flex">Plan Único</span>
-          <p class="gradient-text font-display font-extrabold text-5xl mb-2">$15,000</p>
-          <p class="text-text-secondary mb-6">MXN — Implementación completa</p>
+          <span class="tag-cyber mb-4 inline-flex">{s.plan.badge}</span>
+          <p class="gradient-text font-display font-extrabold text-5xl mb-2">{s.plan.price}</p>
+          <p class="text-text-secondary mb-6">{s.plan.note}</p>
           <ul class="space-y-3 mb-8 text-left">
-            {['Configuración y entrenamiento del agente', 'Integración con tu CRM', 'Conexión con bases de datos', 'Cualificación automática de leads', 'Panel de control y reportes', 'Soporte técnico 3 meses'].map(f => (
+            {s.plan.features.map(f => (
               <li class="flex items-center gap-3 text-sm text-text-secondary">
                 <span class="material-symbols-outlined text-accent text-base">check_circle</span>
                 {f}
               </li>
             ))}
           </ul>
-          <a href="/contacto" class="btn-cyber-solid w-full justify-center magnetic press">CONTRATAR AHORA</a>
+          <a href="/contacto" class="btn-cyber-solid w-full justify-center magnetic press">{s.plan.buttonLabel}</a>
         </div>
       </div>
     </div>
@@ -125,10 +105,10 @@ const comparisonRight = [
   <section class="mesh-bg py-section-py-sm">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="glass lumen-border rounded-3xl p-12 text-center reveal" style="background: linear-gradient(135deg, rgba(79,70,229,0.10) 0%, rgba(0,240,255,0.05) 100%);">
-        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4">¿Te convencemos?</h2>
-        <p class="text-text-secondary mb-8 max-w-xl mx-auto">Agenda una llamada gratuita de 30 minutos y te mostramos un agente de IA en acción.</p>
+        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4">{s.ctaHeading}</h2>
+        <p class="text-text-secondary mb-8 max-w-xl mx-auto">{s.ctaText}</p>
         <a href="/contacto" class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">Ver demo en vivo <span class="material-symbols-outlined text-base">play_circle</span></span>
+          <span class="icon-wrap">{s.ctaButtonLabel} <span class="material-symbols-outlined text-base">{s.ctaButtonIcon}</span></span>
         </a>
       </div>
     </div>

@@ -1,37 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import s from '../../content/services-custom/creadores-ugc.json';
+import { highlightHeading } from '../../lib/highlight';
 
-const features = [
-  { icon: 'verified_user', title: 'Confianza Auténtica', desc: 'El 94% de los consumidores confía más en UGC que en publicidad tradicional. Dale a tu marca esa credibilidad.' },
-  { icon: 'bar_chart', title: 'CTR Aumentado', desc: 'El contenido UGC genera hasta 3x más clics en anuncios pagados que el contenido de marca tradicional.' },
-  { icon: 'groups', title: 'Creadores Verificados', desc: 'Red de creadores seleccionados por nicho, audiencia y tasa de engagement para tu industria.' },
-];
-
-const stats = [
-  { value: '94%', label: 'de confianza del consumidor en UGC vs publicidad tradicional' },
-  { value: '3x', label: 'más CTR en campañas con contenido UGC' },
-];
-
-const planFeatures = [
-  'Selección de creador ideal',
-  'Guión y brief de contenido',
-  '1 vídeo UGC editado (30-60s)',
-  'Derechos de uso publicitario',
-  'Variantes para A/B testing',
-  'Estrategia de distribución',
-];
+export const prerender = true;
 ---
-<Layout title="Creadores UGC | NEXUS Digital">
+<Layout title={`${s.title} | NEXUS Digital`}>
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
     <div class="absolute top-1/3 right-1/4 w-80 h-80 rounded-full bg-accent/5 blur-[120px] pointer-events-none"></div>
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="reveal">
-          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm">campaign</span>Creadores UGC</span>
-          <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5">
-            Contenido auténtico que <span class="gradient-text">triplica</span> tus conversiones
-          </h1>
-          <p class="text-body-lg text-text-secondary mb-8">El contenido generado por personas reales genera 3x más conversiones. Conectamos tu marca con los creadores perfectos para tu audiencia.</p>
+          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm">{s.heroTagIcon}</span>{s.title}</span>
+          <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(s.heroHeading, s.heroHighlight)}></h1>
+          <p class="text-body-lg text-text-secondary mb-8">{s.heroSub}</p>
           <div class="flex gap-4 flex-wrap">
             <a href="/contacto" class="btn-cyber-solid magnetic press">Solicitar servicio</a>
             <a href="#planes" class="btn-ghost magnetic press">Ver planes</a>
@@ -39,7 +21,7 @@ const planFeatures = [
         </div>
         <div class="reveal">
           <div class="glass card-cyber rounded-2xl overflow-hidden animate-float">
-            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80" alt="Creadores UGC NEXUS" class="w-full aspect-video object-cover opacity-80" />
+            <img src={s.image} alt={s.imageAlt} class="w-full aspect-video object-cover opacity-80" />
           </div>
         </div>
       </div>
@@ -49,7 +31,7 @@ const planFeatures = [
   <section class="bg-bg-depth py-14">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-3 gap-5 stagger-fade">
-        {features.map(f => (
+        {s.features.map(f => (
           <div class="glass card-cyber rounded-2xl p-7">
             <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
               <span class="material-symbols-outlined text-accent text-2xl">{f.icon}</span>
@@ -69,10 +51,10 @@ const planFeatures = [
         <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">El UGC en <span class="gradient-text">números</span></h2>
       </div>
       <div class="grid md:grid-cols-2 gap-6 reveal">
-        {stats.map(s => (
+        {s.stats.map(st => (
           <div class="glass card-cyber rounded-2xl p-10 text-center" style="background: linear-gradient(135deg, rgba(0,240,255,0.06) 0%, rgba(79,70,229,0.08) 100%);">
-            <p class="gradient-text font-display font-extrabold text-6xl mb-3">{s.value}</p>
-            <p class="text-text-secondary text-base leading-relaxed">{s.label}</p>
+            <p class="gradient-text font-display font-extrabold text-6xl mb-3">{st.value}</p>
+            <p class="text-text-secondary text-base leading-relaxed">{st.label}</p>
           </div>
         ))}
       </div>
@@ -87,20 +69,20 @@ const planFeatures = [
       </div>
       <div class="max-w-lg mx-auto reveal">
         <div class="glass lumen-border card-cyber rounded-2xl p-10 text-center" style="background: linear-gradient(135deg, rgba(0,240,255,0.06) 0%, rgba(79,70,229,0.08) 100%);">
-          <span class="tag-cyber mb-4 inline-flex">Más Popular</span>
-          <p class="font-display font-bold text-2xl mb-1">Plan UGC</p>
-          <p class="text-text-secondary text-sm mb-3">Precio desde</p>
-          <p class="gradient-text font-display font-extrabold text-5xl mb-2">$2,999 MXN</p>
-          <p class="text-text-secondary mb-6">Por vídeo creado y entregado</p>
+          <span class="tag-cyber mb-4 inline-flex">{s.plan.badge}</span>
+          <p class="font-display font-bold text-2xl mb-1">{s.plan.name}</p>
+          <p class="text-text-secondary text-sm mb-3">{s.plan.priceLabel}</p>
+          <p class="gradient-text font-display font-extrabold text-5xl mb-2">{s.plan.price}</p>
+          <p class="text-text-secondary mb-6">{s.plan.note}</p>
           <ul class="space-y-3 mb-8 text-left">
-            {planFeatures.map(f => (
+            {s.plan.features.map(f => (
               <li class="flex items-center gap-3 text-sm text-text-secondary">
                 <span class="material-symbols-outlined text-accent text-base">check_circle</span>
                 {f}
               </li>
             ))}
           </ul>
-          <a href="/contacto" class="btn-cyber-solid w-full justify-center magnetic press">CONTRATAR AHORA</a>
+          <a href="/contacto" class="btn-cyber-solid w-full justify-center magnetic press">{s.plan.buttonLabel}</a>
         </div>
       </div>
     </div>
@@ -109,10 +91,10 @@ const planFeatures = [
   <section class="mesh-bg py-section-py-sm">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="glass lumen-border rounded-3xl p-12 text-center reveal" style="background: linear-gradient(135deg, rgba(79,70,229,0.10) 0%, rgba(0,240,255,0.05) 100%);">
-        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4">¿Te convencemos?</h2>
-        <p class="text-text-secondary mb-8 max-w-xl mx-auto">Agenda una llamada gratuita de 30 minutos y encontramos juntos el creador perfecto para tu marca.</p>
+        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4">{s.ctaHeading}</h2>
+        <p class="text-text-secondary mb-8 max-w-xl mx-auto">{s.ctaText}</p>
         <a href="/contacto" class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">Hablar con un experto <span class="material-symbols-outlined text-base">phone_in_talk</span></span>
+          <span class="icon-wrap">{s.ctaButtonLabel} <span class="material-symbols-outlined text-base">{s.ctaButtonIcon}</span></span>
         </a>
       </div>
     </div>

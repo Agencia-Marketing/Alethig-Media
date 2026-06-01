@@ -1,0 +1,25 @@
+{
+  "title": "Campañas de Ads",
+  "order": 5,
+  "icon": "ads_click",
+  "heroHeading": "Publicidad de precisión quirúrgica que captura clientes listos para comprar",
+  "heroHighlight": "precisión quirúrgica",
+  "heroSub": "Gestionamos tus campañas de Google y Meta Ads con estrategia basada en datos para maximizar cada euro invertido.",
+  "heroCtaLabel": "Solicitar servicio",
+  "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+  "imageAlt": "Campañas Publicitarias NEXUS",
+  "features": [
+    { "icon": "target", "title": "Segmentación precisa", "desc": "Llegamos exactamente a las personas que están listas para comprar tu producto o servicio ahora mismo." },
+    { "icon": "analytics", "title": "Optimización continua", "desc": "Ajustes diarios basados en datos reales para maximizar el retorno de cada euro invertido." },
+    { "icon": "monitoring", "title": "Reportes transparentes", "desc": "Dashboard en tiempo real con todas las métricas que importan: CPA, ROAS, conversiones y más." }
+  ],
+  "plans": [
+    { "name": "Launch", "sub": "Google Ads básico", "price": "$2.5k/mes", "featured": false, "features": ["Hasta €5k de inversión", "Campañas Search", "Configuración inicial", "Reporte mensual", "Optimización semanal"] },
+    { "name": "Scale", "sub": "Google + Meta Ads", "price": "$4.5k/mes", "featured": true, "features": ["Hasta €15k de inversión", "Google + Meta Ads", "Remarketing incluido", "A/B testing", "Reporte semanal", "Call semanal"] },
+    { "name": "Dominate", "sub": "Full funnel paid", "price": "$8k+/mes", "featured": false, "features": ["Inversión ilimitada", "Todos los canales", "Creatividades incluidas", "Equipo dedicado", "Call diario", "SLA garantizado"] }
+  ],
+  "ctaHeading": "¿Quieres una auditoría gratuita de tus Ads?",
+  "ctaText": "Analizamos tus campañas actuales y te mostramos exactamente dónde estás perdiendo dinero.",
+  "ctaButtonLabel": "Solicitar auditoría gratuita",
+  "ctaButtonIcon": "analytics"
+}

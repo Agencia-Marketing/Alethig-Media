@@ -1,0 +1,17 @@
+name = "decap-oauth"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Despliegue:
+#   cd oauth-worker
+#   npm i -g wrangler   (o usa npx wrangler)
+#   wrangler secret put GITHUB_CLIENT_ID
+#   wrangler secret put GITHUB_CLIENT_SECRET
+#   wrangler deploy
+#
+# Tras el deploy obtendrás una URL https://decap-oauth.<subdominio>.workers.dev
+# Ponla en public/admin/config.yml -> backend.base_url
+#
+# En GitHub: Settings > Developer settings > OAuth Apps > New OAuth App
+#   Homepage URL:               https://<tu-sitio>
+#   Authorization callback URL: https://decap-oauth.<subdominio>.workers.dev/callback

@@ -1,0 +1,38 @@
+{
+  "title": "Creadores UGC",
+  "heroTagIcon": "campaign",
+  "heroHeading": "Contenido auténtico que triplica tus conversiones",
+  "heroHighlight": "triplica",
+  "heroSub": "El contenido generado por personas reales genera 3x más conversiones. Conectamos tu marca con los creadores perfectos para tu audiencia.",
+  "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80",
+  "imageAlt": "Creadores UGC NEXUS",
+  "features": [
+    { "icon": "verified_user", "title": "Confianza Auténtica", "desc": "El 94% de los consumidores confía más en UGC que en publicidad tradicional. Dale a tu marca esa credibilidad." },
+    { "icon": "bar_chart", "title": "CTR Aumentado", "desc": "El contenido UGC genera hasta 3x más clics en anuncios pagados que el contenido de marca tradicional." },
+    { "icon": "groups", "title": "Creadores Verificados", "desc": "Red de creadores seleccionados por nicho, audiencia y tasa de engagement para tu industria." }
+  ],
+  "stats": [
+    { "value": "94%", "label": "de confianza del consumidor en UGC vs publicidad tradicional" },
+    { "value": "3x", "label": "más CTR en campañas con contenido UGC" }
+  ],
+  "plan": {
+    "badge": "Más Popular",
+    "name": "Plan UGC",
+    "priceLabel": "Precio desde",
+    "price": "$3k",
+    "note": "Por vídeo creado y entregado",
+    "features": [
+      "Selección de creador ideal",
+      "Guión y brief de contenido",
+      "1 vídeo UGC editado (30-60s)",
+      "Derechos de uso publicitario",
+      "Variantes para A/B testing",
+      "Estrategia de distribución"
+    ],
+    "buttonLabel": "CONTRATAR AHORA"
+  },
+  "ctaHeading": "¿Te convencemos?",
+  "ctaText": "Agenda una llamada gratuita de 30 minutos y encontramos juntos el creador perfecto para tu marca.",
+  "ctaButtonLabel": "Hablar con un experto",
+  "ctaButtonIcon": "phone_in_talk"
+}

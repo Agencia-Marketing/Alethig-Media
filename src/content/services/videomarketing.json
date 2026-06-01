@@ -1,0 +1,25 @@
+{
+  "title": "Videomarketing",
+  "order": 6,
+  "icon": "movie",
+  "heroHeading": "Vídeos que amplifican tu mensaje y disparan el engagement",
+  "heroHighlight": "amplifican",
+  "heroSub": "Producimos piezas audiovisuales estratégicas que conectan emocionalmente con tu audiencia y aceleran el proceso de compra.",
+  "heroCtaLabel": "Solicitar servicio",
+  "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80",
+  "imageAlt": "Videomarketing NEXUS",
+  "features": [
+    { "icon": "videocam", "title": "Producción profesional", "desc": "Rodaje, dirección y edición de alto nivel para piezas que comunican tu mensaje con impacto real." },
+    { "icon": "trending_up", "title": "Vídeos que convierten", "desc": "Guiones estratégicos orientados a ventas: testimoniales, explicativos, ads y contenido para redes." },
+    { "icon": "subtitles", "title": "Subtítulos y adaptación", "desc": "Versiones optimizadas para cada plataforma: 9:16, 1:1, 16:9 con subtítulos y colores de marca." }
+  ],
+  "plans": [
+    { "name": "Starter", "sub": "1 vídeo/mes", "price": "$2.2k/mes", "featured": false, "features": ["1 vídeo profesional", "Hasta 2 min", "Guión incluido", "Música con licencia", "3 revisiones"] },
+    { "name": "Creator", "sub": "4 vídeos/mes", "price": "$5.8k/mes", "featured": true, "features": ["4 vídeos/mes", "Todos los formatos", "Reels/Shorts incluidos", "Guiones + edición", "Revisiones ilimitadas", "Entrega en 5d"] },
+    { "name": "Studio", "sub": "Producción total", "price": "$12k+/mes", "featured": false, "features": ["Vídeos ilimitados", "Equipo dedicado", "Animaciones 2D/3D", "Publicación en canales", "Dirección creativa", "Estrategia mensual"] }
+  ],
+  "ctaHeading": "¿Listo para crear contenido que impacte?",
+  "ctaText": "Hablemos sobre tu visión y te preparamos una propuesta de producción a medida.",
+  "ctaButtonLabel": "Solicitar propuesta",
+  "ctaButtonIcon": "video_call"
+}

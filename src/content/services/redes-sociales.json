@@ -1,0 +1,25 @@
+{
+  "title": "Gestión de Redes",
+  "order": 4,
+  "icon": "diversity_3",
+  "heroHeading": "Redes sociales que venden y fidelizan tu comunidad",
+  "heroHighlight": "venden",
+  "heroSub": "Convertimos tu presencia en redes en un motor de ventas y fidelización con estrategia, contenido de calidad y gestión experta.",
+  "heroCtaLabel": "Solicitar servicio",
+  "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80",
+  "imageAlt": "Gestión de Redes Sociales NEXUS",
+  "features": [
+    { "icon": "calendar_month", "title": "Planificación editorial", "desc": "Estrategia de contenido mensual alineada con tus objetivos de negocio y el calendario de tu industria." },
+    { "icon": "bar_chart", "title": "Análisis y reportes", "desc": "Métricas semanales y mensuales con insights accionables para mejorar continuamente el rendimiento." },
+    { "icon": "forum", "title": "Community management", "desc": "Gestión activa de comentarios, mensajes y conversaciones para construir una comunidad fiel a tu marca." }
+  ],
+  "plans": [
+    { "name": "Básico", "sub": "2 redes sociales", "price": "$1.8k/mes", "featured": false, "features": ["12 posts/mes", "2 redes incluidas", "Diseño de piezas", "Reporte mensual", "Respuesta de comentarios"] },
+    { "name": "Growth", "sub": "4 redes sociales", "price": "$3.2k/mes", "featured": true, "features": ["24 posts/mes", "4 redes incluidas", "Stories diarias", "Reels/TikToks (4/mes)", "Community 5d/sem", "Reporte semanal"] },
+    { "name": "Premium", "sub": "Ecosistema total", "price": "$5.5k/mes", "featured": false, "features": ["Posts ilimitados", "Todas las redes", "Reels diarios", "Stories diarias", "Community 7d/sem", "Estrategia mensual", "Ads incluidos"] }
+  ],
+  "ctaHeading": "¿Tus redes necesitan más impacto?",
+  "ctaText": "Diseñamos una estrategia personalizada para convertir tu comunidad en clientes reales.",
+  "ctaButtonLabel": "Solicitar estrategia gratuita",
+  "ctaButtonIcon": "phone_in_talk"
+}

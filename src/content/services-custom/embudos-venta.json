@@ -1,0 +1,35 @@
+{
+  "title": "Embudos de Venta",
+  "heroTagIcon": "filter_alt",
+  "heroHeading": "Sistemas de conversión que trabajan solos mientras tú descansas",
+  "heroHighlight": "trabajan solos",
+  "heroSub": "Diseña el viaje perfecto de tu cliente: desde el primer contacto hasta la venta, todo automatizado y optimizado para convertir.",
+  "image": "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80",
+  "imageAlt": "Embudos de Venta NEXUS",
+  "features": [
+    { "icon": "web", "title": "Landing Diseñada", "desc": "Página de aterrizaje de alta conversión con copywriting persuasivo y diseño orientado a la acción." },
+    { "icon": "automation", "title": "Automatización Completa", "desc": "Secuencias de email, WhatsApp y SMS que nutren al prospecto automáticamente hasta la compra." },
+    { "icon": "calendar_month", "title": "Seguimiento Inteligente", "desc": "Calendario integrado, recordatorios automáticos y pipeline de ventas en tiempo real." }
+  ],
+  "plan": {
+    "badge": "Más Popular",
+    "name": "Plan Único",
+    "price": "$3.9k",
+    "note": "Implementación completa del sistema",
+    "features": [
+      "Diseño landing page de alta conversión",
+      "Configuración GoHighLevel completa",
+      "Integración calendario de citas",
+      "Secuencias de email automatizadas",
+      "Integración formularios y CRM",
+      "Integración Meta Ads y Google Ads",
+      "Dashboard de métricas en tiempo real",
+      "Soporte técnico 60 días"
+    ],
+    "buttonLabel": "CONTRATAR AHORA"
+  },
+  "ctaHeading": "¿Te convencemos?",
+  "ctaText": "Agenda una sesión gratuita de 30 minutos y te mostramos cómo un embudo automatizado puede transformar tu negocio.",
+  "ctaButtonLabel": "Ver demo en vivo",
+  "ctaButtonIcon": "play_circle"
+}

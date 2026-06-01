@@ -1,0 +1,26 @@
+{
+  "title": "Desarrollo Web",
+  "order": 1,
+  "icon": "code",
+  "heroHeading": "Web de alto rendimiento que convierte desde el primer clic",
+  "heroHighlight": "convierte",
+  "heroSub": "Construimos tu plataforma digital con velocidad, conversión y escalabilidad como principios de diseño, no como extras.",
+  "heroCtaLabel": "Solicitar servicio",
+  "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80",
+  "imageAlt": "Desarrollo Web NEXUS",
+  "features": [
+    { "icon": "devices", "title": "Diseño adaptativo", "desc": "Experiencias perfectas en cualquier dispositivo, desde móvil hasta escritorio." },
+    { "icon": "speed", "title": "Velocidad extrema", "desc": "Optimización técnica avanzada para tiempos de carga bajo 1 segundo." },
+    { "icon": "conversion_path", "title": "Conversión optimizada", "desc": "Arquitectura de información diseñada para convertir visitantes en clientes." }
+  ],
+  "plans": [
+    { "name": "Express", "sub": "Landing Page", "price": "$13k–$16.9k", "featured": false, "features": ["1 página optimizada", "Diseño responsive", "Formulario de contacto", "Google Analytics", "SSL incluido"] },
+    { "name": "Corporate", "sub": "Sitio Informativo", "price": "$17.5k–$22.1k", "featured": false, "features": ["Hasta 8 páginas", "CMS integrado", "Blog corporativo", "SEO on-page", "Soporte 3 meses"] },
+    { "name": "Pro Business", "sub": "E-commerce", "price": "$20.8k–$25.3k", "featured": true, "features": ["Tienda online completa", "Pasarela de pago", "Gestión de inventario", "Panel admin", "Soporte 6 meses", "CRM integrado"] },
+    { "name": "Enterprise", "sub": "Solución a medida", "price": "$25.3k–$29.9k", "featured": false, "features": ["Todo de Pro Business", "Integraciones API", "App PWA", "IA de recomendaciones", "Soporte 12 meses", "SLA garantizado"] }
+  ],
+  "ctaHeading": "¿Tienes un proyecto en mente?",
+  "ctaText": "Cuéntanos qué necesitas y te preparamos una propuesta personalizada sin compromiso.",
+  "ctaButtonLabel": "Solicitar propuesta gratuita",
+  "ctaButtonIcon": "phone_in_talk"
+}

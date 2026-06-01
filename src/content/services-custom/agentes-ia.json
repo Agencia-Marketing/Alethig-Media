@@ -1,0 +1,50 @@
+{
+  "title": "Agentes de IA",
+  "heroTagIcon": "smart_toy",
+  "heroHeading": "Escala sin límites con inteligencia artificial autónoma",
+  "heroHighlight": "inteligencia artificial",
+  "heroSub": "Escala tu operación sin escalar tu equipo: agentes de IA que cualifican, venden y atienden de forma autónoma 24/7.",
+  "image": "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80",
+  "imageAlt": "Agentes de IA NEXUS",
+  "features": [
+    { "icon": "schedule", "title": "Disponibilidad 24/7", "desc": "Tu agente de IA nunca duerme — atiende consultas, cualifica leads y cierra citas a cualquier hora." },
+    { "icon": "hub", "title": "Cualificación Masiva", "desc": "Evalúa miles de prospectos simultáneamente con criterios personalizados para tu negocio." },
+    { "icon": "integration_instructions", "title": "Integración CRM", "desc": "Conecta directamente con GoHighLevel, HubSpot o tu CRM actual sin fricciones técnicas." }
+  ],
+  "comparisonHeading": "Empleado tradicional vs Agente de IA",
+  "comparisonHighlight": "vs",
+  "compareLeftTitle": "Empleado Tradicional",
+  "compareRightTitle": "Agente de IA NEXUS",
+  "comparisonLeft": [
+    "Horario fijo de 8 horas",
+    "Atiende 1 cliente a la vez",
+    "Vacaciones y bajas",
+    "Alto coste mensual",
+    "Formación continua requerida"
+  ],
+  "comparisonRight": [
+    "Activo 24/7 los 365 días",
+    "Atiende miles simultáneamente",
+    "Sin interrupciones",
+    "Inversión única de implantación",
+    "Aprendizaje autónomo continuo"
+  ],
+  "plan": {
+    "badge": "Plan Único",
+    "price": "$15k",
+    "note": "Implementación completa",
+    "features": [
+      "Configuración y entrenamiento del agente",
+      "Integración con tu CRM",
+      "Conexión con bases de datos",
+      "Cualificación automática de leads",
+      "Panel de control y reportes",
+      "Soporte técnico 3 meses"
+    ],
+    "buttonLabel": "CONTRATAR AHORA"
+  },
+  "ctaHeading": "¿Te convencemos?",
+  "ctaText": "Agenda una llamada gratuita de 30 minutos y te mostramos un agente de IA en acción.",
+  "ctaButtonLabel": "Ver demo en vivo",
+  "ctaButtonIcon": "play_circle"
+}

@@ -154,7 +154,7 @@
   background: var(--accent);
   border: 1px solid var(--accent);
   border-radius: 10px;
-  color: #03030F;
+  color: var(--bg-void);
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 700;
@@ -258,7 +258,7 @@
 
 /* ---- Gradient text ---- */
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, #DB2777 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, var(--grad-pink) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

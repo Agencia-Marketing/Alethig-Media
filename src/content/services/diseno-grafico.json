@@ -1,0 +1,25 @@
+{
+  "title": "Diseño Gráfico",
+  "order": 3,
+  "icon": "palette",
+  "heroHeading": "Identidades visuales que enamoran y convierten",
+  "heroHighlight": "enamoran",
+  "heroSub": "Creamos sistemas visuales premium que comunican el alma de tu marca y generan reconocimiento inmediato en cualquier punto de contacto.",
+  "heroCtaLabel": "Solicitar servicio",
+  "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80",
+  "imageAlt": "Diseño Gráfico NEXUS",
+  "features": [
+    { "icon": "brand_awareness", "title": "Identidad de marca", "desc": "Logotipo, paleta, tipografías y sistema visual coherente que comunica autoridad desde el primer vistazo." },
+    { "icon": "image", "title": "Materiales digitales", "desc": "Posts, stories, banners, presentaciones y todo el ecosistema visual que tu marca necesita en digital." },
+    { "icon": "print", "title": "Diseño impreso", "desc": "Tarjetas, folletos, catálogos y señalética con la misma calidad premium de tu identidad digital." }
+  ],
+  "plans": [
+    { "name": "Brand Kit", "sub": "Identidad básica", "price": "$3.5k–$6k", "featured": false, "features": ["Logo + variantes", "Paleta de colores", "Tipografías", "Manual de marca", "Formatos web y print"] },
+    { "name": "Brand Pro", "sub": "Sistema completo", "price": "$7k–$12k", "featured": true, "features": ["Todo de Brand Kit", "20 piezas digitales", "Templates editables", "Guía de voz y tono", "Revisiones ilimitadas"] },
+    { "name": "Brand Full", "sub": "Ecosistema total", "price": "$14k–$22k", "featured": false, "features": ["Todo de Brand Pro", "Pack de redes 3 meses", "Diseño web aplicado", "Video intro/logo", "Soporte mensual"] }
+  ],
+  "ctaHeading": "¿Tu marca merece mejor imagen?",
+  "ctaText": "Cuéntanos tu visión y te mostramos cómo transformarla en un sistema visual que impacte.",
+  "ctaButtonLabel": "Solicitar propuesta",
+  "ctaButtonIcon": "phone_in_talk"
+}
