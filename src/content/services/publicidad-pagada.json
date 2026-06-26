@@ -6,7 +6,7 @@
   "heroHighlight": "leads reales",
   "heroSub": "Nuestros especialistas configuran, lanzan y manejan tus campañas en Facebook, Instagram, TikTok y Google — apuntando exactamente a los clientes correctos en el área de Long Island.",
   "heroCtaLabel": "Agenda tu Consulta Gratis",
-  "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+  "image": "/uploads/servicio-publicidad.jpg",
   "imageAlt": "Publicidad pagada para negocios de Long Island",
   "features": [
     { "icon": "my_location", "title": "Segmentación precisa", "desc": "Análisis de mercado y segmentación de audiencia para apuntar a los clientes correctos de Long Island." },

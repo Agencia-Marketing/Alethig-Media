@@ -6,7 +6,7 @@
   "heroHighlight": "profesional",
   "heroSub": "Obtén un sitio en WordPress con hosting, certificado SSL y correo corporativo incluidos. La opción económica usa plantillas premium adaptadas a tu marca; la opción a la medida se diseña desde cero.",
   "heroCtaLabel": "Agenda tu Consulta Gratis",
-  "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80",
+  "image": "/uploads/servicio-desarrollo-web.jpg",
   "imageAlt": "Desarrollo web para negocios de Long Island",
   "features": [
     { "icon": "devices", "title": "WordPress profesional", "desc": "Sitios que se ven y funcionan perfecto en computadora, tablet y celular." },

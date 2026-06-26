@@ -6,12 +6,12 @@
   "heroParagraph": "Alethig Media es una agencia de marketing digital de Long Island fundada por un inmigrante, para la comunidad.",
   "heroCtaPrimary": { "label": "Nuestra Historia", "href": "#historia" },
   "heroCtaSecondary": { "label": "Ver Servicios", "href": "/#servicios" },
-  "heroImage": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80",
+  "heroImage": "/uploads/nosotros-hero.webp",
   "heroImageAlt": "Equipo de Alethig Media en Long Island",
   "aboutTag": "Nuestra Historia",
   "aboutHeading": "La Historia Detrás de Alethig Media.",
   "aboutHighlight": "Alethig Media",
-  "aboutImage": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500&q=80",
+  "aboutImage": "/uploads/nosotros-historia.jpg",
   "aboutImageAlt": "Negocio local de Long Island creciendo con marketing digital",
   "aboutBadgeValue": "Bilingüe",
   "aboutBadgeLabel": "inglés y español",
@@ -38,6 +38,6 @@
   "teamQuote": "Construir algo real, para las personas que amamos.",
   "teamCtaLabel": "Agenda una consulta",
   "team": [
-    { "name": "Alexis Fuel", "role": "Fundador · Ventas y Marketing · Amityville, NY", "img": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" }
+    { "name": "Alexis Fuel", "role": "Fundador · Ventas y Marketing · Amityville, NY", "img": "/uploads/fundador.jpg" }
   ]
 }

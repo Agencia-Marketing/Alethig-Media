@@ -6,7 +6,7 @@
   "heroHighlight": "primera impresión",
   "heroSub": "Diseñamos logotipos, tarjetas, flyers, menús y todos los materiales visuales que tu negocio necesita para verse profesional y destacar en Long Island.",
   "heroCtaLabel": "Agenda tu Consulta Gratis",
-  "image": "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80",
+  "image": "/uploads/servicio-diseno-marca.jpg",
   "imageAlt": "Diseño de marca para negocios de Long Island",
   "features": [
     { "icon": "branding_watermark", "title": "Identidad completa", "desc": "Logotipos y kit de marca que comunican autoridad y generan reconocimiento inmediato." },
