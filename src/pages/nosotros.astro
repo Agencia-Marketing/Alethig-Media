@@ -84,8 +84,8 @@ export const prerender = true;
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-5 stagger-fade">
         {about.stats.map(s => (
-          <div class="glass card-cyber rounded-2xl p-8 text-center">
-            <p class="font-display font-extrabold text-4xl gradient-text mb-2">{s.value}</p>
+          <div class="glass card-cyber rounded-2xl p-6 md:p-8 text-center">
+            <p class="font-display font-extrabold text-sm sm:text-lg md:text-2xl gradient-text mb-2">{s.value}</p>
             <p class="text-text-secondary text-sm">{s.label}</p>
           </div>
         ))}
