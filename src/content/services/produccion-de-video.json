@@ -1,0 +1,27 @@
+{
+  "title": "Producción de Video",
+  "order": 2,
+  "icon": "movie",
+  "heroHeading": "Videos que hacen que tu negocio destaque",
+  "heroHighlight": "destaque",
+  "heroSub": "Vamos a tu negocio en Long Island, filmamos el material y nuestro equipo de edición profesional se encarga del resto: Reels, TikToks y videos publicitarios listos para publicar.",
+  "heroCtaLabel": "Agenda tu Consulta Gratis",
+  "image": "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80",
+  "imageAlt": "Producción de video para negocios de Long Island",
+  "features": [
+    { "icon": "videocam", "title": "Filmamos en tu negocio", "desc": "Coordinamos una sesión de filmación en tu local de Long Island, sin que tengas que complicarte." },
+    { "icon": "movie_edit", "title": "Edición profesional", "desc": "Nuestro editor recibe el material y produce Reels, TikToks y anuncios que detienen el scroll." },
+    { "icon": "task_alt", "title": "Tú apruebas", "desc": "Revisas y apruebas el video final — revisiones incluidas antes de la entrega lista para publicar." }
+  ],
+  "plans": [
+    { "name": "Edición Básica", "sub": "Transiciones, texto, música", "price": "$75/video", "featured": false, "features": ["Transiciones", "Texto en pantalla", "Música", "Revisiones incluidas"] },
+    { "name": "Edición Estándar", "sub": "+ Efectos y mockups", "price": "$150/video", "featured": true, "features": ["Todo lo de Básica", "Efectos", "Mockups", "Revisiones incluidas"] },
+    { "name": "Edición Premium", "sub": "Producción completa", "price": "$350/video", "featured": false, "features": ["Animaciones", "Producción completa", "Revisiones incluidas"] },
+    { "name": "Bundle Semanal", "sub": "4 videos básicos/mes", "price": "$160/mes", "featured": false, "features": ["4 videos básicos al mes", "Contenido semanal", "Ahorro vs. por video"] },
+    { "name": "Bundle Semanal +", "sub": "4 videos estándar/mes", "price": "$360/mes", "featured": false, "features": ["4 videos estándar al mes", "Contenido semanal", "Ahorro vs. por video"] }
+  ],
+  "ctaHeading": "¿Listo para grabar tu próximo video?",
+  "ctaText": "Coordinamos la filmación en tu negocio y entregamos contenido listo para publicar. Hablemos.",
+  "ctaButtonLabel": "Agendar Mi Consulta Gratis",
+  "ctaButtonIcon": "phone_in_talk"
+}

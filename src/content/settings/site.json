@@ -1,6 +1,6 @@
 {
-  "brand": "NEXUS",
-  "ctaLabel": "Contáctanos",
+  "brand": "Alethig Media",
+  "ctaLabel": "Consulta Gratis",
   "nav": [
     { "label": "Inicio", "href": "/" },
     { "label": "Nosotros", "href": "/nosotros" },
@@ -8,11 +8,16 @@
     { "label": "Contacto", "href": "/contacto" }
   ],
   "contact": {
-    "phone": "+34 639 494 000",
-    "email": "hola@nexusdigital.io",
-    "location": "Madrid, España"
+    "phone": "Lun a Vie · 9:00 AM – 6:00 PM EST",
+    "email": "alexisfuel93@gmail.com",
+    "location": "Amityville, Long Island, NY"
   },
-  "footerTagline": "Soluciones digitales de alto rendimiento para empresas que quieren dominar su mercado.",
+  "social": {
+    "instagram": "https://www.instagram.com/alethig.media?igsh=Y2Rpb3N2amc3bnFq&utm_source=qr",
+    "facebook": "https://www.facebook.com/share/1Agq79xJir/?mibextid=wwXIfr",
+    "tiktok": "https://www.tiktok.com/@alexisfuel335?_r=1&_t=ZP-97IDKGkS8ti"
+  },
+  "footerTagline": "Agencia de marketing digital de Long Island. Hacemos crecer negocios locales en internet — en inglés y español.",
   "footerPages": [
     { "label": "Inicio", "href": "/" },
     { "label": "Nosotros", "href": "/nosotros" },
@@ -20,14 +25,14 @@
     { "label": "Contacto", "href": "/contacto" }
   ],
   "footerLinks": [
-    { "label": "Blog", "href": "#" },
-    { "label": "FAQ", "href": "#" },
-    { "label": "Privacidad", "href": "#" },
-    { "label": "Términos", "href": "#" }
+    { "label": "Redes Sociales", "href": "/servicios/manejo-de-redes-sociales" },
+    { "label": "Producción de Video", "href": "/servicios/produccion-de-video" },
+    { "label": "Publicidad Pagada", "href": "/servicios/publicidad-pagada" },
+    { "label": "Desarrollo Web", "href": "/servicios/desarrollo-web" }
   ],
   "footerBottomLinks": [
-    { "label": "Términos", "href": "#" },
-    { "label": "Soporte", "href": "#" }
+    { "label": "Contacto", "href": "/contacto" },
+    { "label": "WhatsApp", "href": "/contacto" }
   ],
-  "copyright": "© 2026 NEXUS Digital | Todos los derechos reservados."
+  "copyright": "© 2026 Alethig Media · Long Island, NY · Todos los derechos reservados."
 }

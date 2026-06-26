@@ -1,0 +1,29 @@
+{
+  "title": "Diseño de Marca",
+  "order": 4,
+  "icon": "palette",
+  "heroHeading": "Tu marca es tu primera impresión",
+  "heroHighlight": "primera impresión",
+  "heroSub": "Diseñamos logotipos, tarjetas, flyers, menús y todos los materiales visuales que tu negocio necesita para verse profesional y destacar en Long Island.",
+  "heroCtaLabel": "Agenda tu Consulta Gratis",
+  "image": "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80",
+  "imageAlt": "Diseño de marca para negocios de Long Island",
+  "features": [
+    { "icon": "branding_watermark", "title": "Identidad completa", "desc": "Logotipos y kit de marca que comunican autoridad y generan reconocimiento inmediato." },
+    { "icon": "description", "title": "Material impreso", "desc": "Tarjetas, flyers, carteles y menús listos para usar en tu negocio." },
+    { "icon": "auto_awesome", "title": "Diseño que destaca", "desc": "Tu negocio se ve profesional en cada punto de contacto en Long Island." }
+  ],
+  "plans": [
+    { "name": "Logotipo + Kit de Marca", "sub": "Identidad completa", "price": "$429 único", "featured": true, "features": ["Logotipo profesional", "Kit completo de identidad de marca", "Pago único"] },
+    { "name": "Tarjeta de Presentación", "sub": "Diseño", "price": "$45", "featured": false, "features": ["Diseño profesional", "Listo para imprimir"] },
+    { "name": "Flyer", "sub": "Diseño", "price": "$45", "featured": false, "features": ["Diseño profesional", "Listo para imprimir o redes"] },
+    { "name": "Banner / Portada", "sub": "Para redes sociales", "price": "$35", "featured": false, "features": ["Portada para redes", "Optimizado por plataforma"] },
+    { "name": "Cartel", "sub": "Diseño", "price": "$25", "featured": false, "features": ["Diseño profesional"] },
+    { "name": "Infografía", "sub": "Diseño", "price": "$25", "featured": false, "features": ["Diseño profesional"] },
+    { "name": "Menú Digital", "sub": "Pequeño negocio", "price": "$99", "featured": false, "features": ["Menú digital", "Ideal para restaurantes"] }
+  ],
+  "ctaHeading": "¿Necesitas que tu negocio se vea profesional?",
+  "ctaText": "Desde un logotipo hasta todo tu material visual — diseñamos lo que tu marca necesita. Hablemos.",
+  "ctaButtonLabel": "Agendar Mi Consulta Gratis",
+  "ctaButtonIcon": "calendar_month"
+}

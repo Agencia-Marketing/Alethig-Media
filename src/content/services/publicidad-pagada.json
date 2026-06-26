@@ -1,0 +1,28 @@
+{
+  "title": "Publicidad Pagada",
+  "order": 3,
+  "icon": "ads_click",
+  "heroHeading": "Deja de adivinar y empieza a conseguir leads reales",
+  "heroHighlight": "leads reales",
+  "heroSub": "Nuestros especialistas configuran, lanzan y manejan tus campañas en Facebook, Instagram, TikTok y Google — apuntando exactamente a los clientes correctos en el área de Long Island.",
+  "heroCtaLabel": "Agenda tu Consulta Gratis",
+  "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+  "imageAlt": "Publicidad pagada para negocios de Long Island",
+  "features": [
+    { "icon": "my_location", "title": "Segmentación precisa", "desc": "Análisis de mercado y segmentación de audiencia para apuntar a los clientes correctos de Long Island." },
+    { "icon": "design_services", "title": "Diseño del anuncio", "desc": "Creamos la pieza —imagen o video— lista para captar la atención y convertir." },
+    { "icon": "monitoring", "title": "Monitoreo 30 días", "desc": "Configuración, lanzamiento y monitoreo durante 30 días, con reporte de rendimiento al final." }
+  ],
+  "plans": [
+    { "name": "Facebook Ads", "sub": "Meta · 1 campaña", "price": "$99/campaña", "featured": true, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] },
+    { "name": "Instagram Ads", "sub": "Meta · 1 campaña", "price": "$99/campaña", "featured": false, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] },
+    { "name": "TikTok Ads", "sub": "1 campaña", "price": "$99/campaña", "featured": false, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] },
+    { "name": "Google Search", "sub": "1 campaña", "price": "$125/campaña", "featured": false, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] },
+    { "name": "Google Display", "sub": "1 campaña", "price": "$125/campaña", "featured": false, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] },
+    { "name": "Google YouTube", "sub": "1 campaña", "price": "$150/campaña", "featured": false, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] }
+  ],
+  "ctaHeading": "¿Listo para conseguir más clientes?",
+  "ctaText": "El presupuesto de inversión en anuncios no está incluido — tú controlas cuánto inviertes, nosotros manejamos la estrategia.",
+  "ctaButtonLabel": "Agendar Mi Consulta Gratis",
+  "ctaButtonIcon": "phone_in_talk"
+}

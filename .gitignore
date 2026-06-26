@@ -7,3 +7,9 @@ npm-debug.log*
 .DS_Store
 .idea/
 .wrangler/
+
+# Materiales fuente de marca (no van al repo del sitio)
+Alethig Media-Catálogo.pdf
+/*.png
+SVG/
+TIPOGRAFIAS/

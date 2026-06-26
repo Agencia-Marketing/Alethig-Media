@@ -1,20 +1,22 @@
 {
-  "title": "Contacto | NEXUS Digital",
+  "title": "Contacto | Alethig Media",
   "heroTag": "Contacto",
-  "heroHeading": "Construyamos tu próxima historia de éxito digital",
-  "heroHighlight": "historia de éxito",
-  "heroParagraph": "Cuéntanos tu proyecto y en menos de 24 horas un especialista de NEXUS te contactará con una propuesta estratégica personalizada.",
+  "heroHeading": "Hagamos Crecer Tu Negocio.",
+  "heroHighlight": "Crecer Tu Negocio",
+  "heroParagraph": "Agenda una consulta gratuita de 15 minutos. Sin compromiso requerido. Disponible en inglés y español.",
   "heroImage": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500&q=80",
-  "heroImageAlt": "Contacto NEXUS Digital",
+  "heroImageAlt": "Contacto Alethig Media — Long Island, NY",
   "formInfoHeading": "Envíanos un mensaje",
-  "formInfoText": "Estamos listos para transformar tu visión en una realidad digital impactante. Déjanos tus datos y un especialista se pondrá en contacto contigo en menos de 24 horas.",
-  "submitLabel": "SOLICITAR ASESORÍA",
+  "formInfoText": "Cuéntanos sobre tu negocio y tus objetivos. La mayoría de los clientes están activos dentro de la misma semana. Sin presión, sin compromiso — en inglés o español.",
+  "submitLabel": "Enviar Mi Mensaje →",
   "serviceOptions": [
-    { "value": "web", "label": "Desarrollo Web" },
-    { "value": "estrategia", "label": "Estrategia Digital" },
-    { "value": "seo", "label": "SEO & SEM" },
-    { "value": "otro", "label": "Otro" }
+    { "value": "redes", "label": "Redes Sociales" },
+    { "value": "video", "label": "Video" },
+    { "value": "publicidad", "label": "Publicidad" },
+    { "value": "web", "label": "Sitio Web" },
+    { "value": "marca", "label": "Diseño de Marca" },
+    { "value": "no-seguro", "label": "No estoy seguro aún" }
   ],
-  "mapHeading": "Visítanos en Madrid, España",
-  "mapText": "Disponibles para reuniones presenciales y videollamadas"
+  "mapHeading": "Amityville, Long Island, Nueva York",
+  "mapText": "Servimos todo Long Island — Condado Nassau y Condado Suffolk"
 }

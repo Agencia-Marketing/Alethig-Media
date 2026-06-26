@@ -1,26 +1,26 @@
 {
   "title": "Desarrollo Web",
-  "order": 1,
-  "icon": "code",
-  "heroHeading": "Web de alto rendimiento que convierte desde el primer clic",
-  "heroHighlight": "convierte",
-  "heroSub": "Construimos tu plataforma digital con velocidad, conversión y escalabilidad como principios de diseño, no como extras.",
-  "heroCtaLabel": "Solicitar servicio",
-  "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80",
-  "imageAlt": "Desarrollo Web NEXUS",
+  "order": 5,
+  "icon": "language",
+  "heroHeading": "Un sitio web profesional que funciona en todos los dispositivos",
+  "heroHighlight": "profesional",
+  "heroSub": "Obtén un sitio en WordPress con hosting, certificado SSL y correo corporativo incluidos. La opción económica usa plantillas premium adaptadas a tu marca; la opción a la medida se diseña desde cero.",
+  "heroCtaLabel": "Agenda tu Consulta Gratis",
+  "image": "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&q=80",
+  "imageAlt": "Desarrollo web para negocios de Long Island",
   "features": [
-    { "icon": "devices", "title": "Diseño adaptativo", "desc": "Experiencias perfectas en cualquier dispositivo, desde móvil hasta escritorio." },
-    { "icon": "speed", "title": "Velocidad extrema", "desc": "Optimización técnica avanzada para tiempos de carga bajo 1 segundo." },
-    { "icon": "conversion_path", "title": "Conversión optimizada", "desc": "Arquitectura de información diseñada para convertir visitantes en clientes." }
+    { "icon": "devices", "title": "WordPress profesional", "desc": "Sitios que se ven y funcionan perfecto en computadora, tablet y celular." },
+    { "icon": "lock", "title": "Hosting + SSL + correo", "desc": "Todos los sitios incluyen hosting, certificado SSL y cuentas de correo corporativo." },
+    { "icon": "palette", "title": "A medida o económico", "desc": "Plantillas premium adaptadas a tu marca, o un diseño desde cero a tu medida." }
   ],
   "plans": [
-    { "name": "Express", "sub": "Landing Page", "price": "$13k–$16.9k", "featured": false, "features": ["1 página optimizada", "Diseño responsive", "Formulario de contacto", "Google Analytics", "SSL incluido"] },
-    { "name": "Corporate", "sub": "Sitio Informativo", "price": "$17.5k–$22.1k", "featured": false, "features": ["Hasta 8 páginas", "CMS integrado", "Blog corporativo", "SEO on-page", "Soporte 3 meses"] },
-    { "name": "Pro Business", "sub": "E-commerce", "price": "$20.8k–$25.3k", "featured": true, "features": ["Tienda online completa", "Pasarela de pago", "Gestión de inventario", "Panel admin", "Soporte 6 meses", "CRM integrado"] },
-    { "name": "Enterprise", "sub": "Solución a medida", "price": "$25.3k–$29.9k", "featured": false, "features": ["Todo de Pro Business", "Integraciones API", "App PWA", "IA de recomendaciones", "Soporte 12 meses", "SLA garantizado"] }
+    { "name": "Landing Page", "sub": "1 página", "price": "$499 – $599", "featured": false, "features": ["Una página de conversión", "Hosting + SSL incluidos", "Correo corporativo", "Adaptada a tu marca"] },
+    { "name": "Sitio Informativo", "sub": "5 páginas", "price": "$549 – $649", "featured": true, "features": ["Hasta 5 páginas", "Hosting + SSL incluidos", "Correo corporativo", "Diseño profesional"] },
+    { "name": "E-commerce WhatsApp", "sub": "Tienda vía WhatsApp", "price": "$580 – $680", "featured": false, "features": ["Catálogo de productos", "Pedidos por WhatsApp", "Hosting + SSL incluidos", "Correo corporativo"] },
+    { "name": "E-commerce Pasarela", "sub": "Con pagos en línea", "price": "$680 – $780", "featured": false, "features": ["Tienda con pasarela de pagos", "Catálogo de productos", "Hosting + SSL incluidos", "Correo corporativo"] }
   ],
-  "ctaHeading": "¿Tienes un proyecto en mente?",
-  "ctaText": "Cuéntanos qué necesitas y te preparamos una propuesta personalizada sin compromiso.",
-  "ctaButtonLabel": "Solicitar propuesta gratuita",
+  "ctaHeading": "¿Listo para tu nuevo sitio web?",
+  "ctaText": "Desde una landing hasta una tienda en línea — construimos el sitio que tu negocio necesita. Hablemos.",
+  "ctaButtonLabel": "Agendar Mi Consulta Gratis",
   "ctaButtonIcon": "phone_in_talk"
 }
