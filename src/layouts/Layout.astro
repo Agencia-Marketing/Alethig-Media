@@ -76,9 +76,11 @@ const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`
 
         <!-- CTA + Mobile toggle -->
         <div class="flex items-center gap-4">
-          <a href="/contacto" class="hidden md:inline-flex btn-cyber press">
-            <span class="icon-wrap">{ctaLabel} <span class="material-symbols-outlined text-base">arrow_forward</span></span>
-          </a>
+          <div class="hidden md:block">
+            <a href="/contacto" class="btn-cyber press">
+              <span class="icon-wrap">{ctaLabel} <span class="material-symbols-outlined text-base">arrow_forward</span></span>
+            </a>
+          </div>
           <button id="menu-btn" class="md:hidden glass p-2 rounded-lg" aria-label="Menú">
             <span class="material-symbols-outlined text-text-primary">menu</span>
           </button>
