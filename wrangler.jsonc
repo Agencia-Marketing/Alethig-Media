@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "alethig-media",
+  "compatibility_date": "2026-06-25",
+  // KV: almacena cada envío del formulario de contacto (Fase A, funciona sin dominio).
+  // Namespace creado en Cloudflare: alethig-media-SUBMISSIONS
+  "kv_namespaces": [
+    { "binding": "SUBMISSIONS", "id": "e5e3e7ef5f334a3e97a766cf0f6b7529" }
+  ]
+  // Fase B (cuando haya dominio propio en Cloudflare): descomentar para activar email.
+  // ,"send_email": [{ "name": "EMAIL" }]
+}

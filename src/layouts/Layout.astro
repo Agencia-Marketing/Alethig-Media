@@ -7,8 +7,9 @@ const contactIcons: Record<string, string> = { phone: 'schedule', email: 'mail',
 interface Props {
   title: string;
   description?: string;
+  noindex?: boolean;
 }
-const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.' } = Astro.props;
+const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', noindex = false } = Astro.props;
 
 // --- Tema → variables CSS que consume global.css (única fuente: src/config/theme.mjs) ---
 const hexToRgb = (hex: string) => {
@@ -45,6 +46,7 @@ const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
   <title>{title}</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />

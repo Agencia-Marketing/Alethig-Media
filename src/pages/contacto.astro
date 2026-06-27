@@ -9,7 +9,7 @@ export const prerender = true;
 const { phone, email } = site.contact;
 const { social } = site;
 ---
-<Layout title={contact.title}>
+<Layout title={contact.title} description={contact.metaDescription}>
 
   <!-- HERO -->
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
@@ -91,30 +91,37 @@ const { social } = site;
         <!-- Right: form -->
         <div class="reveal">
           <div class="glass lumen-border rounded-2xl p-8">
-            <form class="space-y-5" novalidate>
+            <div id="form-wrap">
+            <div id="form-error" class="hidden tag-cyber !text-red-300 !border-red-400/30 mb-4">
+              <span class="material-symbols-outlined text-sm">error</span> Hubo un problema. Intenta de nuevo.
+            </div>
+            <form id="contact-form" class="space-y-5" method="POST" action="/api/contact" novalidate>
+              <div class="absolute left-[-9999px]" aria-hidden="true">
+                <label>No llenar<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+              </div>
               <div class="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">Tu Nombre</label>
-                  <input type="text" placeholder="Tu nombre" class="input-cyber" required />
+                  <input type="text" name="nombre" placeholder="Tu nombre" class="input-cyber" required />
                 </div>
                 <div>
                   <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">Nombre del Negocio</label>
-                  <input type="text" placeholder="Tu negocio" class="input-cyber" required />
+                  <input type="text" name="negocio" placeholder="Tu negocio" class="input-cyber" required />
                 </div>
               </div>
               <div class="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">Número de Teléfono</label>
-                  <input type="tel" placeholder="(631) 000-0000" class="input-cyber" required />
+                  <input type="tel" name="telefono" placeholder="(631) 000-0000" class="input-cyber" required />
                 </div>
                 <div>
                   <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">Correo Electrónico</label>
-                  <input type="email" placeholder="tu@correo.com" class="input-cyber" required />
+                  <input type="email" name="email" placeholder="tu@correo.com" class="input-cyber" required />
                 </div>
               </div>
               <div>
                 <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">Servicio de Interés</label>
-                <select class="input-cyber">
+                <select name="servicio" class="input-cyber">
                   <option value="" disabled selected>Selecciona un servicio</option>
                   {contact.serviceOptions.map(o => (
                     <option value={o.value}>{o.label}</option>
@@ -123,12 +130,20 @@ const { social } = site;
               </div>
               <div>
                 <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">Cuéntanos sobre tu negocio</label>
-                <textarea rows="4" placeholder="¿Qué te gustaría lograr?" class="input-cyber resize-none"></textarea>
+                <textarea name="mensaje" rows="4" placeholder="¿Qué te gustaría lograr?" class="input-cyber resize-none"></textarea>
               </div>
               <button type="submit" class="btn-cyber-solid w-full justify-center magnetic press">
                 {contact.submitLabel}
               </button>
             </form>
+            <div id="form-success" class="hidden text-center py-6">
+              <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-5">
+                <span class="material-symbols-outlined text-accent text-3xl">check_circle</span>
+              </div>
+              <h3 class="font-display text-headline-lg-mobile mb-2">¡Mensaje enviado!</h3>
+              <p class="text-text-secondary text-body-md">Gracias. Te responderemos muy pronto.</p>
+            </div>
+            </div>
           </div>
         </div>
       </div>
@@ -147,5 +162,40 @@ const { social } = site;
       </div>
     </div>
   </section>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const ok = document.getElementById('form-success');
+    const err = document.getElementById('form-error');
+    const btn = form?.querySelector('button[type=submit]') as HTMLButtonElement | null;
+
+    // Mostrar error si el fallback sin JS redirigió con ?error=1
+    if (new URLSearchParams(location.search).get('error') === '1') err?.classList.remove('hidden');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err?.classList.add('hidden');
+      if (btn) { btn.disabled = true; btn.classList.add('opacity-60'); }
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'X-Requested-With': 'fetch' },
+          body: new FormData(form),
+        });
+        const data = await res.json().catch(() => ({ ok: false }));
+        if (res.ok && data.ok) {
+          form.classList.add('hidden');
+          ok?.classList.remove('hidden');
+          ok?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error(data.error || 'fail');
+        }
+      } catch {
+        err?.classList.remove('hidden');
+      } finally {
+        if (btn) { btn.disabled = false; btn.classList.remove('opacity-60'); }
+      }
+    });
+  </script>
 
 </Layout>
