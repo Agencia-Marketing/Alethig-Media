@@ -5,7 +5,7 @@ import { highlightHeading } from '../lib/highlight';
 
 export const prerender = true;
 ---
-<Layout title={about.title} description={about.metaDescription}>
+<Layout title={about.title} description={about.metaDescription} image={about.heroImage}>
 
   <!-- HERO -->
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
@@ -99,6 +99,7 @@ export const prerender = true;
       <div class="text-center mb-14 reveal">
         <span class="tag-cyber mb-4 inline-flex">{about.teamTag}</span>
         <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4" set:html={highlightHeading(about.teamHeading, about.teamHighlight)}></h2>
+        <p class="text-text-secondary text-body-md mb-6 max-w-2xl mx-auto">{about.teamParagraph}</p>
         <p class="text-text-secondary text-body-md italic mb-6">"{about.teamQuote}"</p>
         <a href="/contacto" class="btn-cyber magnetic press inline-flex">
           <span class="icon-wrap">{about.teamCtaLabel} <span class="material-symbols-outlined text-base">calendar_month</span></span>

@@ -2,14 +2,18 @@
 import '../styles/global.css';
 import { colors, fonts, logo } from '../config/theme.mjs';
 import site from '../content/settings/site.json';
-const { brand, ctaLabel, nav, contact, social, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = site;
+const { brand, ctaLabel, nav, contact, social, whatsapp, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = site;
+const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message ?? '')}` : null;
 const contactIcons: Record<string, string> = { phone: 'schedule', email: 'mail', location: 'location_on' };
 interface Props {
   title: string;
   description?: string;
+  image?: string;
   noindex?: boolean;
 }
-const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', noindex = false } = Astro.props;
+const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', image = '/uploads/home-hero.webp', noindex = false } = Astro.props;
+const ogImage = new URL(image, Astro.url).href;
+const canonical = new URL(Astro.url.pathname, Astro.url).href;
 
 // --- Tema → variables CSS que consume global.css (única fuente: src/config/theme.mjs) ---
 const hexToRgb = (hex: string) => {
@@ -48,12 +52,61 @@ const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`
   <meta name="description" content={description} />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <title>{title}</title>
+  <link rel="canonical" href={canonical} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={brand} />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href={fonts.googleHref} rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
   <style set:html={rootStyle}></style>
+  <style>
+    .wa-float {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 60;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 1.05rem;
+      border-radius: 9999px;
+      color: #fff;
+      background: #25d366;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      box-shadow: 0 8px 28px rgba(37, 211, 102, 0.45);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .wa-float:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 34px rgba(37, 211, 102, 0.6);
+    }
+    @media (max-width: 480px) {
+      .wa-float { right: 1rem; bottom: 1rem; padding: 0.7rem; }
+      .wa-float-label { display: none; }
+    }
+  </style>
 </head>
 <body class="noise-overlay">
 
@@ -64,7 +117,7 @@ const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`
         <!-- Logo -->
         <a href="/" class="flex items-center group" aria-label={brand}>
           {logo.image
-            ? <img src={logo.image} alt={logo.alt} class="h-9 w-auto" />
+            ? <img src={logo.image} alt={logo.alt} class="h-12 w-auto md:h-14" />
             : <span class="font-display font-bold text-lg tracking-tight text-text-primary group-hover:text-accent transition-colors duration-300">{brand}</span>
           }
         </a>
@@ -184,6 +237,20 @@ const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`
       </div>
     </div>
   </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  {waHref && (
+    <a
+      href={waHref}
+      target="_blank"
+      rel="noopener"
+      class="wa-float group"
+      aria-label={`WhatsApp ${whatsapp.display ?? ''}`}
+    >
+      <svg class="w-7 h-7 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.8c2.16 0 4.19.84 5.72 2.37a8.06 8.06 0 0 1 2.37 5.74c0 4.46-3.63 8.09-8.1 8.09h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.11.82.83-3.04-.2-.31a8.06 8.06 0 0 1-1.25-4.34c0-4.46 3.63-8.09 8.1-8.09zm-2.55 4.4c-.13 0-.34.05-.52.24-.18.2-.69.67-.69 1.64s.7 1.9.8 2.04c.1.13 1.38 2.1 3.34 2.95.47.2.83.32 1.11.41.47.15.9.13 1.24.08.38-.06 1.16-.47 1.33-.93.16-.46.16-.85.11-.93-.05-.08-.18-.13-.38-.23-.2-.1-1.16-.57-1.34-.64-.18-.06-.31-.1-.44.1-.13.2-.5.64-.62.77-.11.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.53-.99-1.18-1.11-1.38-.11-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.06-.13.03-.25-.02-.35-.05-.1-.44-1.08-.62-1.48-.16-.38-.32-.33-.44-.34l-.37-.01z"/></svg>
+      <span class="wa-float-label">{whatsapp.display}</span>
+    </a>
+  )}
 
 </body>
 </html>

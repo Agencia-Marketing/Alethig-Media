@@ -33,9 +33,10 @@
     { "value": "Resultados", "label": "No medimos en likes. Medimos en leads, llamadas y clientes nuevos." },
     { "value": "Bilingüe", "label": "Inglés y español. Porque Long Island es los dos, y nosotros también." }
   ],
-  "teamTag": "El fundador",
-  "teamHeading": "Conoce al Fundador.",
-  "teamHighlight": "Fundador",
+  "teamTag": "Nuestro equipo",
+  "teamHeading": "Conoce al Equipo.",
+  "teamHighlight": "Equipo",
+  "teamParagraph": "El nombre Alethig reúne a tres personas: Alexis, Thiago y Gisella — el origen de la agencia. Hoy, junto a un equipo de creadores de contenido, editores y especialistas en publicidad, hacemos crecer negocios de Long Island.",
   "teamQuote": "Construir algo real, para las personas que amamos.",
   "teamCtaLabel": "Agenda una consulta",
   "team": [
