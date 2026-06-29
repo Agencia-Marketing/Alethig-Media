@@ -6,7 +6,7 @@ export const prerender = false;
 
 // Fase B: remitente. Debe ser un buzón de un dominio onboarded en Cloudflare Email
 // Sending. Mientras no haya dominio, el binding EMAIL no existe y solo se guarda en KV.
-const FROM_EMAIL = 'no-reply@alethig.media';
+const FROM_EMAIL = 'no-reply@alethigmedia.com';
 const FROM_NAME = 'Alethig Media Web';
 
 const REQUIRED = ['nombre', 'negocio', 'telefono', 'email'] as const;
