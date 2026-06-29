@@ -40,6 +40,10 @@
   "teamQuote": "Construir algo real, para las personas que amamos.",
   "teamCtaLabel": "Agenda una consulta",
   "team": [
-    { "name": "Alexis Fuel", "role": "Fundador · Ventas y Marketing · Amityville, NY", "img": "/uploads/fundador.jpg" }
+    { "name": "Alexis Fuel", "role": "Fundador · Ventas y Marketing · Amityville, NY", "img": "/uploads/fundador.jpg" },
+    { "name": "Project Manager", "role": "Gestión de proyectos", "img": "/uploads/project-manager.jpg" },
+    { "name": "Diseñador", "role": "Diseño gráfico y visual", "img": "/uploads/disenador.jpg" },
+    { "name": "Community Manager", "role": "Manejo de redes sociales", "img": "/uploads/community-manager.jpg" },
+    { "name": "Programador", "role": "Desarrollo web", "img": "/uploads/programador.jpg" }
   ]
 }
