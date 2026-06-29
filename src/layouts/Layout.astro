@@ -117,7 +117,7 @@ const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`
         <!-- Logo -->
         <a href="/" class="flex items-center group" aria-label={brand}>
           {logo.image
-            ? <img src={logo.image} alt={logo.alt} class="h-12 w-auto md:h-14" />
+            ? <img src={logo.image} alt={logo.alt} class="h-12 w-auto md:h-16" />
             : <span class="font-display font-bold text-lg tracking-tight text-text-primary group-hover:text-accent transition-colors duration-300">{brand}</span>
           }
         </a>
