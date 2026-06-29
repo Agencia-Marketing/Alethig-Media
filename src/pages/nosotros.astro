@@ -105,17 +105,10 @@ export const prerender = true;
           <span class="icon-wrap">{about.teamCtaLabel} <span class="material-symbols-outlined text-base">calendar_month</span></span>
         </a>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-fade">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 stagger-fade">
         {about.team.map(m => (
           <div class="glass card-cyber rounded-2xl overflow-hidden group">
-            <div class="overflow-hidden">
-              <img
-                src={m.img}
-                alt={m.name}
-                class="w-full aspect-square object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
-              />
-            </div>
-            <div class="p-5">
+            <div class="p-6 text-center">
               <p class="font-display font-bold text-text-primary">{m.name}</p>
               <p class="text-accent text-sm mt-1">{m.role}</p>
             </div>
