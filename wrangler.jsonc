@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "alethig-media",
+  "account_id": "b4de9830e2439fbae8c22197183b60c3",
   "main": "./dist/_worker.js/index.js",
   "compatibility_date": "2026-06-25",
   "compatibility_flags": ["nodejs_compat"],
