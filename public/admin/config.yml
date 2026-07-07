@@ -17,6 +17,8 @@ collections:
   # ─────────────── AJUSTES ───────────────
   - name: settings
     label: "Ajustes del sitio"
+    editor:
+      preview: false
     files:
       - name: site
         label: "Marca, navegación y footer"
@@ -62,6 +64,8 @@ collections:
   # ─────────────── PÁGINAS ───────────────
   - name: pages
     label: "Páginas"
+    editor:
+      preview: false
     files:
       - name: home
         label: "Inicio"
@@ -180,6 +184,8 @@ collections:
   - name: services
     label: "Servicios (features + planes)"
     label_singular: "Servicio"
+    editor:
+      preview: false
     folder: "src/content/services"
     format: json
     extension: json
