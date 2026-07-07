@@ -1,9 +1,9 @@
 backend:
   name: github
-  repo: Agencia-Marketing/plantilla3
+  repo: Agencia-Marketing/Alethig-Media
   branch: main
   # Proxy OAuth desplegado en Cloudflare Workers (ver carpeta oauth-worker/).
-  base_url: https://decap-oauth.TU-SUBDOMINIO.workers.dev
+  base_url: https://decap-oauth.programacionagencia.workers.dev
   auth_endpoint: auth
 
 local_backend: true
