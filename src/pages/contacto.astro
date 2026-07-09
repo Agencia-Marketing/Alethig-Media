@@ -132,6 +132,7 @@ const { social } = site;
                 <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">Cuéntanos sobre tu negocio</label>
                 <textarea name="mensaje" rows="4" placeholder="¿Qué te gustaría lograr?" class="input-cyber resize-none"></textarea>
               </div>
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAADyNgzCpNMskdjTs" data-action="turnstile-spin-v1" data-theme="dark"></div>
               <button type="submit" class="btn-cyber-solid w-full justify-center magnetic press">
                 {contact.submitLabel}
               </button>
@@ -163,6 +164,8 @@ const { social } = site;
     </div>
   </section>
 
+  <script is:inline async defer src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script>
+
   <script>
     const form = document.getElementById('contact-form') as HTMLFormElement | null;
     const ok = document.getElementById('form-success');
@@ -192,6 +195,8 @@ const { social } = site;
         }
       } catch {
         err?.classList.remove('hidden');
+        // Token Turnstile es de un solo uso: reiniciar para permitir reintento.
+        (window as any).turnstile?.reset();
       } finally {
         if (btn) { btn.disabled = false; btn.classList.remove('opacity-60'); }
       }

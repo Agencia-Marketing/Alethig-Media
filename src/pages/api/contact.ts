@@ -4,10 +4,12 @@ import contact from '../../content/pages/contact.json';
 
 export const prerender = false;
 
-// Fase B: remitente. Debe ser un buzón de un dominio onboarded en Cloudflare Email
-// Sending. Mientras no haya dominio, el binding EMAIL no existe y solo se guarda en KV.
-const FROM_EMAIL = 'no-reply@alethigmedia.com';
-const FROM_NAME = 'Alethig Media Web';
+// Envío vía Resend (API HTTP). El dominio del remitente debe estar verificado en Resend.
+const RESEND_ENDPOINT = 'https://api.resend.com/emails';
+const FROM = 'Alethig Media Web <no-reply@notify.programacionconecta.com>';
+
+// Turnstile (anti-bot). El token del widget se verifica server-side aquí.
+const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 const REQUIRED = ['nombre', 'negocio', 'telefono', 'email'] as const;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -60,6 +62,28 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
       : redirect('/gracias', 303);
   }
 
+  // --- Turnstile: verificar token anti-bot server-side ---
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY;
+  if (!turnstileSecret) {
+    console.error('Falta TURNSTILE_SECRET_KEY: no se puede verificar el formulario.');
+    return fail(500, 'El formulario no está configurado. Intenta más tarde.');
+  }
+  const token = data['cf-turnstile-response'];
+  if (!token) return fail(400, 'Verificación anti-bot pendiente. Intenta de nuevo.');
+  try {
+    const body = new FormData();
+    body.append('secret', turnstileSecret);
+    body.append('response', token);
+    const ip = request.headers.get('CF-Connecting-IP');
+    if (ip) body.append('remoteip', ip);
+    const tr = await fetch(TURNSTILE_VERIFY, { method: 'POST', body });
+    const outcome = (await tr.json()) as { success?: boolean };
+    if (!outcome.success) return fail(403, 'Verificación anti-bot fallida. Intenta de nuevo.');
+  } catch (e) {
+    console.error('Turnstile verify falló:', e);
+    return fail(502, 'No se pudo verificar. Intenta de nuevo.');
+  }
+
   // --- Validación ---
   for (const field of REQUIRED) {
     if (!data[field]) return fail(400, 'Faltan campos requeridos.');
@@ -76,57 +100,54 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     ts: new Date().toISOString(),
   };
 
-  // --- Fase A: guardar en KV (garantiza captura, sin dominio) ---
-  if (env.SUBMISSIONS) {
-    try {
-      await env.SUBMISSIONS.put(
-        `contacto:${Date.now()}:${crypto.randomUUID()}`,
-        JSON.stringify(record),
-      );
-    } catch (e) {
-      console.error('KV put falló:', e);
-      // Si no hay email configurado, KV es la única entrega → fallar honestamente.
-      if (!env.EMAIL) return fail(500, 'No se pudo enviar. Intenta de nuevo.');
-    }
-  } else if (!env.EMAIL) {
-    // Ni KV ni EMAIL configurados → no podemos entregar nada. No mentir.
-    console.error('Sin binding SUBMISSIONS ni EMAIL: el formulario no entrega.');
+  const subject = `Nuevo mensaje de contacto — ${record.nombre} (${record.negocio})`;
+  const text =
+    `Nombre: ${record.nombre}\n` +
+    `Negocio: ${record.negocio}\n` +
+    `Teléfono: ${record.telefono}\n` +
+    `Email: ${record.email}\n` +
+    `Servicio: ${record.servicio}\n` +
+    `Mensaje:\n${record.mensaje}\n`;
+  const html =
+    `<h2>Nuevo mensaje de contacto</h2>` +
+    `<table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif">` +
+    `<tr><td><b>Nombre</b></td><td>${esc(record.nombre)}</td></tr>` +
+    `<tr><td><b>Negocio</b></td><td>${esc(record.negocio)}</td></tr>` +
+    `<tr><td><b>Teléfono</b></td><td>${esc(record.telefono)}</td></tr>` +
+    `<tr><td><b>Email</b></td><td>${esc(record.email)}</td></tr>` +
+    `<tr><td><b>Servicio</b></td><td>${esc(record.servicio)}</td></tr>` +
+    `<tr><td valign="top"><b>Mensaje</b></td><td>${esc(record.mensaje).replace(/\n/g, '<br>')}</td></tr>` +
+    `</table>`;
+
+  // --- Envío vía Resend (única entrega) ---
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('Falta RESEND_API_KEY: el formulario no puede entregar.');
     return fail(500, 'El formulario no está configurado. Intenta más tarde.');
   }
-
-  // --- Fase B: email (solo si el binding existe; no rompe el flujo si falla) ---
-  if (env.EMAIL) {
-    const subject = `Nuevo mensaje de contacto — ${record.nombre} (${record.negocio})`;
-    const text =
-      `Nombre: ${record.nombre}\n` +
-      `Negocio: ${record.negocio}\n` +
-      `Teléfono: ${record.telefono}\n` +
-      `Email: ${record.email}\n` +
-      `Servicio: ${record.servicio}\n` +
-      `Mensaje:\n${record.mensaje}\n`;
-    const html =
-      `<h2>Nuevo mensaje de contacto</h2>` +
-      `<table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif">` +
-      `<tr><td><b>Nombre</b></td><td>${esc(record.nombre)}</td></tr>` +
-      `<tr><td><b>Negocio</b></td><td>${esc(record.negocio)}</td></tr>` +
-      `<tr><td><b>Teléfono</b></td><td>${esc(record.telefono)}</td></tr>` +
-      `<tr><td><b>Email</b></td><td>${esc(record.email)}</td></tr>` +
-      `<tr><td><b>Servicio</b></td><td>${esc(record.servicio)}</td></tr>` +
-      `<tr><td valign="top"><b>Mensaje</b></td><td>${esc(record.mensaje).replace(/\n/g, '<br>')}</td></tr>` +
-      `</table>`;
-    try {
-      await env.EMAIL.send({
-        to: site.contact.email,
-        from: { email: FROM_EMAIL, name: FROM_NAME },
-        replyTo: record.email,
+  try {
+    const r = await fetch(RESEND_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: FROM,
+        to: [site.contact.email],
+        reply_to: record.email,
         subject,
         html,
         text,
-      });
-    } catch (e) {
-      console.error('EMAIL.send falló:', e);
-      // KV ya capturó (si está). No fallar el flujo del usuario por esto.
+      }),
+    });
+    if (!r.ok) {
+      console.error('Resend error', r.status, await r.text().catch(() => ''));
+      return fail(502, 'No se pudo enviar. Intenta de nuevo.');
     }
+  } catch (e) {
+    console.error('Resend fetch falló:', e);
+    return fail(502, 'No se pudo enviar. Intenta de nuevo.');
   }
 
   return wantsJson
