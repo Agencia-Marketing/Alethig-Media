@@ -296,6 +296,14 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* ---- Media treatment (hero/content photos) ----
+   Reemplaza los opacity-80/85/90 sueltos por un único tratamiento
+   consistente: sin oscurecer de más, con un realce leve de brillo/
+   contraste/saturación para que las fotos respiren sin lavarse. */
+.media-bright {
+  filter: brightness(1.1) contrast(1.08) saturate(1.06);
+}
+
 /* ---- Divider ---- */
 .cyber-divider {
   height: 1px;
