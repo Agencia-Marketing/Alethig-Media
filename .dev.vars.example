@@ -1,0 +1,13 @@
+# Secrets del runtime de Cloudflare Workers para desarrollo local.
+# Copiar a ".dev.vars" (raíz del proyecto) — no se commitea. `npm run dev`
+# (adapter cloudflare con platformProxy) los expone en locals.runtime.env.
+# En producción se configuran como secrets del Worker (`npx wrangler secret put ...`),
+# no en este archivo.
+
+# Turnstile (anti-bot del formulario de contacto). Secret key del sitio,
+# panel de Cloudflare: Turnstile → tu sitio → Secret Key.
+TURNSTILE_SECRET_KEY=
+
+# Resend (envío del formulario de contacto por email). API key del dashboard
+# de Resend; el dominio remitente debe estar verificado ahí.
+RESEND_API_KEY=

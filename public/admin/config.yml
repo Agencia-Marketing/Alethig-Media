@@ -170,6 +170,9 @@ collections:
           - { name: heroImageAlt, label: "Hero · Texto alternativo", widget: string }
           - { name: formInfoHeading, label: "Formulario · Título", widget: string }
           - { name: formInfoText, label: "Formulario · Texto", widget: text }
+          - { name: infoEmailLabel, label: "Info · Etiqueta email", widget: string }
+          - { name: infoHoursLabel, label: "Info · Etiqueta horario", widget: string }
+          - { name: socialHeading, label: "Info · Título redes sociales", widget: string }
           - { name: submitLabel, label: "Formulario · Texto botón", widget: string }
           - name: serviceOptions
             label: "Opciones del select"
@@ -179,6 +182,25 @@ collections:
               - { name: label, label: "Etiqueta", widget: string }
           - { name: mapHeading, label: "Mapa · Título", widget: string }
           - { name: mapText, label: "Mapa · Texto", widget: string }
+          - name: form
+            label: "Formulario · Campos y mensajes"
+            widget: object
+            fields:
+              - { name: nameLabel, label: "Nombre · Etiqueta", widget: string }
+              - { name: namePlaceholder, label: "Nombre · Placeholder", widget: string }
+              - { name: businessLabel, label: "Negocio · Etiqueta", widget: string }
+              - { name: businessPlaceholder, label: "Negocio · Placeholder", widget: string }
+              - { name: phoneLabel, label: "Teléfono · Etiqueta", widget: string }
+              - { name: phonePlaceholder, label: "Teléfono · Placeholder", widget: string }
+              - { name: emailLabel, label: "Email · Etiqueta", widget: string }
+              - { name: emailPlaceholder, label: "Email · Placeholder", widget: string }
+              - { name: serviceLabel, label: "Servicio · Etiqueta", widget: string }
+              - { name: servicePlaceholder, label: "Servicio · Placeholder (opción vacía)", widget: string }
+              - { name: messageLabel, label: "Mensaje · Etiqueta", widget: string }
+              - { name: messagePlaceholder, label: "Mensaje · Placeholder", widget: string }
+              - { name: errorMessage, label: "Mensaje de error", widget: string }
+              - { name: successHeading, label: "Éxito · Titular", widget: string }
+              - { name: successText, label: "Éxito · Texto", widget: string }
 
   # ─────────── SERVICIOS UNIFORMES (features + planes) ───────────
   - name: services

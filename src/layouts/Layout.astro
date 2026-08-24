@@ -43,6 +43,47 @@ const cssVars: Record<string, string> = {
   '--font-body': fonts.body,
 };
 const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`).join(';') + '}';
+
+// --- Cloudflare Web Analytics (opcional) ---
+// Sin token propio: no se activa nada por defecto. Para habilitarlo, crear el
+// sitio en Cloudflare (Analytics & Logs → Web Analytics) y definir
+// PUBLIC_CF_BEACON_TOKEN en las variables de entorno del build (no es secreto,
+// es público por diseño de Cloudflare, pero no se hardcodea aquí).
+const cfBeaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
+
+// --- JSON-LD (AdvertisingAgency / LocalBusiness) ---
+// Solo se incluyen campos con datos reales presentes en site.json.
+// Sin dirección postal completa ni coordenadas: no están en el contenido del sitio.
+const siteRoot = new URL('/', Astro.url).href;
+const businessSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'AdvertisingAgency',
+  name: brand,
+  url: siteRoot,
+  logo: new URL(logo.image, Astro.url).href,
+  image: new URL(logo.image, Astro.url).href,
+  description,
+  email: contact.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Amityville',
+    addressRegion: 'NY',
+    addressCountry: 'US',
+  },
+  areaServed: contact.location,
+};
+if (whatsapp?.number) {
+  businessSchema.telephone = `+${whatsapp.number}`;
+}
+const sameAs = [social?.instagram, social?.facebook, social?.tiktok].filter(Boolean);
+if (sameAs.length) businessSchema.sameAs = sameAs;
+// Horario tomado tal cual del texto público "Lun a Vie · 9:00 AM – 6:00 PM EST"
+businessSchema.openingHoursSpecification = {
+  '@type': 'OpeningHoursSpecification',
+  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  opens: '09:00',
+  closes: '18:00',
+};
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -70,6 +111,12 @@ const rootStyle = ':root{' + Object.entries(cssVars).map(([k, v]) => `${k}:${v}`
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
+
+  <script type="application/ld+json" set:html={JSON.stringify(businessSchema)}></script>
+
+  {cfBeaconToken && (
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={`{"token": "${cfBeaconToken}"}`}></script>
+  )}
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
