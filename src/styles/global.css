@@ -320,6 +320,43 @@
   transform: translateY(0);
 }
 
+/* ---- Hero reveal (Visual P1.6) ----
+   Smaller translate + shorter duration than .reveal — the homepage hero's
+   content/image are already above the fold and read immediately on load,
+   so this is a quick, restrained polish rather than a scroll-triggered
+   reveal. Same IntersectionObserver drives it (Layout.astro's reveal
+   script also observes .hero-reveal). */
+.hero-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
+}
+.hero-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Small extra delay so a second .hero-reveal element (the hero image)
+   settles in just after the first (the hero text) — a stagger, not a new
+   animation system. */
+.reveal-delay {
+  transition-delay: 120ms;
+}
+
+/* ---- Reduced motion ----
+   .reveal/.stagger-fade/.hero-reveal all start hidden and rely on JS
+   (IntersectionObserver) to reveal them. Under reduced motion we drop the
+   animated transition AND force full visibility immediately, so nothing
+   depends on motion to be seen and nothing is ever left hidden. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .stagger-fade > *,
+  .hero-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 /* ---- Gradient text ---- */
 .gradient-text {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, var(--grad-pink) 100%);

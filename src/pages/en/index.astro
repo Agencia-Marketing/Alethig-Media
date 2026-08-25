@@ -31,7 +31,7 @@ const testimonials = (await getCollection('testimonialsEn'))
 
     <div class="max-w-container-max mx-auto px-gutter w-full">
       <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
+        <div class="hero-reveal">
           <span class="tag-cyber mb-6 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">bolt</span>{home.heroTag}</span>
           <h1 class="font-display text-display-hero-mobile md:text-display-hero-tablet xl:text-display-hero mb-6" set:html={highlightHeading(home.heroHeading, home.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary mb-8 max-w-xl">
@@ -44,7 +44,7 @@ const testimonials = (await getCollection('testimonialsEn'))
             <a href={withBase(BASE, home.heroCtaSecondary.href)} class="btn-ghost magnetic press">{home.heroCtaSecondary.label}</a>
           </div>
         </div>
-        <div class="reveal">
+        <div class="hero-reveal reveal-delay">
           <div class="glass card-cyber rounded-2xl overflow-hidden animate-float">
             <img
               src={home.heroImage}
@@ -64,7 +64,7 @@ const testimonials = (await getCollection('testimonialsEn'))
   <!-- TRUST BAR -->
   <section class="section-elevated border-y border-white/10 py-4 md:py-5">
     <div class="max-w-container-max mx-auto px-gutter">
-      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-12">
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-12 stagger-fade">
         {home.trustBar.map(item => (
           <div class="flex items-center gap-2 text-text-secondary text-sm md:text-base">
             <span class="material-symbols-outlined text-accent text-lg md:text-xl" aria-hidden="true">{item.icon}</span>
