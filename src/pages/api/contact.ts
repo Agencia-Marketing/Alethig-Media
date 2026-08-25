@@ -28,10 +28,13 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     request.headers.get('accept')?.includes('application/json') ||
     request.headers.get('x-requested-with') === 'fetch';
 
-  // Base de idioma para los redirects del fallback sin JS. Por ahora solo
-  // existe /es/contacto — el campo oculto "locale" del formulario deja esto
-  // listo para /en/contact cuando esa página exista (fase de rutas en inglés).
-  let localeBase = '/es';
+  // Rutas de fallback sin JS, según el idioma del formulario que envía
+  // (campo oculto "locale"). Español por defecto. OJO: los segmentos de
+  // ruta en sí cambian por idioma (contacto/gracias vs contact/thank-you),
+  // no solo el prefijo — por eso van completos aquí, no como "base + algo".
+  let locale: 'es' | 'en' = 'es';
+  let contactPath = '/es/contacto/';
+  let thankYouPath = '/es/gracias/';
 
   const fail = (status: number, error: string) =>
     wantsJson
@@ -39,7 +42,7 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
           status,
           headers: { 'content-type': 'application/json' },
         })
-      : redirect(`${localeBase}/contacto/?error=1`, 303);
+      : redirect(`${contactPath}?error=1`, 303);
 
   // --- Parse (JSON, urlencoded o FormData) ---
   let data: Record<string, string> = {};
@@ -57,7 +60,11 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
   } catch {
     return fail(400, 'Solicitud inválida.');
   }
-  if (data.locale === 'en') localeBase = '/en';
+  if (data.locale === 'en') {
+    locale = 'en';
+    contactPath = '/en/contact/';
+    thankYouPath = '/en/thank-you/';
+  }
 
   // --- Honeypot: si el bot rellenó "website", fingir éxito sin guardar ni enviar ---
   if (data.website) {
@@ -65,7 +72,7 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
       ? new Response(JSON.stringify({ ok: true }), {
           headers: { 'content-type': 'application/json' },
         })
-      : redirect(`${localeBase}/gracias/`, 303);
+      : redirect(thankYouPath, 303);
   }
 
   // --- Turnstile: verificar token anti-bot server-side ---
@@ -106,6 +113,10 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     ts: new Date().toISOString(),
   };
 
+  // Idioma del visitante, para que quien lea el correo (siempre en
+  // español) sepa en qué idioma contactarlo de vuelta.
+  const localeLabel = locale === 'en' ? 'Inglés' : 'Español';
+
   const subject = `Nuevo mensaje de contacto — ${record.nombre} (${record.negocio})`;
   const text =
     `Nombre: ${record.nombre}\n` +
@@ -113,6 +124,7 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     `Teléfono: ${record.telefono}\n` +
     `Email: ${record.email}\n` +
     `Servicio: ${record.servicio}\n` +
+    `Idioma del visitante: ${localeLabel}\n` +
     `Mensaje:\n${record.mensaje}\n`;
   const html =
     `<h2>Nuevo mensaje de contacto</h2>` +
@@ -122,6 +134,7 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     `<tr><td><b>Teléfono</b></td><td>${esc(record.telefono)}</td></tr>` +
     `<tr><td><b>Email</b></td><td>${esc(record.email)}</td></tr>` +
     `<tr><td><b>Servicio</b></td><td>${esc(record.servicio)}</td></tr>` +
+    `<tr><td><b>Idioma del visitante</b></td><td>${esc(localeLabel)}</td></tr>` +
     `<tr><td valign="top"><b>Mensaje</b></td><td>${esc(record.mensaje).replace(/\n/g, '<br>')}</td></tr>` +
     `</table>`;
 
@@ -160,5 +173,5 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     ? new Response(JSON.stringify({ ok: true }), {
         headers: { 'content-type': 'application/json' },
       })
-    : redirect(`${localeBase}/gracias/`, 303);
+    : redirect(thankYouPath, 303);
 };

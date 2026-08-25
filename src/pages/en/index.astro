@@ -1,16 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import home from '../../content/pages/home.es.json';
+import home from '../../content/pages/home.en.json';
 import { highlightHeading } from '../../lib/highlight';
 import { getSrcSet } from '../../lib/responsiveImage';
 import { withBase } from '../../lib/basePath';
 
 export const prerender = true;
 
-const BASE = '/es';
+const BASE = '/en';
 const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 ---
-<Layout title={home.title} description={home.metaDescription} image={home.heroImage} base={BASE} locale="es" altHref="/en/">
+<Layout title={home.title} description={home.metaDescription} image={home.heroImage} base={BASE} locale="en" altHref="/es/">
 
   <!-- HERO -->
   <section class="mesh-bg relative min-h-screen flex items-center pt-24 pb-section-py-sm overflow-hidden">
@@ -50,7 +50,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
   </section>
 
   <!-- SERVICES -->
-  <section id="servicios" class="bg-bg-depth py-section-py-sm md:py-section-py-lg">
+  <section id="services" class="bg-bg-depth py-section-py-sm md:py-section-py-lg">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="text-center mb-16 reveal">
         <span class="tag-cyber mb-4 inline-flex">{home.servicesTag}</span>
@@ -66,7 +66,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
             <h3 class="font-display text-headline-md mb-3 group-hover:text-accent transition-colors duration-300">{s.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed mb-5">{s.desc}</p>
             <span class="inline-flex items-center gap-2 text-accent text-sm font-display font-semibold">
-              + Más info <span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
+              + Learn more <span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
             </span>
           </a>
         ))}
@@ -103,7 +103,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
         <p class="text-text-secondary text-body-md max-w-xl mx-auto mb-8">
           {home.ctaParagraph}
         </p>
-        <a href={withBase(BASE, '/contacto')} class="btn-cyber-solid magnetic press inline-flex">
+        <a href={withBase(BASE, '/contact')} class="btn-cyber-solid magnetic press inline-flex">
           <span class="icon-wrap">{home.ctaButtonLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">{home.ctaButtonIcon}</span></span>
         </a>
       </div>

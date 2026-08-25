@@ -1,16 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import about from '../../content/pages/about.es.json';
+import about from '../../content/pages/about.en.json';
 import { highlightHeading } from '../../lib/highlight';
 import { getSrcSet } from '../../lib/responsiveImage';
 import { withBase } from '../../lib/basePath';
 
 export const prerender = true;
 
-const BASE = '/es';
+const BASE = '/en';
 const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 ---
-<Layout title={about.title} description={about.metaDescription} image={about.heroImage} base={BASE} locale="es" altHref="/en/about/">
+<Layout title={about.title} description={about.metaDescription} image={about.heroImage} base={BASE} locale="en" altHref="/es/nosotros/">
 
   <!-- HERO -->
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
@@ -46,7 +46,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
   </section>
 
   <!-- ABOUT -->
-  <section id="historia" class="bg-bg-depth py-section-py-sm md:py-section-py-lg">
+  <section id="story" class="bg-bg-depth py-section-py-sm md:py-section-py-lg">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-12 gap-10 items-center">
         <!-- Image col -->
@@ -75,7 +75,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
           {about.aboutParagraphs.map(p => (
             <p class="text-body-md text-text-secondary mb-6 leading-relaxed">{p}</p>
           ))}
-          <a href={withBase(BASE, '/contacto')} class="btn-cyber-solid magnetic press inline-flex">
+          <a href={withBase(BASE, '/contact')} class="btn-cyber-solid magnetic press inline-flex">
             <span class="icon-wrap">{about.aboutCtaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span></span>
           </a>
         </div>
@@ -112,7 +112,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
         <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4" set:html={highlightHeading(about.teamHeading, about.teamHighlight)}></h2>
         <p class="text-text-secondary text-body-md mb-6 max-w-2xl mx-auto">{about.teamParagraph}</p>
         <p class="text-text-secondary text-body-md italic mb-6">"{about.teamQuote}"</p>
-        <a href={withBase(BASE, '/contacto')} class="btn-cyber magnetic press inline-flex">
+        <a href={withBase(BASE, '/contact')} class="btn-cyber magnetic press inline-flex">
           <span class="icon-wrap">{about.teamCtaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">calendar_month</span></span>
         </a>
       </div>

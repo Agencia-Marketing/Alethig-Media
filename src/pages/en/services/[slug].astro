@@ -7,27 +7,27 @@ import { withBase } from '../../../lib/basePath';
 
 export const prerender = true;
 
-const BASE = '/es';
+const BASE = '/en';
 const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 
 export async function getStaticPaths() {
-  const services = await getCollection('servicesEs');
+  const services = await getCollection('servicesEn');
   return services.map(entry => ({
-    params: { slug: entry.id },
-    props: { s: entry.data },
+    // La URL pública en inglés usa urlSlug (distinto del id, que se
+    // mantiene igual al español a propósito para emparejar por id).
+    params: { slug: entry.data.urlSlug ?? entry.id },
+    props: { s: entry.data, id: entry.id },
   }));
 }
 
-const { s } = Astro.props;
-const { slug } = Astro.params;
-const relatedServices = (await getCollection('servicesEs'))
-  .filter(entry => entry.id !== slug)
+const { s, id } = Astro.props;
+const relatedServices = (await getCollection('servicesEn'))
+  .filter(entry => entry.id !== id)
   .sort((a, b) => a.data.order - b.data.order);
-// Par en inglés: mismo id de colección, URL pública en /en/services/<urlSlug>.
-const enMatch = (await getCollection('servicesEn')).find(entry => entry.id === slug);
-const altHref = enMatch ? `/en/services/${enMatch.data.urlSlug}/` : '/en/';
+// Par en español: mismo id de colección, URL pública en /es/servicios/<id>.
+const altHref = `/es/servicios/${id}/`;
 ---
-<Layout title={`${s.title} Long Island NY | Alethig Media`} description={s.metaDescription} image={s.image} base={BASE} locale="es" altHref={altHref}>
+<Layout title={`${s.title} Long Island NY | Alethig Media`} description={s.metaDescription} image={s.image} base={BASE} locale="en" altHref={altHref}>
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
     <div class="absolute top-1/3 right-1/4 w-80 h-80 rounded-full bg-accent/5 blur-[120px] pointer-events-none"></div>
     <div class="max-w-container-max mx-auto px-gutter">
@@ -37,8 +37,8 @@ const altHref = enMatch ? `/en/services/${enMatch.data.urlSlug}/` : '/en/';
           <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(s.heroHeading, s.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary mb-8">{s.heroSub}</p>
           <div class="flex gap-4 flex-wrap">
-            <a href={withBase(BASE, '/contacto')} class="btn-cyber-solid magnetic press">{s.heroCtaLabel}</a>
-            <a href="#planes" class="btn-ghost magnetic press">Ver planes</a>
+            <a href={withBase(BASE, '/contact')} class="btn-cyber-solid magnetic press">{s.heroCtaLabel}</a>
+            <a href="#plans" class="btn-ghost magnetic press">View plans</a>
           </div>
         </div>
         <div class="reveal">
@@ -73,16 +73,16 @@ const altHref = enMatch ? `/en/services/${enMatch.data.urlSlug}/` : '/en/';
     </div>
   </section>
 
-  <section id="planes" class="mesh-bg py-section-py-sm md:py-section-py-lg">
+  <section id="plans" class="mesh-bg py-section-py-sm md:py-section-py-lg">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="text-center mb-14 reveal">
-        <span class="tag-cyber mb-4 inline-flex">Planes</span>
-        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">Planes y <span class="gradient-text">precios</span></h2>
+        <span class="tag-cyber mb-4 inline-flex">Plans</span>
+        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">Plans and <span class="gradient-text">pricing</span></h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger-fade">
         {s.plans.map(p => (
           <div class={`glass card-cyber rounded-2xl p-7 flex flex-col ${p.featured ? 'lumen-border scale-105 relative' : ''}`}>
-            {p.featured && <span class="tag-cyber mb-4 self-start">Más Popular</span>}
+            {p.featured && <span class="tag-cyber mb-4 self-start">Most Popular</span>}
             <p class="font-display font-bold text-xl mb-1">{p.name}</p>
             <p class="text-text-secondary text-sm mb-3">{p.sub}</p>
             <p class="gradient-text font-display font-extrabold text-2xl mb-5">{p.price}</p>
@@ -94,7 +94,7 @@ const altHref = enMatch ? `/en/services/${enMatch.data.urlSlug}/` : '/en/';
                 </li>
               ))}
             </ul>
-            <a href={withBase(BASE, '/contacto')} class={p.featured ? 'btn-cyber-solid w-full justify-center text-center' : 'btn-ghost w-full justify-center text-center'}>Contratar</a>
+            <a href={withBase(BASE, '/contact')} class={p.featured ? 'btn-cyber-solid w-full justify-center text-center' : 'btn-ghost w-full justify-center text-center'}>Get Started</a>
           </div>
         ))}
       </div>
@@ -104,12 +104,12 @@ const altHref = enMatch ? `/en/services/${enMatch.data.urlSlug}/` : '/en/';
   <section class="bg-bg-depth py-14">
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="mb-8 reveal">
-        <span class="tag-cyber mb-4 inline-flex">Más Servicios</span>
-        <h2 class="font-display text-headline-md">Explora Nuestros Otros Servicios.</h2>
+        <span class="tag-cyber mb-4 inline-flex">More Services</span>
+        <h2 class="font-display text-headline-md">Explore Our Other Services.</h2>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-fade">
         {relatedServices.map(r => (
-          <a href={withBase(BASE, `/servicios/${r.id}`)} class="glass card-cyber rounded-xl p-5 flex items-center gap-3 group">
+          <a href={withBase(BASE, `/services/${r.data.urlSlug ?? r.id}`)} class="glass card-cyber rounded-xl p-5 flex items-center gap-3 group">
             <span class="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
               <span class="material-symbols-outlined text-accent text-lg" aria-hidden="true">{r.data.icon}</span>
             </span>
@@ -125,7 +125,7 @@ const altHref = enMatch ? `/en/services/${enMatch.data.urlSlug}/` : '/en/';
       <div class="glass lumen-border rounded-3xl p-12 text-center reveal" style="background: linear-gradient(135deg, rgba(27,42,107,0.25) 0%, rgba(216,166,42,0.08) 100%);">
         <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4">{s.ctaHeading}</h2>
         <p class="text-text-secondary mb-8 max-w-xl mx-auto">{s.ctaText}</p>
-        <a href={withBase(BASE, '/contacto')} class="btn-cyber-solid magnetic press inline-flex">
+        <a href={withBase(BASE, '/contact')} class="btn-cyber-solid magnetic press inline-flex">
           <span class="icon-wrap">{s.ctaButtonLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">{s.ctaButtonIcon}</span></span>
         </a>
       </div>

@@ -2,18 +2,15 @@
 import '../styles/global.css';
 import { colors, fonts, logo } from '../config/theme.mjs';
 // site.json: datos de marca compartidos entre idiomas (hechos, no se traducen).
-// site.es.json: textos traducibles (nav, footer, CTA) — su par site.en.json
-// llegará en la fase de rutas en inglés. contact/whatsapp se reconstruyen
-// abajo con la misma forma que tenían en el site.json original, para que
-// el resto de este archivo no necesite tocarse.
+// site.es.json / site.en.json: textos traducibles (nav, footer, CTA) — uno
+// por idioma. contact/whatsapp se reconstruyen abajo con la misma forma que
+// tenían en el site.json original, para que el resto de este archivo no
+// necesite tocarse.
 import site from '../content/settings/site.json';
 import siteEs from '../content/settings/site.es.json';
+import siteEn from '../content/settings/site.en.json';
 import { withBase } from '../lib/basePath';
 const { brand, social } = site;
-const { ctaLabel, nav, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = siteEs;
-const contact = { phone: siteEs.contactHours, email: site.contact.email, location: site.contact.location };
-const whatsapp = { ...site.whatsapp, message: siteEs.whatsappMessage };
-const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message ?? '')}` : null;
 interface Props {
   title: string;
   description?: string;
@@ -22,12 +19,34 @@ interface Props {
   // Prefijo de idioma para los links internos del nav/footer (p.ej. "/es").
   // Vacío por defecto: reproduce el comportamiento actual de "/" sin cambios.
   base?: string;
+  // Idioma activo. Controla qué copy de site.*.json se usa, el <html lang>,
+  // og:locale y las etiquetas de UI (menú, CTA, "Alethig Media OS — pronto").
+  locale?: 'es' | 'en';
+  // URL de la página equivalente en el otro idioma, para el selector ES/EN.
+  // Cada página la calcula (par estático o, en servicios, por urlSlug/id).
+  // Si no se pasa, cae al home del otro idioma.
+  altHref?: string;
 }
-const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', image = '/uploads/home-hero.webp', noindex = false, base = '' } = Astro.props;
+const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', image = '/uploads/home-hero.webp', noindex = false, base = '', locale = 'es', altHref } = Astro.props;
+const siteCopy = locale === 'en' ? siteEn : siteEs;
+const { ctaLabel, nav, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = siteCopy;
+const contact = { phone: siteCopy.contactHours, email: site.contact.email, location: site.contact.location };
+const whatsapp = { ...site.whatsapp, message: siteCopy.whatsappMessage };
+const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message ?? '')}` : null;
+// Textos de UI (chrome del layout, no contenido de página) por idioma.
+const uiCopy = locale === 'en'
+  ? { osComingSoon: 'Soon', osComingSoonLong: 'Coming soon', osAriaLabel: 'Alethig Media OS — coming soon', contactPath: '/contact', menuAriaLabel: 'Menu', langSwitchAriaLabel: 'Language' }
+  : { osComingSoon: 'Pronto', osComingSoonLong: 'Próximamente', osAriaLabel: 'Alethig Media OS — próximamente', contactPath: '/contacto', menuAriaLabel: 'Menú', langSwitchAriaLabel: 'Idioma' };
 // Entrada "Alethig Media OS" (producto en desarrollo, sección separada).
 // Un solo lugar para el link: cuando el producto esté listo, cambiar esta
 // única línea a la URL real (p.ej. "https://app.alethigmedia.com").
 const osHref = withBase(base, '/alethig-media-os');
+// Selector ES/EN: el link del idioma activo apunta a la página actual;
+// el del otro idioma usa altHref (o el home de ese idioma si no se pasó).
+const currentPath = Astro.url.pathname;
+const resolvedAltHref = altHref ?? (locale === 'en' ? '/es/' : '/en/');
+const esHref = locale === 'es' ? currentPath : resolvedAltHref;
+const enHref = locale === 'en' ? currentPath : resolvedAltHref;
 const contactIcons: Record<string, string> = { phone: 'schedule', email: 'mail', location: 'location_on' };
 const ogImage = new URL(image, Astro.url).href;
 const canonical = new URL(Astro.url.pathname, Astro.url).href;
@@ -103,7 +122,7 @@ businessSchema.openingHoursSpecification = {
 };
 ---
 <!DOCTYPE html>
-<html lang="es">
+<html lang={locale}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -115,7 +134,7 @@ businessSchema.openingHoursSpecification = {
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content={brand} />
-  <meta property="og:locale" content="es_US" />
+  <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'es_US'} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
@@ -195,21 +214,26 @@ businessSchema.openingHoursSpecification = {
 
         <!-- CTA + Mobile toggle -->
         <div class="flex items-center gap-4">
+          <!-- Selector ES/EN -->
+          <div class="hidden md:flex items-center gap-0.5 text-xs border border-white/10 rounded-full p-0.5" role="group" aria-label={uiCopy.langSwitchAriaLabel}>
+            <a href={esHref} data-set-lang="es" aria-current={locale === 'es' ? 'page' : undefined} class={`px-2.5 py-1 rounded-full font-display font-semibold uppercase tracking-wider transition-colors duration-200 ${locale === 'es' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary'}`}>ES</a>
+            <a href={enHref} data-set-lang="en" aria-current={locale === 'en' ? 'page' : undefined} class={`px-2.5 py-1 rounded-full font-display font-semibold uppercase tracking-wider transition-colors duration-200 ${locale === 'en' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary'}`}>EN</a>
+          </div>
           <a
             href={osHref}
             class="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-text-dim hover:text-accent border border-white/10 hover:border-accent/30 rounded-full px-3 py-1.5 transition-colors duration-200"
-            aria-label="Alethig Media OS — próximamente"
+            aria-label={uiCopy.osAriaLabel}
           >
             <span class="material-symbols-outlined text-sm" aria-hidden="true">bolt</span>
             Alethig Media OS
-            <span class="uppercase tracking-wider opacity-70">· Pronto</span>
+            <span class="uppercase tracking-wider opacity-70">· {uiCopy.osComingSoon}</span>
           </a>
           <div class="hidden md:block">
-            <a href={withBase(base, '/contacto')} class="btn-cyber press">
+            <a href={withBase(base, uiCopy.contactPath)} class="btn-cyber press">
               <span class="icon-wrap">{ctaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span></span>
             </a>
           </div>
-          <button id="menu-btn" class="md:hidden glass p-2 rounded-lg" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
+          <button id="menu-btn" class="md:hidden glass p-2 rounded-lg" aria-label={uiCopy.menuAriaLabel} aria-expanded="false" aria-controls="mobile-menu">
             <span class="material-symbols-outlined text-text-primary" aria-hidden="true">menu</span>
           </button>
         </div>
@@ -222,15 +246,19 @@ businessSchema.openingHoursSpecification = {
         {nav.map(item => (
           <a href={withBase(base, item.href)} class="px-4 py-3 text-text-secondary hover:text-accent rounded-lg transition-all text-sm font-display font-semibold uppercase tracking-widest">{item.label}</a>
         ))}
+        <div class="flex items-center gap-2 px-4 py-2" role="group" aria-label={uiCopy.langSwitchAriaLabel}>
+          <a href={esHref} data-set-lang="es" aria-current={locale === 'es' ? 'page' : undefined} class={`flex-1 text-center py-2 rounded-lg text-xs font-display font-semibold uppercase tracking-widest transition-colors ${locale === 'es' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary border border-white/10'}`}>Español</a>
+          <a href={enHref} data-set-lang="en" aria-current={locale === 'en' ? 'page' : undefined} class={`flex-1 text-center py-2 rounded-lg text-xs font-display font-semibold uppercase tracking-widest transition-colors ${locale === 'en' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary border border-white/10'}`}>English</a>
+        </div>
         <a href={osHref} class="px-4 py-3 text-text-dim hover:text-accent rounded-lg transition-all flex items-center gap-3">
           <span class="material-symbols-outlined text-sm flex-shrink-0" aria-hidden="true">bolt</span>
           <span class="flex flex-col leading-tight">
             <span class="text-xs font-display font-semibold uppercase tracking-widest">Alethig Media OS</span>
-            <span class="text-[10px] opacity-70">Próximamente</span>
+            <span class="text-[10px] opacity-70">{uiCopy.osComingSoonLong}</span>
           </span>
         </a>
         <div class="pt-2 mt-1 border-t border-[rgba(255,255,255,0.07)]">
-          <a href={withBase(base, '/contacto')} class="btn-cyber-solid w-full justify-center text-center block">{ctaLabel}</a>
+          <a href={withBase(base, uiCopy.contactPath)} class="btn-cyber-solid w-full justify-center text-center block">{ctaLabel}</a>
         </div>
       </nav>
     </div>
@@ -356,6 +384,14 @@ businessSchema.openingHoursSpecification = {
     const m = document.getElementById('mobile-menu');
     const isHidden = m?.classList.toggle('hidden');
     menuBtn.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
+  });
+
+  // ---- Selector ES/EN: recuerda la elección manual 1 año, nunca la pisa ----
+  document.querySelectorAll('[data-set-lang]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const lang = el.getAttribute('data-set-lang');
+      if (lang) document.cookie = `pref_lang=${lang}; max-age=31536000; path=/; samesite=lax`;
+    });
   });
 
   // ---- IntersectionObserver: reveal + stagger-fade ----

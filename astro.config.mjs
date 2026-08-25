@@ -11,7 +11,8 @@ export default defineConfig({
   // Fase 2 — bilingüe: URLs previas a /es/ redirigen permanentemente (301
   // en GET) a su equivalente en /es/. El destino incluye la barra final
   // para no depender de un segundo salto de normalización de Cloudflare.
-  // "/" queda fuera a propósito — la detección de idioma llega en la fase 4.
+  // "/" queda fuera de este mapa a propósito: su redirect es dinámico
+  // (cookie/Accept-Language, ver src/pages/index.astro), no un destino fijo.
   redirects: {
     '/contacto': '/es/contacto/',
     '/nosotros': '/es/nosotros/',
@@ -25,9 +26,10 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // /gracias es noindex (página de agradecimiento post-formulario);
-      // /api/* no son páginas. Ambas quedan fuera del sitemap.
-      filter: (page) => !page.includes('/gracias') && !page.includes('/api/'),
+      // /gracias (ES) y /thank-you (EN) son noindex (agradecimiento
+      // post-formulario); /api/* no son páginas. Todas quedan fuera del
+      // sitemap. hreflang/locales del sitemap: fase 5, no aquí.
+      filter: (page) => !page.includes('/gracias') && !page.includes('/thank-you') && !page.includes('/api/'),
     }),
   ],
 });
