@@ -1,0 +1,7 @@
+# Los archivos bajo /_astro/ llevan un hash de contenido en el nombre
+# (los genera Astro/Vite en cada build) — son seguros de cachear como
+# inmutables a largo plazo, porque cualquier cambio produce un nombre
+# de archivo distinto. No se aplica a /uploads/, /fonts/ ni otros
+# estáticos sin hash en el nombre.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

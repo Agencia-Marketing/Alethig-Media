@@ -15,14 +15,14 @@ export const prerender = true;
     <div class="max-w-container-max mx-auto px-gutter w-full">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <span class="tag-cyber mb-6 inline-flex"><span class="material-symbols-outlined text-sm">bolt</span>{home.heroTag}</span>
+          <span class="tag-cyber mb-6 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">bolt</span>{home.heroTag}</span>
           <h1 class="font-display text-display-hero-mobile md:text-display-hero mb-6" set:html={highlightHeading(home.heroHeading, home.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary mb-8 max-w-xl">
             {home.heroParagraph}
           </p>
           <div class="flex flex-wrap gap-4">
             <a href={home.heroCtaPrimary.href} class="btn-cyber-solid magnetic press">
-              <span class="icon-wrap">{home.heroCtaPrimary.label} <span class="material-symbols-outlined text-base">arrow_downward</span></span>
+              <span class="icon-wrap">{home.heroCtaPrimary.label} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_downward</span></span>
             </a>
             <a href={home.heroCtaSecondary.href} class="btn-ghost magnetic press">{home.heroCtaSecondary.label}</a>
           </div>
@@ -34,6 +34,7 @@ export const prerender = true;
               alt={home.heroImageAlt}
               class="w-full aspect-[4/3] object-cover media-bright"
               loading="eager"
+              fetchpriority="high"
             />
           </div>
         </div>
@@ -53,12 +54,12 @@ export const prerender = true;
         {home.services.map(s => (
           <a href={s.href} class="glass card-cyber rounded-2xl p-7 group block">
             <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors duration-300">
-              <span class="material-symbols-outlined text-accent text-2xl">{s.icon}</span>
+              <span class="material-symbols-outlined text-accent text-2xl" aria-hidden="true">{s.icon}</span>
             </div>
             <h3 class="font-display text-headline-md mb-3 group-hover:text-accent transition-colors duration-300">{s.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed mb-5">{s.desc}</p>
             <span class="inline-flex items-center gap-2 text-accent text-sm font-display font-semibold">
-              + Más info <span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+              + Más info <span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
             </span>
           </a>
         ))}
@@ -76,7 +77,7 @@ export const prerender = true;
       <div class="grid sm:grid-cols-2 gap-6 stagger-fade">
         {home.reasons.map(r => (
           <div class="glass card-cyber rounded-2xl p-8">
-            <span class="material-symbols-outlined text-accent text-3xl mb-4 block">{r.icon}</span>
+            <span class="material-symbols-outlined text-accent text-3xl mb-4 block" aria-hidden="true">{r.icon}</span>
             <h3 class="font-display text-headline-md mb-3">{r.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed">{r.desc}</p>
           </div>
@@ -96,7 +97,7 @@ export const prerender = true;
           {home.ctaParagraph}
         </p>
         <a href="/contacto" class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">{home.ctaButtonLabel} <span class="material-symbols-outlined text-base">{home.ctaButtonIcon}</span></span>
+          <span class="icon-wrap">{home.ctaButtonLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">{home.ctaButtonIcon}</span></span>
         </a>
       </div>
     </div>

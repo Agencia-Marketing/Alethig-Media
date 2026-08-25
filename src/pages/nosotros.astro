@@ -13,7 +13,7 @@ export const prerender = true;
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="reveal">
-          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm">groups</span>{about.heroTag}</span>
+          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">groups</span>{about.heroTag}</span>
           <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(about.heroHeading, about.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary mb-8">
             {about.heroParagraph}
@@ -30,6 +30,7 @@ export const prerender = true;
               alt={about.heroImageAlt}
               class="w-full aspect-[4/3] object-cover media-bright"
               loading="eager"
+              fetchpriority="high"
             />
           </div>
         </div>
@@ -49,6 +50,7 @@ export const prerender = true;
                 src={about.aboutImage}
                 alt={about.aboutImageAlt}
                 class="w-full aspect-square object-cover media-bright"
+                loading="lazy"
               />
             </div>
             <div class="absolute -bottom-4 -right-4 glass rounded-xl px-5 py-3 border border-accent/30">
@@ -65,7 +67,7 @@ export const prerender = true;
             <p class="text-body-md text-text-secondary mb-6 leading-relaxed">{p}</p>
           ))}
           <a href="/contacto" class="btn-cyber-solid magnetic press inline-flex">
-            <span class="icon-wrap">{about.aboutCtaLabel} <span class="material-symbols-outlined text-base">arrow_forward</span></span>
+            <span class="icon-wrap">{about.aboutCtaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span></span>
           </a>
         </div>
       </div>
@@ -102,7 +104,7 @@ export const prerender = true;
         <p class="text-text-secondary text-body-md mb-6 max-w-2xl mx-auto">{about.teamParagraph}</p>
         <p class="text-text-secondary text-body-md italic mb-6">"{about.teamQuote}"</p>
         <a href="/contacto" class="btn-cyber magnetic press inline-flex">
-          <span class="icon-wrap">{about.teamCtaLabel} <span class="material-symbols-outlined text-base">calendar_month</span></span>
+          <span class="icon-wrap">{about.teamCtaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">calendar_month</span></span>
         </a>
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 stagger-fade">

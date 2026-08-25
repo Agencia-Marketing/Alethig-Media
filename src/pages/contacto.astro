@@ -17,7 +17,7 @@ const { social } = site;
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="reveal">
-          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm">mail</span>{contact.heroTag}</span>
+          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">mail</span>{contact.heroTag}</span>
           <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(contact.heroHeading, contact.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary">
             {contact.heroParagraph}
@@ -29,6 +29,7 @@ const { social } = site;
               src={contact.heroImage}
               alt={contact.heroImageAlt}
               class="w-full aspect-square object-cover media-bright"
+              fetchpriority="high"
             />
           </div>
         </div>
@@ -49,7 +50,7 @@ const { social } = site;
           <div class="space-y-5 mb-10">
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-accent text-base">mail</span>
+                <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">mail</span>
               </div>
               <div>
                 <p class="text-text-dim text-xs uppercase tracking-widest font-display font-semibold mb-0.5">{contact.infoEmailLabel}</p>
@@ -58,7 +59,7 @@ const { social } = site;
             </div>
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-accent text-base">schedule</span>
+                <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">schedule</span>
               </div>
               <div>
                 <p class="text-text-dim text-xs uppercase tracking-widest font-display font-semibold mb-0.5">{contact.infoHoursLabel}</p>
@@ -93,7 +94,7 @@ const { social } = site;
           <div class="glass lumen-border rounded-2xl p-8">
             <div id="form-wrap">
             <div id="form-error" class="hidden tag-cyber !text-red-300 !border-red-400/30 mb-4">
-              <span class="material-symbols-outlined text-sm">error</span> {contact.form.errorMessage}
+              <span class="material-symbols-outlined text-sm" aria-hidden="true">error</span> {contact.form.errorMessage}
             </div>
             <form id="contact-form" class="space-y-5" method="POST" action="/api/contact" novalidate>
               <div class="absolute left-[-9999px]" aria-hidden="true">
@@ -101,27 +102,27 @@ const { social } = site;
               </div>
               <div class="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.nameLabel}</label>
-                  <input type="text" name="nombre" placeholder={contact.form.namePlaceholder} class="input-cyber" required />
+                  <label for="contact-nombre" class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.nameLabel}</label>
+                  <input id="contact-nombre" type="text" name="nombre" placeholder={contact.form.namePlaceholder} class="input-cyber" required />
                 </div>
                 <div>
-                  <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.businessLabel}</label>
-                  <input type="text" name="negocio" placeholder={contact.form.businessPlaceholder} class="input-cyber" required />
+                  <label for="contact-negocio" class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.businessLabel}</label>
+                  <input id="contact-negocio" type="text" name="negocio" placeholder={contact.form.businessPlaceholder} class="input-cyber" required />
                 </div>
               </div>
               <div class="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.phoneLabel}</label>
-                  <input type="tel" name="telefono" placeholder={contact.form.phonePlaceholder} class="input-cyber" required />
+                  <label for="contact-telefono" class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.phoneLabel}</label>
+                  <input id="contact-telefono" type="tel" name="telefono" placeholder={contact.form.phonePlaceholder} class="input-cyber" required />
                 </div>
                 <div>
-                  <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.emailLabel}</label>
-                  <input type="email" name="email" placeholder={contact.form.emailPlaceholder} class="input-cyber" required />
+                  <label for="contact-email" class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.emailLabel}</label>
+                  <input id="contact-email" type="email" name="email" placeholder={contact.form.emailPlaceholder} class="input-cyber" required />
                 </div>
               </div>
               <div>
-                <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.serviceLabel}</label>
-                <select name="servicio" class="input-cyber">
+                <label for="contact-servicio" class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.serviceLabel}</label>
+                <select id="contact-servicio" name="servicio" class="input-cyber">
                   <option value="" disabled selected>{contact.form.servicePlaceholder}</option>
                   {contact.serviceOptions.map(o => (
                     <option value={o.value}>{o.label}</option>
@@ -129,8 +130,8 @@ const { social } = site;
                 </select>
               </div>
               <div>
-                <label class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.messageLabel}</label>
-                <textarea name="mensaje" rows="4" placeholder={contact.form.messagePlaceholder} class="input-cyber resize-none"></textarea>
+                <label for="contact-mensaje" class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.messageLabel}</label>
+                <textarea id="contact-mensaje" name="mensaje" rows="4" placeholder={contact.form.messagePlaceholder} class="input-cyber resize-none"></textarea>
               </div>
               <div class="cf-turnstile" data-sitekey="0x4AAAAAADyNgzCpNMskdjTs" data-action="turnstile-spin-v1" data-theme="dark"></div>
               <button type="submit" class="btn-cyber-solid w-full justify-center magnetic press">
@@ -139,7 +140,7 @@ const { social } = site;
             </form>
             <div id="form-success" class="hidden text-center py-6">
               <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-5">
-                <span class="material-symbols-outlined text-accent text-3xl">check_circle</span>
+                <span class="material-symbols-outlined text-accent text-3xl" aria-hidden="true">check_circle</span>
               </div>
               <h3 class="font-display text-headline-lg-mobile mb-2">{contact.form.successHeading}</h3>
               <p class="text-text-secondary text-body-md">{contact.form.successText}</p>
@@ -155,7 +156,7 @@ const { social } = site;
   <section class="mesh-bg-alt py-16">
     <div class="max-w-container-max mx-auto px-gutter flex justify-center">
       <div class="glass lumen-border rounded-2xl px-8 py-5 flex items-center gap-4">
-        <span class="material-symbols-outlined text-accent text-2xl">location_on</span>
+        <span class="material-symbols-outlined text-accent text-2xl" aria-hidden="true">location_on</span>
         <div>
           <p class="font-display font-bold text-text-primary">{contact.mapHeading}</p>
           <p class="text-text-secondary text-sm">{contact.mapText}</p>

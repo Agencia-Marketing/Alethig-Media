@@ -21,7 +21,7 @@ const { s } = Astro.props;
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="reveal">
-          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm">{s.icon}</span>{s.title}</span>
+          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">{s.icon}</span>{s.title}</span>
           <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(s.heroHeading, s.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary mb-8">{s.heroSub}</p>
           <div class="flex gap-4 flex-wrap">
@@ -31,7 +31,7 @@ const { s } = Astro.props;
         </div>
         <div class="reveal">
           <div class="glass card-cyber rounded-2xl overflow-hidden animate-float">
-            <img src={s.image} alt={s.imageAlt} class="w-full aspect-video object-cover media-bright" />
+            <img src={s.image} alt={s.imageAlt} class="w-full aspect-video object-cover media-bright" fetchpriority="high" />
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@ const { s } = Astro.props;
         {s.features.map(f => (
           <div class="glass card-cyber rounded-2xl p-7">
             <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
-              <span class="material-symbols-outlined text-accent text-2xl">{f.icon}</span>
+              <span class="material-symbols-outlined text-accent text-2xl" aria-hidden="true">{f.icon}</span>
             </div>
             <h3 class="font-display font-bold text-lg mb-2">{f.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed">{f.desc}</p>
@@ -70,7 +70,7 @@ const { s } = Astro.props;
             <ul class="space-y-2 mb-6 flex-1">
               {p.features.map(f => (
                 <li class="flex items-start gap-2 text-sm text-text-secondary">
-                  <span class="material-symbols-outlined text-accent text-base mt-0.5 flex-shrink-0">check_circle</span>
+                  <span class="material-symbols-outlined text-accent text-base mt-0.5 flex-shrink-0" aria-hidden="true">check_circle</span>
                   {f}
                 </li>
               ))}
@@ -88,7 +88,7 @@ const { s } = Astro.props;
         <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4">{s.ctaHeading}</h2>
         <p class="text-text-secondary mb-8 max-w-xl mx-auto">{s.ctaText}</p>
         <a href="/contacto" class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">{s.ctaButtonLabel} <span class="material-symbols-outlined text-base">{s.ctaButtonIcon}</span></span>
+          <span class="icon-wrap">{s.ctaButtonLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">{s.ctaButtonIcon}</span></span>
         </a>
       </div>
     </div>

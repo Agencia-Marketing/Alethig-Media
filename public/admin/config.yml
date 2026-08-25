@@ -40,6 +40,22 @@ collections:
               - { name: phone, label: "Teléfono", widget: string }
               - { name: email, label: "Email", widget: string }
               - { name: location, label: "Ubicación", widget: string }
+          - name: whatsapp
+            label: "WhatsApp"
+            widget: object
+            required: false
+            fields:
+              - { name: number, label: "Número (solo dígitos, con código de país)", widget: string }
+              - { name: display, label: "Número a mostrar", widget: string }
+              - { name: message, label: "Mensaje pre-escrito", widget: string }
+          - name: social
+            label: "Redes sociales"
+            widget: object
+            required: false
+            fields:
+              - { name: instagram, label: "Instagram (URL)", widget: string, required: false }
+              - { name: facebook, label: "Facebook (URL)", widget: string, required: false }
+              - { name: tiktok, label: "TikTok (URL)", widget: string, required: false }
           - { name: footerTagline, label: "Eslogan del footer", widget: text }
           - name: footerPages
             label: "Footer — Páginas"
