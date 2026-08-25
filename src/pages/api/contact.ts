@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import site from '../../content/settings/site.json';
-import contact from '../../content/pages/contact.json';
+import contact from '../../content/pages/contact.es.json';
 
 export const prerender = false;
 

@@ -15,29 +15,23 @@ locale: "es"
 
 collections:
   # ─────────────── AJUSTES ───────────────
+  # Datos de marca compartidos (hechos, no se traducen) separados de los
+  # textos de navegación/footer (traducibles) — ver src/content/settings/.
   - name: settings
     label: "Ajustes del sitio"
     editor:
       preview: false
     files:
       - name: site
-        label: "Marca, navegación y footer"
+        label: "Marca (compartido, no se traduce)"
         file: "src/content/settings/site.json"
         format: json
         fields:
           - { name: brand, label: "Nombre de marca", widget: string }
-          - { name: ctaLabel, label: "Texto botón CTA", widget: string }
-          - name: nav
-            label: "Menú de navegación"
-            widget: list
-            fields:
-              - { name: label, label: "Texto", widget: string }
-              - { name: href, label: "Enlace", widget: string }
           - name: contact
             label: "Datos de contacto"
             widget: object
             fields:
-              - { name: phone, label: "Teléfono", widget: string }
               - { name: email, label: "Email", widget: string }
               - { name: location, label: "Ubicación", widget: string }
           - name: whatsapp
@@ -47,7 +41,6 @@ collections:
             fields:
               - { name: number, label: "Número (solo dígitos, con código de país)", widget: string }
               - { name: display, label: "Número a mostrar", widget: string }
-              - { name: message, label: "Mensaje pre-escrito", widget: string }
           - name: social
             label: "Redes sociales"
             widget: object
@@ -56,6 +49,21 @@ collections:
               - { name: instagram, label: "Instagram (URL)", widget: string, required: false }
               - { name: facebook, label: "Facebook (URL)", widget: string, required: false }
               - { name: tiktok, label: "TikTok (URL)", widget: string, required: false }
+
+      - name: site-es
+        label: "Navegación y footer (Español)"
+        file: "src/content/settings/site.es.json"
+        format: json
+        fields:
+          - { name: ctaLabel, label: "Texto botón CTA", widget: string }
+          - name: nav
+            label: "Menú de navegación"
+            widget: list
+            fields:
+              - { name: label, label: "Texto", widget: string }
+              - { name: href, label: "Enlace", widget: string }
+          - { name: contactHours, label: "Horario de contacto", widget: string }
+          - { name: whatsappMessage, label: "WhatsApp · Mensaje pre-escrito", widget: string }
           - { name: footerTagline, label: "Eslogan del footer", widget: text }
           - name: footerPages
             label: "Footer — Páginas"
@@ -85,7 +93,7 @@ collections:
     files:
       - name: home
         label: "Inicio"
-        file: "src/content/pages/home.json"
+        file: "src/content/pages/home.es.json"
         format: json
         fields:
           - { name: title, label: "Título de pestaña (SEO)", widget: string }
@@ -128,7 +136,7 @@ collections:
 
       - name: about
         label: "Nosotros"
-        file: "src/content/pages/about.json"
+        file: "src/content/pages/about.es.json"
         format: json
         fields:
           - { name: title, label: "Título de pestaña (SEO)", widget: string }
@@ -174,7 +182,7 @@ collections:
 
       - name: contact
         label: "Contacto"
-        file: "src/content/pages/contact.json"
+        file: "src/content/pages/contact.es.json"
         format: json
         fields:
           - { name: title, label: "Título de pestaña (SEO)", widget: string }
@@ -220,7 +228,7 @@ collections:
 
       - name: alethig-media-os
         label: "Alethig Media OS (Próximamente)"
-        file: "src/content/pages/alethig-media-os.json"
+        file: "src/content/pages/alethig-media-os.es.json"
         format: json
         fields:
           - { name: title, label: "Título de pestaña (SEO)", widget: string }
@@ -239,7 +247,7 @@ collections:
     label_singular: "Servicio"
     editor:
       preview: false
-    folder: "src/content/services"
+    folder: "src/content/services/es"
     format: json
     extension: json
     create: true

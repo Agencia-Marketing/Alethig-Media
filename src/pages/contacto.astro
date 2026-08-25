@@ -1,14 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import contact from '../content/pages/contact.json';
+import contact from '../content/pages/contact.es.json';
 import site from '../content/settings/site.json';
+import siteEs from '../content/settings/site.es.json';
 import { highlightHeading } from '../lib/highlight';
 import { getSrcSet } from '../lib/responsiveImage';
 
 export const prerender = true;
 
-const { phone, email } = site.contact;
+const { email } = site.contact;
 const { social } = site;
+const { contactHours: phone } = siteEs;
 const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 ---
 <Layout title={contact.title} description={contact.metaDescription} image={contact.heroImage}>

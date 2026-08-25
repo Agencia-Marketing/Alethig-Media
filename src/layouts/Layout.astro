@@ -1,8 +1,17 @@
 ---
 import '../styles/global.css';
 import { colors, fonts, logo } from '../config/theme.mjs';
+// site.json: datos de marca compartidos entre idiomas (hechos, no se traducen).
+// site.es.json: textos traducibles (nav, footer, CTA) — su par site.en.json
+// llegará en la fase de rutas en inglés. contact/whatsapp se reconstruyen
+// abajo con la misma forma que tenían en el site.json original, para que
+// el resto de este archivo no necesite tocarse.
 import site from '../content/settings/site.json';
-const { brand, ctaLabel, nav, contact, social, whatsapp, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = site;
+import siteEs from '../content/settings/site.es.json';
+const { brand, social } = site;
+const { ctaLabel, nav, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = siteEs;
+const contact = { phone: siteEs.contactHours, email: site.contact.email, location: site.contact.location };
+const whatsapp = { ...site.whatsapp, message: siteEs.whatsappMessage };
 const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message ?? '')}` : null;
 // Entrada "Alethig Media OS" (producto en desarrollo, sección separada).
 // Un solo lugar para el link: cuando el producto esté listo, cambiar esta

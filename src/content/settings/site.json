@@ -1,43 +1,16 @@
 {
   "brand": "Alethig Media",
-  "ctaLabel": "Consulta Gratis",
-  "nav": [
-    { "label": "Inicio", "href": "/" },
-    { "label": "Nosotros", "href": "/nosotros" },
-    { "label": "Servicios", "href": "/#servicios" },
-    { "label": "Contacto", "href": "/contacto" }
-  ],
   "contact": {
-    "phone": "Lun a Vie · 9:00 AM – 6:00 PM EST",
     "email": "alexisfuel93@gmail.com",
     "location": "Amityville, Long Island, NY"
   },
   "whatsapp": {
     "number": "15515007805",
-    "display": "+1 (551) 500-7805",
-    "message": "Hola Alethig Media, quiero una consulta gratis."
+    "display": "+1 (551) 500-7805"
   },
   "social": {
     "instagram": "https://www.instagram.com/alethig.media?igsh=Y2Rpb3N2amc3bnFq&utm_source=qr",
     "facebook": "https://www.facebook.com/share/1Agq79xJir/?mibextid=wwXIfr",
     "tiktok": "https://www.tiktok.com/@alethigmedia"
-  },
-  "footerTagline": "Agencia de marketing digital de Long Island. Hacemos crecer negocios locales en internet — en inglés y español.",
-  "footerPages": [
-    { "label": "Inicio", "href": "/" },
-    { "label": "Nosotros", "href": "/nosotros" },
-    { "label": "Servicios", "href": "/#servicios" },
-    { "label": "Contacto", "href": "/contacto" }
-  ],
-  "footerLinks": [
-    { "label": "Redes Sociales", "href": "/servicios/manejo-de-redes-sociales" },
-    { "label": "Producción de Video", "href": "/servicios/produccion-de-video" },
-    { "label": "Publicidad Pagada", "href": "/servicios/publicidad-pagada" },
-    { "label": "Desarrollo Web", "href": "/servicios/desarrollo-web" }
-  ],
-  "footerBottomLinks": [
-    { "label": "Contacto", "href": "/contacto" },
-    { "label": "WhatsApp", "href": "/contacto" }
-  ],
-  "copyright": "© 2026 Alethig Media · Long Island, NY · Todos los derechos reservados."
+  }
 }

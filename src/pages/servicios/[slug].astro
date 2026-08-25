@@ -9,7 +9,7 @@ export const prerender = true;
 const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 
 export async function getStaticPaths() {
-  const services = await getCollection('services');
+  const services = await getCollection('servicesEs');
   return services.map(entry => ({
     params: { slug: entry.id },
     props: { s: entry.data },
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 
 const { s } = Astro.props;
 const { slug } = Astro.params;
-const relatedServices = (await getCollection('services'))
+const relatedServices = (await getCollection('servicesEs'))
   .filter(entry => entry.id !== slug)
   .sort((a, b) => a.data.order - b.data.order);
 ---
