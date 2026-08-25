@@ -3,11 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import contact from '../content/pages/contact.json';
 import site from '../content/settings/site.json';
 import { highlightHeading } from '../lib/highlight';
+import { getSrcSet } from '../lib/responsiveImage';
 
 export const prerender = true;
 
 const { phone, email } = site.contact;
 const { social } = site;
+const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 ---
 <Layout title={contact.title} description={contact.metaDescription} image={contact.heroImage}>
 
@@ -27,6 +29,8 @@ const { social } = site;
           <div class="glass card-cyber rounded-2xl overflow-hidden animate-float">
             <img
               src={contact.heroImage}
+              srcset={getSrcSet(contact.heroImage)}
+              sizes={RESPONSIVE_SIZES}
               alt={contact.heroImageAlt}
               class="w-full aspect-square object-cover media-bright"
               fetchpriority="high"

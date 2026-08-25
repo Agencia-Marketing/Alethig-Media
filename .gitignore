@@ -14,3 +14,9 @@ Alethig Media-Catálogo.pdf
 /*.png
 SVG/
 TIPOGRAFIAS/
+
+# Variantes responsive generadas en build-time por
+# scripts/generate-responsive-images.mjs (ver npm run prebuild) —
+# se regeneran en cada build, no se versionan.
+public/uploads/*-[0-9]*w.webp
+public/uploads/_responsive-manifest.json

@@ -1,91 +1,209 @@
-# AGENTS — Plantilla 3 | Cyber-Luxe Glassmorphism Agency
+# AGENTS — Alethig Media
 
 ## Project Overview
 
-Cyber-Luxe Glassmorphism landing page template for a digital marketing agency. Built with Astro 5 + Tailwind CSS v3, deployable to Cloudflare Pages. Includes standalone HTML version for quick delivery. Visual evolution of Plantilla 1 & 2 — same content, dark void aesthetic with glass surfaces.
+Marketing site for **Alethig Media**, a digital-marketing agency in Long
+Island, NY (Amityville — Nassau + Suffolk counties). Bilingual service
+(English/Spanish), but the site itself is Spanish-only content — there is
+no English route or language switcher. Navy & gold glassmorphism design.
+Built with Astro 5 (server output) + Tailwind CSS v3, deployed to
+Cloudflare Workers via `@astrojs/cloudflare`. Content is edited through
+Decap CMS at `/admin` — see [`README.md`](README.md) for the fuller
+project write-up; this file is the quick-reference for making code
+changes correctly.
+
+There is no `html/` standalone variant and no other template lineage —
+this is the only version of the site.
 
 ## Critical Conventions
 
-- **Two variants coexist**: `src/` (Astro with local Tailwind + PostCSS) and `html/` (standalone HTML with Tailwind CDN + inline CSS). Keep both in sync when making visual/style changes.
-- **All brand colors**: defined as CSS custom properties in `:root` in `src/styles/global.css` and each HTML file's `<style>` block. Also mirrored in `tailwind.config.mjs`.
-- **Tailwind is v3**, not v4. Use `@tailwind base/components/utilities` directives.
-- **Fonts**: Sora (display/headings, weights 600/700/800) + Mulish (body, weights 400/500/600). Never substitute with Inter, Roboto, or Arial.
-- **Backdrop-filter**: Always pair `backdrop-filter` with `-webkit-backdrop-filter` for Safari compatibility.
+- **Single source of brand truth**: all colors, fonts, and the logo live
+  in [`src/config/theme.mjs`](src/config/theme.mjs) — nowhere else.
+  Changing brand values there flows automatically into Tailwind
+  (`tailwind.config.mjs` imports it), the CSS custom properties injected
+  by [`src/layouts/Layout.astro`](src/layouts/Layout.astro), and the
+  Google Fonts `<link>`. **Do not hardcode colors/fonts in markup or
+  `global.css`** — use the Tailwind classes (`bg-bg-void`, `text-accent`,
+  `font-display`, etc.) or the CSS vars they resolve to.
+- **Tailwind is v3**, not v4 — `@tailwind base/components/utilities`
+  directives in `global.css`, JS config file, no CSS-first config.
+- **Content is CMS-driven JSON**, not hardcoded copy, wherever a Decap
+  field exists for it: `src/content/settings/site.json` (brand, nav,
+  footer, WhatsApp, social), `src/content/pages/*.json` (home, about,
+  contact, gracias), `src/content/services/*.json` (5 services, schema in
+  `src/content.config.ts`). The field list an editor sees in `/admin` is
+  defined in `public/admin/config.yml` and must stay in sync with what
+  each `.astro` page actually reads — a JSON field with no matching
+  `config.yml` entry can't be edited without a git change; a
+  `config.yml` entry with no matching template usage (this happened once
+  with `about.json`'s `team[].img`) silently does nothing.
+- **`astro preview` does not work with the Cloudflare adapter** — it
+  errors immediately. To run the actual production build locally, use
+  `npx wrangler dev` against `dist/` (after `npm run build`), not
+  `npm run preview`.
+- **`npm run build` (and `npm run dev`) auto-regenerate responsive
+  images** via `prebuild`/`predev` npm hooks — see the Images section
+  below. If you ever invoke `astro build`/`astro dev` directly instead
+  of through npm, that step is skipped and images just render without
+  `srcset` (safe fallback, not a broken build).
+- **`/_image` is deliberately blocked** by `src/middleware.ts` — see
+  Security below. Don't remove that middleware to "fix" image handling;
+  the actual image pipeline (see Images) is build-time only and doesn't
+  need that endpoint.
+- **`backdrop-filter` should be paired with `-webkit-backdrop-filter`**
+  for Safari — `.glass` in `global.css` does this correctly; `.btn-cyber`
+  and `.input-cyber` currently don't. Match the `.glass` pattern in any
+  new code; fixing the two existing gaps is a small standalone cleanup,
+  not something to do incidentally while touching unrelated code.
 
 ## Commands
 
 | Command | Action |
 |---|---|
-| `npm run dev` | Start local dev server at `localhost:4321` |
-| `npm run build` | Build to `dist/` |
-| `npm run preview` | Preview build locally |
+| `npm run dev` | Regenerate responsive images, then start Astro dev server at `localhost:4321` |
+| `npm run build` | Regenerate responsive images, then build to `dist/` |
+| `npx wrangler dev` (after build) | Serve the real `dist/` build the way Cloudflare will — use this instead of `npm run preview` |
+| `npm run images:responsive` | Manually (re)run the responsive-image generator without a full build |
+| `npm run cms` | Local Decap CMS proxy (`decap-server`) for editing at `/admin` without the OAuth worker |
 
-## Design System
+## Design System — `src/config/theme.mjs`
 
-### Colors — `:root`
-- `--bg-void: #03030F` — void-black base background
-- `--bg-depth: #08082A` — deep section background
-- `--grad-indigo: #4F46E5` — mesh gradient indigo
-- `--grad-violet: #7C3AED` — mesh gradient violet
-- `--grad-pink: #DB2777` — mesh gradient pink
-- `--accent: #00F0FF` — cyan electric (primary interactive)
-- `--accent-rgb: 0, 240, 255` — RGB triplet for rgba() use
-- `--accent-dim: rgba(0,240,255,0.08)` — subtle accent background tint
-- `--accent-glow: 0 0 40px rgba(0,240,255,0.30)` — glow shadow for buttons
-- `--accent-2: #A78BFA` — soft violet secondary accent
-- `--text-primary: #EEF2FF` — near-white blue-tinted
-- `--text-secondary: #8892B0` — muted blue-gray
-- `--text-dim: #4A5578` — disabled / hint text
-- `--glass-bg: rgba(255,255,255,0.032)` — glass card base fill
-- `--glass-bg-hover: rgba(255,255,255,0.065)` — glass fill on hover
-- `--glass-border: rgba(255,255,255,0.075)` — default glass border
-- `--glass-border-hover: rgba(255,255,255,0.18)` — glass border on hover
-- `--glass-border-accent: rgba(0,240,255,0.28)` — accent-tinted glass border
-- `--shadow-glass: 0 8px 32px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.05)` — glass shadow
+Current values (navy & gold, per the brand identity manual):
+
+- `bg-void: #000326` — page background
+- `bg-depth: #060A33` — elevated/alternating section background
+- `accent: #D8A62A` — gold (primary interactive)
+- `accent-2: #E9C46A` — light gold (gradients/hover)
+- `text-primary: #F5F1E6` — warm off-white
+- `text-secondary: #A7AEC9` — legible blue-gray, ~9:1 contrast
+- `text-dim: #737CAC` — dimmest tier, still WCAG AA (≥4.5:1) on both
+  backgrounds at normal text sizes — don't darken this without
+  re-checking contrast (footer copyright, footer links, `/contacto`
+  micro-labels, and every form placeholder all use it)
+- `grad-indigo` / `grad-violet` / `grad-pink` — mesh-gradient accents
+
+Derived values (accent RGB, glow shadows, glass border tints) are
+computed at runtime in `Layout.astro` from the hex values above — never
+hardcode a derived rgba() elsewhere.
 
 ### Typography
-- **Display/Headings**: Sora (700/800 weight, -0.02em letter-spacing)
-- **Body**: Mulish (400/500/600 weight, 1.65 line-height)
+
+- **Display/headings**: Nord (self-hosted via `@font-face` in
+  `global.css`, files in `public/fonts/`) — weights 400/500/700/800
+- **Body**: Montserrat (Google Fonts) — weights 400–800
+- **Icons**: Material Symbols Outlined (Google Fonts, ligature-based —
+  see Accessibility below for why every icon span needs `aria-hidden`)
+
+Never substitute a different display/body font pairing without updating
+`theme.mjs` — don't hardcode a font-family in a component.
 
 ### Rebranding flow
-Change colors in TWO places:
-1. `:root` block in `src/styles/global.css` (and each HTML file's `<style>`)
-2. `theme.extend.colors` in `tailwind.config.mjs` (and inline config in HTMLs)
 
-## Key CSS Classes
+Change brand colors/fonts/logo in **one place**: `src/config/theme.mjs`.
+That's it — no second file to touch (unlike some older Astro/Tailwind
+templates that duplicate tokens in both a CSS `:root` block and the
+Tailwind config; this project intentionally collapsed that into one
+source).
+
+## Key CSS Classes (`src/styles/global.css`)
 
 | Class | What it does |
 |---|---|
-| `.mesh-bg` | Layered `radial-gradient` mesh on `--bg-void`. 4 gradients: indigo TL, violet BR, pink TR, cyan center |
-| `.mesh-bg-alt` | Alternate mesh on `--bg-depth`. Used for footer and secondary sections |
-| `.glass` | Glass card base: `backdrop-filter: blur(20px) saturate(180%)`, `--glass-bg` fill, `--glass-border` border, `--shadow-glass`. Hover: brighter bg, stronger border, `translateY(-4px)` |
-| `.card-cyber` | Glass card variant with `::after` pseudo-element: 2px gradient line at bottom that fades in on hover (accent glow accent) |
-| `.btn-cyber` | Outlined accent button: glass bg + `--glass-border-accent` border + cyan text. Hover: glow shadow + `translateY(-2px)` |
-| `.btn-cyber-solid` | Filled accent button: solid `--accent` bg + dark text. Hover: brighter + strong glow |
-| `.btn-ghost` | Transparent button: subtle border + white text. Hover: border turns accent, text turns accent |
-| `.lumen-border` | Luminous 1px top border via `border-image`: transparent → cyan 50% → violet 50% → transparent gradient |
-| `.glow-text` | `text-shadow: 0 0 30px rgba(0,240,255,0.4)` for headline emphasis |
-| `.gradient-text` | Gradient fill on text: cyan → violet → pink via `-webkit-background-clip: text` |
-| `.tag-cyber` | Pill-shaped label: `--accent-dim` bg, 1px accent border, cyan uppercase text, Sora font |
-| `.reveal` | Single-element scroll reveal: `opacity:0 + translateY(28px)` → `opacity:1 + translateY(0)` on `.visible` class (added by IntersectionObserver) |
-| `.stagger-fade` | Staggered child reveal: each child gets `transition-delay` from 0ms to 560ms (70ms steps) when `.visible` class applied to parent |
-| `.magnetic` | JS magnetic hover effect: mouse proximity causes `translateX/Y` on the element. Applied via JS `mousemove` listener in Layout.astro |
-| `.press` | `scale(0.97)` on `:active` for tactile button feedback |
-| `.icon-wrap` | Inline icon container: `gap` animates from 4px → 8px on parent hover, creating icon-slide effect |
-| `.input-cyber` | Form input: glass bg + subtle border, cyan focus ring (`box-shadow: 0 0 0 3px rgba(0,240,255,0.08)`), transitions border on focus |
-| `.cyber-divider` | Horizontal rule: 1px `linear-gradient` from transparent → `--glass-border-hover` → transparent |
-| `.noise-overlay::before` | Fixed full-screen SVG noise texture at 40% opacity, `pointer-events: none`, `z-index: 9999` — gives depth to flat surfaces |
+| `.mesh-bg` / `.mesh-bg-alt` | Layered radial-gradient mesh backgrounds (void vs. depth base) |
+| `.glass` | Glass card: blur+saturate backdrop-filter, subtle fill/border, hover lift |
+| `.card-cyber` | Glass card variant with a gradient bottom-border that fades in on hover |
+| `.btn-cyber` / `.btn-cyber-solid` / `.btn-ghost` | Outlined / filled / transparent button variants |
+| `.media-bright` | Shared image treatment (`filter: brightness/contrast/saturate`) — apply to every hero/content `<img>`; replaces the old per-page `opacity-80/85/90` classes, which no longer exist in this codebase |
+| `.lumen-border` | Luminous gradient top border |
+| `.tag-cyber` | Pill-shaped label (uppercase, accent-tinted) |
+| `.reveal` / `.stagger-fade` | Scroll-triggered fade/slide-in via IntersectionObserver (see JS below); opacity+transform only, no CLS impact |
+| `.gradient-text` | Accent→accent-2→pink gradient text fill |
+| `.input-cyber` | Form input styling with accent focus ring |
+| `.icon-wrap` | Icon-slide-on-hover gap animation |
+| `.noise-overlay::before` | Fixed full-screen SVG noise texture |
 
-## JavaScript Behaviors (Layout.astro `<script>`)
+## JavaScript Behaviors (`Layout.astro` `<script>`)
 
 | Behavior | Trigger | Effect |
 |---|---|---|
-| Nav glassify | `scroll > 20px` | Nav gets `background: rgba(3,3,15,0.75)`, `backdrop-filter: blur(24px)`, bottom border |
-| Mobile menu | `#menu-btn` click | Toggles `.hidden` on `#mobile-menu` |
-| Scroll reveal | IntersectionObserver threshold 0.12 | Adds `.visible` to `.reveal` and `.stagger-fade` elements |
-| Magnetic buttons | `.magnetic` mousemove | `translateX/Y` by 35% of cursor offset from element center |
-| Magnetic reset | `.magnetic` mouseleave | `transform: ''` resets position |
+| Nav glassify | `scroll > 20px` | Nav gets a blurred background + shrinks height |
+| Mobile menu | `#menu-btn` click | Toggles `.hidden` on `#mobile-menu` **and** updates `aria-expanded` on the button — keep both in sync if you touch this |
+| Scroll reveal | IntersectionObserver, threshold 0.12 | Adds `.visible` to `.reveal`/`.stagger-fade` elements |
+| Magnetic buttons | `.magnetic` mousemove | Subtle cursor-following translate on hover |
+
+## Images
+
+- Source assets live in `public/uploads/*.webp`, referenced by plain
+  string path from CMS-editable JSON (`heroImage`, `aboutImage`, each
+  service's `image`, etc.) — **not** ESM-imported from `src/`, because
+  Decap CMS's media widget uploads into `public/uploads/` and needs a
+  public URL; this is why the site does not use `astro:assets`/`<Image>`
+  directly on these fields.
+- **Responsive `srcset` is generated separately**, at build time, by
+  [`scripts/generate-responsive-images.mjs`](scripts/generate-responsive-images.mjs)
+  (runs via the `prebuild`/`predev` npm hooks). It resizes each source
+  image to a `[480, 768, 1200]` width ladder (skipping any width ≥ the
+  source's actual width), writes `name-{width}w.webp` variants next to
+  the original in `public/uploads/`, and writes
+  `public/uploads/_responsive-manifest.json`. Both the generated
+  variants and the manifest are **gitignored** — they're build output,
+  regenerated fresh on every `npm run build`/`npm run dev`, same
+  philosophy as `dist/`.
+- [`src/lib/responsiveImage.ts`](src/lib/responsiveImage.ts) exposes
+  `getSrcSet(imagePath)`, which reads that manifest and returns a
+  `srcset` string (or `undefined` if the manifest or that specific image
+  isn't there — templates degrade gracefully to a plain `src`, never a
+  broken build). Every page-level hero/content `<img>` uses it, paired
+  with a shared `sizes="(min-width: 768px) 50vw, 100vw"` matching the
+  `md:grid-cols-2` layout they sit in.
+- Adding a new main image: drop the file in `public/uploads/`, reference
+  it from the relevant JSON, and the next `npm run build`/`npm run dev`
+  picks it up automatically — no code change needed unless it doesn't
+  fit the existing 50vw/100vw layout assumption.
+- LCP hero images use `fetchpriority="high"`; the below-the-fold
+  `/nosotros` history image uses `loading="lazy"`.
+
+## Security
+
+- `src/middleware.ts` returns a 404 for any request to `/_image` or
+  `/_image/*`. This blocks Astro's built-in image-transform endpoint
+  (always present in the Cloudflare adapter's compiled output regardless
+  of whether `astro:assets` is used), closing GHSA-88gm-j2wx-58h6 (SSRF
+  via redirect-following) without needing an `astro`/`@astrojs/cloudflare`
+  major upgrade. **Don't remove or narrow this middleware** — the
+  responsive-image pipeline above is entirely build-time and has no
+  dependency on that endpoint.
+- Contact form (`/api/contact`, `src/pages/api/contact.ts`): honeypot
+  field, Cloudflare Turnstile verified server-side, delivered via Resend.
+  Requires `TURNSTILE_SECRET_KEY` and `RESEND_API_KEY` as Cloudflare
+  Worker runtime secrets (`.dev.vars` locally, `wrangler secret put` in
+  production) — see `.dev.vars.example`.
+- Optional Cloudflare Web Analytics beacon in `Layout.astro`, gated
+  behind a `PUBLIC_CF_BEACON_TOKEN` build-time env var — inert unless
+  set (see `.env.example`).
+
+## SEO
+
+- `astro.config.mjs` registers `@astrojs/sitemap`, filtered to exclude
+  `/gracias` (noindex) and `/api/*`. `public/robots.txt` points to it.
+- `Layout.astro` emits an `AdvertisingAgency`/`LocalBusiness` JSON-LD
+  block built only from fields present in `site.json` — it currently has
+  **no street address, postal code, or geo coordinates**, because that
+  data isn't in the repo. Don't invent placeholder values for these if
+  asked to "complete" the schema; get the real data first.
+
+## CMS (Decap)
+
+- Config: `public/admin/config.yml`. Local editing: `npm run dev` +
+  `npm run cms` → `http://localhost:4321/admin`.
+- Production auth goes through a small OAuth proxy in `oauth-worker/`
+  (separate Cloudflare Worker, deployed independently — see
+  `oauth-worker/README.md`). Its URL is already set in `config.yml`'s
+  `backend.base_url` and has been confirmed live.
 
 ## Deployment
 
-Push to `main` on GitHub → Cloudflare Pages auto-builds.
+Push to `main` → Cloudflare Workers auto-builds via `wrangler.jsonc`
+(`assets` binding serves `dist/`, the compiled worker in
+`dist/_worker.js` handles `/api/*` and anything else not excluded by
+the auto-generated `_routes.json`).

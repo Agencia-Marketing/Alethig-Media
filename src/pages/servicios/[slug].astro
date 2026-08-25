@@ -2,8 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { highlightHeading } from '../../lib/highlight';
+import { getSrcSet } from '../../lib/responsiveImage';
 
 export const prerender = true;
+
+const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 
 export async function getStaticPaths() {
   const services = await getCollection('services');
@@ -14,6 +17,10 @@ export async function getStaticPaths() {
 }
 
 const { s } = Astro.props;
+const { slug } = Astro.params;
+const relatedServices = (await getCollection('services'))
+  .filter(entry => entry.id !== slug)
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 <Layout title={`${s.title} Long Island NY | Alethig Media`} description={s.metaDescription} image={s.image}>
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
@@ -31,7 +38,14 @@ const { s } = Astro.props;
         </div>
         <div class="reveal">
           <div class="glass card-cyber rounded-2xl overflow-hidden animate-float">
-            <img src={s.image} alt={s.imageAlt} class="w-full aspect-video object-cover media-bright" fetchpriority="high" />
+            <img
+              src={s.image}
+              srcset={getSrcSet(s.image)}
+              sizes={RESPONSIVE_SIZES}
+              alt={s.imageAlt}
+              class="w-full aspect-video object-cover media-bright"
+              fetchpriority="high"
+            />
           </div>
         </div>
       </div>
@@ -77,6 +91,25 @@ const { s } = Astro.props;
             </ul>
             <a href="/contacto" class={p.featured ? 'btn-cyber-solid w-full justify-center text-center' : 'btn-ghost w-full justify-center text-center'}>Contratar</a>
           </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg-depth py-14">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div class="mb-8 reveal">
+        <span class="tag-cyber mb-4 inline-flex">Más Servicios</span>
+        <h2 class="font-display text-headline-md">Explora Nuestros Otros Servicios.</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger-fade">
+        {relatedServices.map(r => (
+          <a href={`/servicios/${r.id}`} class="glass card-cyber rounded-xl p-5 flex items-center gap-3 group">
+            <span class="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-accent text-lg" aria-hidden="true">{r.data.icon}</span>
+            </span>
+            <span class="font-display font-semibold text-sm group-hover:text-accent transition-colors duration-300">{r.data.title}</span>
+          </a>
         ))}
       </div>
     </div>

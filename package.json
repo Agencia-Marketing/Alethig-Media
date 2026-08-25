@@ -3,10 +3,13 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
+    "predev": "node scripts/generate-responsive-images.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/generate-responsive-images.mjs",
     "build": "astro build",
     "preview": "astro preview",
-    "cms": "decap-server"
+    "cms": "decap-server",
+    "images:responsive": "node scripts/generate-responsive-images.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
@@ -17,6 +20,7 @@
     "autoprefixer": "^10.5.0",
     "decap-server": "^3.1.0",
     "postcss": "^8.5.15",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.19"
   }
 }

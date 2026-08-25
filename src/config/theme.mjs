@@ -16,7 +16,7 @@ export const colors = {
   'accent-2':       '#E9C46A',  // dorado claro (degradados/hover)
   'text-primary':   '#F5F1E6',  // blanco cálido
   'text-secondary': '#A7AEC9',  // azul-gris legible
-  'text-dim':       '#5C638A',
+  'text-dim':       '#737CAC',  // WCAG AA ≥4.5:1 sobre bg-void y bg-depth (antes #5C638A, ~3.3:1)
   'grad-indigo':    '#1B2A6B',  // azul profundo
   'grad-violet':    '#8C6A12',  // ámbar oscuro
   'grad-pink':      '#E9C46A',  // dorado claro
