@@ -218,6 +218,21 @@ collections:
               - { name: successHeading, label: "Éxito · Titular", widget: string }
               - { name: successText, label: "Éxito · Texto", widget: string }
 
+      - name: alethig-media-os
+        label: "Alethig Media OS (Próximamente)"
+        file: "src/content/pages/alethig-media-os.json"
+        format: json
+        fields:
+          - { name: title, label: "Título de pestaña (SEO)", widget: string }
+          - { name: metaDescription, label: "Meta descripción (SEO)", widget: text }
+          - { name: heroTag, label: "Etiqueta", widget: string }
+          - { name: heading, label: "Titular", widget: string }
+          - { name: highlight, label: "Palabra resaltada", widget: string, required: false }
+          - { name: paragraph, label: "Párrafo", widget: text }
+          - { name: note, label: "Aclaración (nada disponible todavía)", widget: string }
+          - { name: ctaLabel, label: "Botón principal", widget: string }
+          - { name: ctaSecondaryLabel, label: "Botón secundario", widget: string }
+
   # ─────────── SERVICIOS UNIFORMES (features + planes) ───────────
   - name: services
     label: "Servicios (features + planes)"

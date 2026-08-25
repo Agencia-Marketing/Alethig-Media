@@ -4,6 +4,10 @@ import { colors, fonts, logo } from '../config/theme.mjs';
 import site from '../content/settings/site.json';
 const { brand, ctaLabel, nav, contact, social, whatsapp, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = site;
 const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message ?? '')}` : null;
+// Entrada "Alethig Media OS" (producto en desarrollo, sección separada).
+// Un solo lugar para el link: cuando el producto esté listo, cambiar esta
+// única línea a la URL real (p.ej. "https://app.alethigmedia.com").
+const osHref = '/alethig-media-os';
 const contactIcons: Record<string, string> = { phone: 'schedule', email: 'mail', location: 'location_on' };
 interface Props {
   title: string;
@@ -178,6 +182,15 @@ businessSchema.openingHoursSpecification = {
 
         <!-- CTA + Mobile toggle -->
         <div class="flex items-center gap-4">
+          <a
+            href={osHref}
+            class="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-text-dim hover:text-accent border border-white/10 hover:border-accent/30 rounded-full px-3 py-1.5 transition-colors duration-200"
+            aria-label="Alethig Media OS — próximamente"
+          >
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">bolt</span>
+            Alethig Media OS
+            <span class="uppercase tracking-wider opacity-70">· Pronto</span>
+          </a>
           <div class="hidden md:block">
             <a href="/contacto" class="btn-cyber press">
               <span class="icon-wrap">{ctaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span></span>
@@ -196,6 +209,13 @@ businessSchema.openingHoursSpecification = {
         {nav.map(item => (
           <a href={item.href} class="px-4 py-3 text-text-secondary hover:text-accent rounded-lg transition-all text-sm font-display font-semibold uppercase tracking-widest">{item.label}</a>
         ))}
+        <a href={osHref} class="px-4 py-3 text-text-dim hover:text-accent rounded-lg transition-all flex items-center gap-3">
+          <span class="material-symbols-outlined text-sm flex-shrink-0" aria-hidden="true">bolt</span>
+          <span class="flex flex-col leading-tight">
+            <span class="text-xs font-display font-semibold uppercase tracking-widest">Alethig Media OS</span>
+            <span class="text-[10px] opacity-70">Próximamente</span>
+          </span>
+        </a>
         <div class="pt-2 mt-1 border-t border-[rgba(255,255,255,0.07)]">
           <a href="/contacto" class="btn-cyber-solid w-full justify-center text-center block">{ctaLabel}</a>
         </div>
@@ -280,6 +300,7 @@ businessSchema.openingHoursSpecification = {
           {footerBottomLinks.map(item => (
             <a href={item.href} class="text-text-dim text-sm hover:text-text-secondary transition-colors">{item.label}</a>
           ))}
+          <a href={osHref} class="text-text-dim text-sm hover:text-text-secondary transition-colors">Alethig Media OS</a>
         </div>
       </div>
     </div>
