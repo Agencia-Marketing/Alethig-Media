@@ -109,6 +109,21 @@
     var(--bg-depth);
 }
 
+/* ---- Elevated section (Visual P1) ----
+   Genuinely lighter than .mesh-bg / bg-bg-depth (which sit only ~13/255
+   apart in raw value and don't read as a real break) — reuses the
+   existing indigo accent (rgba(27,42,107,…), same color as --grad-indigo)
+   at higher opacity instead of introducing a new hex value. Reserved for
+   the one or two sections per page that most need to visually separate
+   from their dark neighbors — not a general-purpose section background. */
+.section-elevated {
+  background: linear-gradient(
+    180deg,
+    rgba(27, 42, 107, 0.38) 0%,
+    var(--bg-depth) 100%
+  );
+}
+
 /* ---- Glass Card ---- */
 .glass {
   background: var(--glass-bg);
