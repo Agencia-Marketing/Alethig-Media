@@ -98,4 +98,54 @@ const testimonialsEn = defineCollection({
   schema: testimonialSchema,
 });
 
-export const collections = { servicesEs, servicesEn, testimonialsEs, testimonialsEn };
+// Portfolio / Trabajos seleccionados (P2C-2b — solo infraestructura, sin
+// proyectos reales ni de prueba todavía). Mismo patrón bilingüe que
+// servicios/testimonios: una carpeta por idioma, mismo esquema, ambas
+// colecciones arrancan vacías (solo un .gitkeep, sin JSON).
+//
+// Publicación en dos pasos, ambos por defecto en false: `published` (el
+// dueño del sitio decide mostrarlo) Y `clientConsent` (el cliente dio
+// permiso explícito para aparecer). La plantilla pública solo debe
+// renderizar un proyecto cuando AMBOS son true — ver es/index.astro y
+// en/index.astro.
+//
+// Los campos de alt van en el esquema (heroImageAlt, y `alt` dentro de
+// cada item de galleryImages) para que la plantilla nunca tenga que
+// inventar un texto alternativo — si falta, se usa `title` como
+// respaldo razonable (no un texto inventado, es contenido real ya
+// provisto), nunca una descripción adivinada de la imagen.
+const portfolioSchema = z.object({
+  title: z.string(),
+  category: z.string(),
+  summary: z.string(),
+  clientName: z.string().optional(),
+  // id de la colección de servicios (mismo valor que ya usan
+  // testimonios), sin acoplar el esquema a esa colección.
+  relatedService: z.string().optional(),
+  heroImage: z.string().optional(),
+  heroImageAlt: z.string().optional(),
+  galleryImages: z.array(z.object({
+    image: z.string(),
+    alt: z.string(),
+  })).optional(),
+  projectUrl: z.string().optional(),
+  outcome: z.string().optional(),
+  featured: z.boolean().default(false),
+  published: z.boolean().default(false),
+  clientConsent: z.boolean().default(false),
+});
+
+const portfolioEs = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/portfolio/es' }),
+  schema: portfolioSchema,
+});
+const portfolioEn = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/portfolio/en' }),
+  schema: portfolioSchema,
+});
+
+export const collections = {
+  servicesEs, servicesEn,
+  testimonialsEs, testimonialsEn,
+  portfolioEs, portfolioEn,
+};

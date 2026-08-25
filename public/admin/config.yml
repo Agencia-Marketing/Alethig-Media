@@ -627,3 +627,75 @@ collections:
       - { name: relatedService, label: "Related service (id, e.g. web-development)", widget: string, required: false }
       - { name: featured, label: "Featured?", widget: boolean, default: false }
       - { name: published, label: "Published? (won't appear on the site until this is checked)", widget: boolean, default: false }
+
+  # ─────────── PORTFOLIO / TRABAJOS (bilingüe, P2C-2b — infraestructura) ───
+  # Ambas colecciones arrancan vacías a propósito: nada se publica en el
+  # sitio hasta que un proyecto real se cargue aquí Y se marquen
+  # "¿Publicado?" Y "¿Consentimiento del cliente?" — ver los campos
+  # `published`/`clientConsent` y sus defaults en content.config.ts. La
+  # plantilla pública solo renderiza un proyecto cuando AMBOS son true.
+  - name: portfolio
+    label: "Portfolio / Trabajos (Español)"
+    label_singular: "Trabajo"
+    editor:
+      preview: false
+    folder: "src/content/portfolio/es"
+    format: json
+    extension: json
+    create: true
+    identifier_field: title
+    slug: "{{fields.title | slugify}}"
+    summary: "{{title}} · {{category}}"
+    fields:
+      - { name: title, label: "Título del proyecto", widget: string }
+      - { name: category, label: "Categoría (p.ej. Diseño de Marca)", widget: string }
+      - { name: summary, label: "Resumen", widget: text }
+      - { name: clientName, label: "Nombre del cliente", widget: string, required: false }
+      - { name: relatedService, label: "Servicio relacionado (id, p.ej. desarrollo-web)", widget: string, required: false }
+      - { name: heroImage, label: "Imagen principal", widget: image, required: false }
+      - { name: heroImageAlt, label: "Imagen principal · Texto alternativo", widget: string, required: false }
+      - name: galleryImages
+        label: "Galería (opcional)"
+        widget: list
+        required: false
+        fields:
+          - { name: image, label: "Imagen", widget: image }
+          - { name: alt, label: "Texto alternativo", widget: string }
+      - { name: projectUrl, label: "Enlace al proyecto (opcional)", widget: string, required: false }
+      - { name: outcome, label: "Resultado (texto libre, opcional — sin métricas inventadas)", widget: string, required: false }
+      - { name: featured, label: "¿Destacado?", widget: boolean, default: false }
+      - { name: published, label: "¿Publicado? (no aparece en el sitio hasta marcar esto)", widget: boolean, default: false }
+      - { name: clientConsent, label: "¿Consentimiento del cliente para publicar? (obligatorio junto con \"¿Publicado?\" para aparecer en el sitio)", widget: boolean, default: false }
+
+  - name: portfolio-en
+    label: "Portfolio / Selected Work (Inglés)"
+    label_singular: "Project"
+    editor:
+      preview: false
+    folder: "src/content/portfolio/en"
+    format: json
+    extension: json
+    create: true
+    identifier_field: title
+    slug: "{{fields.title | slugify}}"
+    summary: "{{title}} · {{category}}"
+    fields:
+      - { name: title, label: "Project Title", widget: string }
+      - { name: category, label: "Category (e.g. Brand Design)", widget: string }
+      - { name: summary, label: "Summary", widget: text }
+      - { name: clientName, label: "Client Name", widget: string, required: false }
+      - { name: relatedService, label: "Related service (id, e.g. web-development)", widget: string, required: false }
+      - { name: heroImage, label: "Hero Image", widget: image, required: false }
+      - { name: heroImageAlt, label: "Hero Image · Alt Text", widget: string, required: false }
+      - name: galleryImages
+        label: "Gallery (optional)"
+        widget: list
+        required: false
+        fields:
+          - { name: image, label: "Image", widget: image }
+          - { name: alt, label: "Alt Text", widget: string }
+      - { name: projectUrl, label: "Project Link (optional)", widget: string, required: false }
+      - { name: outcome, label: "Outcome (free text, optional — no invented metrics)", widget: string, required: false }
+      - { name: featured, label: "Featured?", widget: boolean, default: false }
+      - { name: published, label: "Published? (won't appear on the site until this is checked)", widget: boolean, default: false }
+      - { name: clientConsent, label: "Client consent to publish? (required together with \"Published?\" to appear on the site)", widget: boolean, default: false }

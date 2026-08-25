@@ -18,6 +18,14 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 const testimonials = (await getCollection('testimonialsEs'))
   .filter(t => t.data.published)
   .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+
+// Portfolio / Trabajos (P2C-2b): la colección arranca vacía. Un proyecto
+// solo se muestra cuando published Y clientConsent son true — nunca uno
+// solo de los dos. Sin entradas que cumplan ambos, esta sección no
+// renderiza absolutamente nada (ni título, ni espacio en blanco).
+const portfolio = (await getCollection('portfolioEs'))
+  .filter(p => p.data.published && p.data.clientConsent)
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
 ---
 <Layout title={home.title} description={home.metaDescription} image={home.heroImage} base={BASE} locale="es" altHref="/en/">
 
@@ -99,6 +107,51 @@ const testimonials = (await getCollection('testimonialsEs'))
       </div>
     </div>
   </section>
+
+  <!-- TRABAJOS: nada se renderiza mientras la colección esté vacía. -->
+  {portfolio.length > 0 && (
+    <section id="trabajos" class="mesh-bg py-section-py-sm md:py-section-py-lg">
+      <div class="max-w-container-max mx-auto px-gutter">
+        <div class="text-center mb-14 reveal">
+          <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">Trabajos Seleccionados</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger-fade">
+          {portfolio.map(p => (
+            <div class={`glass card-cyber rounded-2xl overflow-hidden flex flex-col ${p.data.featured ? 'lumen-border' : ''}`}>
+              {p.data.heroImage && (
+                <img
+                  src={p.data.heroImage}
+                  srcset={getSrcSet(p.data.heroImage)}
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  alt={p.data.heroImageAlt ?? p.data.title}
+                  class="w-full aspect-video object-cover media-bright"
+                  loading="lazy"
+                />
+              )}
+              <div class="p-7 flex flex-col flex-1">
+                <span class="tag-cyber mb-4 self-start">{p.data.category}</span>
+                <h3 class="font-display text-headline-md mb-2">{p.data.title}</h3>
+                <p class="text-text-secondary text-sm leading-relaxed mb-4 flex-1">{p.data.summary}</p>
+                {p.data.outcome && <p class="text-accent text-sm font-display font-semibold mb-4">{p.data.outcome}</p>}
+                {p.data.clientName && <p class="text-text-dim text-xs mb-4">{p.data.clientName}</p>}
+                {p.data.projectUrl && (
+                  <a
+                    href={p.data.projectUrl}
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-2 text-accent text-sm font-display font-semibold mt-auto"
+                    aria-label={`Ver proyecto: ${p.data.title}`}
+                  >
+                    Ver proyecto <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- WHY NEXUS -->
   <section class="section-elevated py-section-py-sm md:py-section-py-lg">
