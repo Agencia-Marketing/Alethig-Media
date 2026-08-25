@@ -1,5 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import PlanCard from '../../../components/PlanCard.astro';
 import { getCollection } from 'astro:content';
 import { highlightHeading } from '../../../lib/highlight';
 import { getSrcSet } from '../../../lib/responsiveImage';
@@ -77,27 +78,28 @@ const altHref = `/es/servicios/${id}/`;
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="text-center mb-14 reveal">
         <span class="tag-cyber mb-4 inline-flex">Plans</span>
-        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">Plans and <span class="gradient-text">pricing</span></h2>
+        <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">
+          {s.plansHeading ? <>{s.plansHeading}</> : <>Plans and <span class="gradient-text">pricing</span></>}
+        </h2>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger-fade">
-        {s.plans.map(p => (
-          <div class={`glass card-cyber rounded-2xl p-7 flex flex-col ${p.featured ? 'lumen-border scale-105 relative' : ''}`}>
-            {p.featured && <span class="tag-cyber mb-4 self-start">Most Popular</span>}
-            <p class="font-display font-bold text-xl mb-1">{p.name}</p>
-            <p class="text-text-secondary text-sm mb-3">{p.sub}</p>
-            <p class="gradient-text font-display font-extrabold text-2xl mb-5">{p.price}</p>
-            <ul class="space-y-2 mb-6 flex-1">
-              {p.features.map(f => (
-                <li class="flex items-start gap-2 text-sm text-text-secondary">
-                  <span class="material-symbols-outlined text-accent text-base mt-0.5 flex-shrink-0" aria-hidden="true">check_circle</span>
-                  {f}
-                </li>
+      {s.planGroups && s.planGroups.length ? (
+        s.planGroups.map(group => (
+          <div class="mb-12 last:mb-0">
+            <h3 class="font-display font-bold text-lg md:text-xl mb-6 text-text-primary">{group.label}</h3>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger-fade">
+              {s.plans.filter(p => p.group === group.key).map(p => (
+                <PlanCard plan={p} base={BASE} contactHref="/contact" featuredLabel="Most Popular" ctaLabel="Get Started" />
               ))}
-            </ul>
-            <a href={withBase(BASE, '/contact')} class={p.featured ? 'btn-cyber-solid w-full justify-center text-center' : 'btn-ghost w-full justify-center text-center'}>Get Started</a>
+            </div>
           </div>
-        ))}
-      </div>
+        ))
+      ) : (
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 stagger-fade">
+          {s.plans.map(p => (
+            <PlanCard plan={p} base={BASE} contactHref="/contact" featuredLabel="Most Popular" ctaLabel="Get Started" />
+          ))}
+        </div>
+      )}
     </div>
   </section>
 

@@ -9,6 +9,12 @@
   "heroCtaSecondary": { "label": "View Services", "href": "#services" },
   "heroImage": "/uploads/home-hero.webp",
   "heroImageAlt": "Alethig Media team working on digital marketing strategy",
+  "trustBar": [
+    { "icon": "translate", "label": "English & Spanish" },
+    { "icon": "location_on", "label": "Long Island — Nassau & Suffolk" },
+    { "icon": "payments", "label": "Clear, Transparent Pricing" },
+    { "icon": "schedule", "label": "Free 15-Minute Consultation" }
+  ],
   "servicesTag": "Services",
   "servicesHeading": "Everything Your Business Needs to Win Online.",
   "servicesHighlight": "Win Online",

@@ -16,13 +16,17 @@
     { "icon": "auto_awesome", "title": "Design That Stands Out", "desc": "Your business looks professional at every touchpoint across Long Island." }
   ],
   "plans": [
-    { "name": "Logo + Brand Kit", "sub": "Complete identity", "price": "$429 one-time", "featured": true, "features": ["Professional logo", "Complete brand identity kit", "One-time payment"] },
-    { "name": "Business Card", "sub": "Design", "price": "$45", "featured": false, "features": ["Professional design", "Print-ready"] },
-    { "name": "Flyer", "sub": "Design", "price": "$45", "featured": false, "features": ["Professional design", "Ready for print or social"] },
-    { "name": "Banner / Cover Photo", "sub": "For social media", "price": "$35", "featured": false, "features": ["Social media cover photo", "Optimized per platform"] },
-    { "name": "Poster", "sub": "Design", "price": "$25", "featured": false, "features": ["Professional design"] },
-    { "name": "Infographic", "sub": "Design", "price": "$25", "featured": false, "features": ["Professional design"] },
-    { "name": "Digital Menu", "sub": "Small business", "price": "$99", "featured": false, "features": ["Digital menu", "Ideal for restaurants"] }
+    { "name": "Logo + Brand Kit", "sub": "Complete identity", "price": "$429 one-time", "featured": true, "features": ["Professional logo", "Complete brand identity kit", "One-time payment"], "group": "package" },
+    { "name": "Business Card", "sub": "Design", "price": "$45", "featured": false, "features": ["Professional design", "Print-ready"], "group": "individual" },
+    { "name": "Flyer", "sub": "Design", "price": "$45", "featured": false, "features": ["Professional design", "Ready for print or social"], "group": "individual" },
+    { "name": "Banner / Cover Photo", "sub": "For social media", "price": "$35", "featured": false, "features": ["Social media cover photo", "Optimized per platform"], "group": "individual" },
+    { "name": "Poster", "sub": "Design", "price": "$25", "featured": false, "features": ["Professional design"], "group": "individual" },
+    { "name": "Infographic", "sub": "Design", "price": "$25", "featured": false, "features": ["Professional design"], "group": "individual" },
+    { "name": "Digital Menu", "sub": "Small business", "price": "$99", "featured": false, "features": ["Digital menu", "Ideal for restaurants"], "group": "individual" }
+  ],
+  "planGroups": [
+    { "key": "package", "label": "Brand Package" },
+    { "key": "individual", "label": "Individual Services" }
   ],
   "ctaHeading": "Need your business to look professional?",
   "ctaText": "From a single logo to all your visual materials — we design what your brand needs. Let's talk.",

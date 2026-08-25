@@ -31,7 +31,21 @@ const serviceSchema = z.object({
   plans: z.array(z.object({
     name: z.string(), sub: z.string(), price: z.string(), featured: z.boolean(),
     features: z.array(z.string()),
+    // Clave de grupo opcional (p.ej. "package"/"individual") para separar
+    // visualmente un paquete principal de ítems sueltos — ver planGroups.
+    // Sin esto, todos los planes se renderizan en una sola grilla (como hoy).
+    group: z.string().optional(),
   })),
+  // Grupos visuales opcionales para la sección de precios (P2C-1). Si está
+  // presente, la plantilla agrupa `plans` por su campo `group` bajo cada
+  // título; si no está, renderiza la grilla plana de siempre. 100%
+  // data-driven: ningún servicio necesita lógica especial en la plantilla.
+  planGroups: z.array(z.object({ key: z.string(), label: z.string() })).optional(),
+  // Reemplaza el titular genérico "Planes y precios"/"Plans and pricing"
+  // cuando el encuadre de precios de un servicio necesita ser más específico
+  // (p.ej. "Elige tu canal de publicidad"). Opcional; sin esto, el titular
+  // genérico se mantiene igual que antes.
+  plansHeading: z.string().optional(),
   ctaHeading: z.string(),
   ctaText: z.string(),
   ctaButtonLabel: z.string(),

@@ -140,6 +140,12 @@ collections:
           - { name: heroCtaSecondary, label: "Hero · Botón secundario", widget: object, fields: [ { name: label, widget: string }, { name: href, widget: string } ] }
           - { name: heroImage, label: "Hero · Imagen", widget: image }
           - { name: heroImageAlt, label: "Hero · Texto alternativo", widget: string }
+          - name: trustBar
+            label: "Barra de confianza (debajo del hero)"
+            widget: list
+            fields:
+              - { name: icon, label: "Icono", widget: string }
+              - { name: label, label: "Texto", widget: string }
           - { name: servicesTag, label: "Servicios · Etiqueta", widget: string }
           - { name: servicesHeading, label: "Servicios · Titular", widget: string }
           - { name: servicesHighlight, label: "Servicios · Palabra resaltada", widget: string, required: false }
@@ -183,6 +189,12 @@ collections:
           - { name: heroCtaSecondary, label: "Hero · Botón secundario", widget: object, fields: [ { name: label, widget: string }, { name: href, widget: string } ] }
           - { name: heroImage, label: "Hero · Imagen", widget: image }
           - { name: heroImageAlt, label: "Hero · Texto alternativo", widget: string }
+          - name: trustBar
+            label: "Barra de confianza (debajo del hero)"
+            widget: list
+            fields:
+              - { name: icon, label: "Icono", widget: string }
+              - { name: label, label: "Texto", widget: string }
           - { name: servicesTag, label: "Servicios · Etiqueta", widget: string }
           - { name: servicesHeading, label: "Servicios · Titular", widget: string }
           - { name: servicesHighlight, label: "Servicios · Palabra resaltada", widget: string, required: false }
@@ -486,6 +498,15 @@ collections:
           - { name: price, label: "Precio", widget: string }
           - { name: featured, label: "¿Destacado?", widget: boolean, default: false }
           - { name: features, label: "Incluye", widget: list, field: { name: item, label: "Ítem", widget: string } }
+          - { name: group, label: "Grupo (opcional — debe coincidir con una clave en 'Grupos de planes')", widget: string, required: false }
+      - name: planGroups
+        label: "Grupos de planes (opcional)"
+        widget: list
+        required: false
+        fields:
+          - { name: key, label: "Clave (debe coincidir con 'Grupo' en cada plan)", widget: string }
+          - { name: label, label: "Título visible del grupo", widget: string }
+      - { name: plansHeading, label: "Titular de precios (opcional — reemplaza 'Planes y precios')", widget: string, required: false }
       - { name: ctaHeading, label: "CTA · Titular", widget: string }
       - { name: ctaText, label: "CTA · Texto", widget: text }
       - { name: ctaButtonLabel, label: "CTA · Texto botón", widget: string }
@@ -531,6 +552,15 @@ collections:
           - { name: price, label: "Precio", widget: string }
           - { name: featured, label: "¿Destacado?", widget: boolean, default: false }
           - { name: features, label: "Incluye", widget: list, field: { name: item, label: "Ítem", widget: string } }
+          - { name: group, label: "Grupo (opcional — debe coincidir con una clave en 'Grupos de planes')", widget: string, required: false }
+      - name: planGroups
+        label: "Grupos de planes (opcional)"
+        widget: list
+        required: false
+        fields:
+          - { name: key, label: "Clave (debe coincidir con 'Grupo' en cada plan)", widget: string }
+          - { name: label, label: "Título visible del grupo", widget: string }
+      - { name: plansHeading, label: "Titular de precios (opcional — reemplaza 'Planes y precios')", widget: string, required: false }
       - { name: ctaHeading, label: "CTA · Titular", widget: string }
       - { name: ctaText, label: "CTA · Texto", widget: text }
       - { name: ctaButtonLabel, label: "CTA · Texto botón", widget: string }

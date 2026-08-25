@@ -9,6 +9,12 @@
   "heroCtaSecondary": { "label": "Ver Servicios", "href": "#servicios" },
   "heroImage": "/uploads/home-hero.webp",
   "heroImageAlt": "Equipo de Alethig Media trabajando en estrategia de marketing digital",
+  "trustBar": [
+    { "icon": "translate", "label": "Inglés y Español" },
+    { "icon": "location_on", "label": "Long Island — Nassau & Suffolk" },
+    { "icon": "payments", "label": "Precios claros y transparentes" },
+    { "icon": "schedule", "label": "Consulta gratis de 15 minutos" }
+  ],
   "servicesTag": "Servicios",
   "servicesHeading": "Todo Lo Que Tu Negocio Necesita Para Ganar en Internet.",
   "servicesHighlight": "Ganar en Internet",

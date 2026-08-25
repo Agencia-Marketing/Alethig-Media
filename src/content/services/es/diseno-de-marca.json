@@ -15,13 +15,17 @@
     { "icon": "auto_awesome", "title": "Diseño que destaca", "desc": "Tu negocio se ve profesional en cada punto de contacto en Long Island." }
   ],
   "plans": [
-    { "name": "Logotipo + Kit de Marca", "sub": "Identidad completa", "price": "$429 único", "featured": true, "features": ["Logotipo profesional", "Kit completo de identidad de marca", "Pago único"] },
-    { "name": "Tarjeta de Presentación", "sub": "Diseño", "price": "$45", "featured": false, "features": ["Diseño profesional", "Listo para imprimir"] },
-    { "name": "Flyer", "sub": "Diseño", "price": "$45", "featured": false, "features": ["Diseño profesional", "Listo para imprimir o redes"] },
-    { "name": "Banner / Portada", "sub": "Para redes sociales", "price": "$35", "featured": false, "features": ["Portada para redes", "Optimizado por plataforma"] },
-    { "name": "Cartel", "sub": "Diseño", "price": "$25", "featured": false, "features": ["Diseño profesional"] },
-    { "name": "Infografía", "sub": "Diseño", "price": "$25", "featured": false, "features": ["Diseño profesional"] },
-    { "name": "Menú Digital", "sub": "Pequeño negocio", "price": "$99", "featured": false, "features": ["Menú digital", "Ideal para restaurantes"] }
+    { "name": "Logotipo + Kit de Marca", "sub": "Identidad completa", "price": "$429 único", "featured": true, "features": ["Logotipo profesional", "Kit completo de identidad de marca", "Pago único"], "group": "package" },
+    { "name": "Tarjeta de Presentación", "sub": "Diseño", "price": "$45", "featured": false, "features": ["Diseño profesional", "Listo para imprimir"], "group": "individual" },
+    { "name": "Flyer", "sub": "Diseño", "price": "$45", "featured": false, "features": ["Diseño profesional", "Listo para imprimir o redes"], "group": "individual" },
+    { "name": "Banner / Portada", "sub": "Para redes sociales", "price": "$35", "featured": false, "features": ["Portada para redes", "Optimizado por plataforma"], "group": "individual" },
+    { "name": "Cartel", "sub": "Diseño", "price": "$25", "featured": false, "features": ["Diseño profesional"], "group": "individual" },
+    { "name": "Infografía", "sub": "Diseño", "price": "$25", "featured": false, "features": ["Diseño profesional"], "group": "individual" },
+    { "name": "Menú Digital", "sub": "Pequeño negocio", "price": "$99", "featured": false, "features": ["Menú digital", "Ideal para restaurantes"], "group": "individual" }
+  ],
+  "planGroups": [
+    { "key": "package", "label": "Paquete de Marca" },
+    { "key": "individual", "label": "Servicios Individuales" }
   ],
   "ctaHeading": "¿Necesitas que tu negocio se vea profesional?",
   "ctaText": "Desde un logotipo hasta todo tu material visual — diseñamos lo que tu marca necesita. Hablemos.",

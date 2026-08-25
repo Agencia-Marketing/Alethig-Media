@@ -49,6 +49,20 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
     </div>
   </section>
 
+  <!-- TRUST BAR -->
+  <section class="bg-bg-void border-y border-white/10 py-4 md:py-5">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-12">
+        {home.trustBar.map(item => (
+          <div class="flex items-center gap-2 text-text-secondary text-sm md:text-base">
+            <span class="material-symbols-outlined text-accent text-lg md:text-xl" aria-hidden="true">{item.icon}</span>
+            <span class="font-display font-semibold tracking-wide">{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- SERVICES -->
   <section id="servicios" class="bg-bg-depth py-section-py-sm md:py-section-py-lg">
     <div class="max-w-container-max mx-auto px-gutter">

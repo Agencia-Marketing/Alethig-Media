@@ -22,6 +22,7 @@
     { "name": "Google Display", "sub": "1 campaña", "price": "$125/campaña", "featured": false, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] },
     { "name": "Google YouTube", "sub": "1 campaña", "price": "$150/campaña", "featured": false, "features": ["Análisis y segmentación", "Diseño del anuncio", "30 días de monitoreo", "Reporte final", "Especialista dedicado"] }
   ],
+  "plansHeading": "Elige tu canal de publicidad",
   "ctaHeading": "¿Listo para conseguir más clientes?",
   "ctaText": "El presupuesto de inversión en anuncios no está incluido — tú controlas cuánto inviertes, nosotros manejamos la estrategia.",
   "ctaButtonLabel": "Agendar Mi Consulta Gratis",
