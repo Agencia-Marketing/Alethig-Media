@@ -1,0 +1,49 @@
+{
+  "title": "About | Marketing Agency in Long Island NY | Alethig Media",
+  "metaDescription": "Meet Alethig Media, a Long Island digital marketing agency founded by an immigrant, for the community. Bilingual in English and Spanish.",
+  "heroTag": "About Alethig Media",
+  "heroHeading": "We're From Here. We Grow Businesses Here.",
+  "heroHighlight": "Here",
+  "heroParagraph": "Alethig Media is a Long Island digital marketing agency founded by an immigrant, for the community.",
+  "heroCtaPrimary": { "label": "Our Story", "href": "#story" },
+  "heroCtaSecondary": { "label": "View Services", "href": "/#services" },
+  "heroImage": "/uploads/nosotros-hero.webp",
+  "heroImageAlt": "Alethig Media team in Long Island",
+  "aboutTag": "Our Story",
+  "aboutHeading": "The Story Behind Alethig Media.",
+  "aboutHighlight": "Alethig Media",
+  "aboutImage": "/uploads/nosotros-historia.webp",
+  "aboutImageAlt": "Alexis Fuel, founder of Alethig Media, with Gisella and Thiago",
+  "aboutBadgeValue": "Bilingual",
+  "aboutBadgeLabel": "English and Spanish",
+  "aboutParagraphs": [
+    "Alethig Media was founded by Alexis Fuel, an Ecuadorian immigrant who built his sales and marketing career in Long Island, New York.",
+    "After years in the corporate world, watching local businesses struggle to build a real online presence — barbershops, restaurants, contractors, salons — he decided it was time to do something about it.",
+    "He launched Alethig Media with a simple mission: give Long Island businesses the same professional digital marketing that big companies have, at a price that makes sense for small business owners.",
+    "The name Alethig is personal: it combines the names of the three most important people in his life — Alexis, Thiago (his son), and Gisella (his wife). Every client we serve is part of that same story: building something real, for the people we love."
+  ],
+  "aboutCtaLabel": "Book My Free Consultation",
+  "statsTag": "Our Values",
+  "statsHeading": "What We Believe In.",
+  "statsHighlight": "Believe In",
+  "statsParagraph": "Our mission: help Long Island businesses grow online with honest, transparent, results-focused digital marketing — in English and in Spanish.",
+  "stats": [
+    { "value": "Transparency", "label": "No hidden fees, no confusing reports. You always know what we're doing and why." },
+    { "value": "Community", "label": "We live in Long Island. We serve Long Island. Your success is our success." },
+    { "value": "Results", "label": "We don't measure in likes. We measure in leads, calls, and new customers." },
+    { "value": "Bilingual", "label": "English and Spanish. Because Long Island is both, and so are we." }
+  ],
+  "teamTag": "Our Team",
+  "teamHeading": "Meet the Team.",
+  "teamHighlight": "Team",
+  "teamParagraph": "The name Alethig brings together three people: Alexis, Thiago, and Gisella — the origin of the agency. Today, alongside a team of content creators, editors, and advertising specialists, we grow Long Island businesses.",
+  "teamQuote": "Building something real, for the people we love.",
+  "teamCtaLabel": "Book a Consultation",
+  "team": [
+    { "name": "Alexis Fuel", "role": "Founder · Sales & Marketing · Amityville, NY", "img": "/uploads/fundador.jpg" },
+    { "name": "Project Manager", "role": "Project Management", "img": "/uploads/project-manager.jpg" },
+    { "name": "Designer", "role": "Graphic & Visual Design", "img": "/uploads/disenador.jpg" },
+    { "name": "Community Manager", "role": "Social Media Management", "img": "/uploads/community-manager.jpg" },
+    { "name": "Developer", "role": "Web Development", "img": "/uploads/programador.jpg" }
+  ]
+}

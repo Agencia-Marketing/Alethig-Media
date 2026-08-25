@@ -1,0 +1,43 @@
+{
+  "title": "Contact | Marketing Agency in Long Island NY | Alethig Media",
+  "metaDescription": "Contact Alethig Media in Long Island, NY. Book a free 15-minute consultation, in English or Spanish. No commitment.",
+  "heroTag": "Contact",
+  "heroHeading": "Let's Grow Your Business.",
+  "heroHighlight": "Grow Your Business",
+  "heroParagraph": "Book a free 15-minute consultation. No commitment required. Available in English and Spanish.",
+  "heroImage": "/uploads/contacto-hero.webp",
+  "heroImageAlt": "Contact Alethig Media — Long Island, NY",
+  "formInfoHeading": "Send Us a Message",
+  "formInfoText": "Tell us about your business and your goals. Most clients are up and running within the same week. No pressure, no commitment — in English or Spanish.",
+  "infoEmailLabel": "Email",
+  "infoHoursLabel": "Hours",
+  "socialHeading": "Social Media",
+  "submitLabel": "Send My Message →",
+  "serviceOptions": [
+    { "value": "social-media", "label": "Social Media" },
+    { "value": "video-production", "label": "Video" },
+    { "value": "paid-advertising", "label": "Advertising" },
+    { "value": "web-development", "label": "Website" },
+    { "value": "brand-design", "label": "Brand Design" },
+    { "value": "not-sure", "label": "Not sure yet" }
+  ],
+  "mapHeading": "Amityville, Long Island, New York",
+  "mapText": "We serve all of Long Island — Nassau County and Suffolk County",
+  "form": {
+    "nameLabel": "Your Name",
+    "namePlaceholder": "Your name",
+    "businessLabel": "Business Name",
+    "businessPlaceholder": "Your business",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "(631) 000-0000",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "you@email.com",
+    "serviceLabel": "Service You're Interested In",
+    "servicePlaceholder": "Select a service",
+    "messageLabel": "Tell us about your business",
+    "messagePlaceholder": "What would you like to achieve?",
+    "errorMessage": "Something went wrong. Please try again.",
+    "successHeading": "Message sent!",
+    "successText": "Thank you. We'll get back to you soon."
+  }
+}

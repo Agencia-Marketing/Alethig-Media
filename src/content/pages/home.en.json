@@ -1,0 +1,38 @@
+{
+  "title": "Alethig Media | Digital Marketing in Long Island, NY",
+  "metaDescription": "Digital marketing agency in Long Island, NY. Social media management, video production, and paid advertising in English and Spanish.",
+  "heroTag": "Digital Marketing · Long Island, NY",
+  "heroHeading": "We Grow Long Island Businesses Online.",
+  "heroHighlight": "Long Island",
+  "heroParagraph": "Social media management, content creation, video production, and paid advertising — we handle it all for you. Bilingual in English and Spanish.",
+  "heroCtaPrimary": { "label": "Book Your Free Consultation", "href": "/contact" },
+  "heroCtaSecondary": { "label": "View Services", "href": "#services" },
+  "heroImage": "/uploads/home-hero.webp",
+  "heroImageAlt": "Alethig Media team working on digital marketing strategy",
+  "servicesTag": "Services",
+  "servicesHeading": "Everything Your Business Needs to Win Online.",
+  "servicesHighlight": "Win Online",
+  "servicesSubtitle": "We help local Long Island businesses get more customers with professional social media management, quality content, and targeted advertising that actually works.",
+  "services": [
+    { "icon": "thumb_up", "title": "Social Media Management", "desc": "Instagram, Facebook, and TikTok — content, designs, copywriting, replies, and paid advertising. Starting at $199/mo.", "href": "/services/social-media-management" },
+    { "icon": "movie", "title": "Video Production", "desc": "We film at your business and our editors handle the rest. Reels, TikToks, and scroll-stopping ads. Starting at $75 per video.", "href": "/services/video-production" },
+    { "icon": "ads_click", "title": "Paid Advertising", "desc": "Facebook, Instagram, TikTok, and Google Ads managed by specialists. You set the budget, we deliver the results. Starting at $99.", "href": "/services/paid-advertising" },
+    { "icon": "palette", "title": "Brand Design", "desc": "Logos, business cards, flyers, menus, and all the visual materials your business needs to look professional and stand out.", "href": "/services/brand-design" },
+    { "icon": "language", "title": "Web Development", "desc": "Professional websites with hosting, SSL, and business email included. Works on every device.", "href": "/services/web-development" }
+  ],
+  "reasonsTag": "Why Choose Us",
+  "reasonsHeading": "Why Long Island Businesses Choose Alethig Media.",
+  "reasonsHighlight": "Alethig Media",
+  "reasons": [
+    { "icon": "location_on", "title": "We're Local", "desc": "We're right here in Long Island, NY. We know this community and what works for businesses like yours." },
+    { "icon": "translate", "title": "Bilingual in English and Spanish", "desc": "We serve the entire Long Island community. Our team talks to you in whichever language you prefer." },
+    { "icon": "payments", "title": "Fixed, Transparent Pricing", "desc": "No surprises, no hidden fees. You know exactly what you pay and what you get every month." },
+    { "icon": "groups", "title": "Real Team, Real Results", "desc": "Every account gets a dedicated community manager, designer, and ads specialist. Real people working for your business." }
+  ],
+  "ctaTag": "Ready to grow?",
+  "ctaHeading": "Ready to Grow Your Business?",
+  "ctaHighlight": "Grow Your Business",
+  "ctaParagraph": "Book a free 15-minute consultation. No commitment, no pressure.",
+  "ctaButtonLabel": "Book My Free Consultation",
+  "ctaButtonIcon": "calendar_month"
+}

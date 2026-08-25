@@ -1,0 +1,29 @@
+{
+  "title": "Video Production",
+  "urlSlug": "video-production",
+  "metaDescription": "Professional video production in Long Island, NY. Content for social media, ads, and your brand, in English and Spanish. Alethig Media.",
+  "order": 2,
+  "icon": "movie",
+  "heroHeading": "Videos that make your business stand out",
+  "heroHighlight": "stand out",
+  "heroSub": "We come to your business in Long Island, film the footage, and our professional editing team handles the rest: Reels, TikToks, and ad-ready videos, ready to post.",
+  "heroCtaLabel": "Book Your Free Consultation",
+  "image": "/uploads/servicio-video.webp",
+  "imageAlt": "Video production for Long Island businesses",
+  "features": [
+    { "icon": "videocam", "title": "We Film at Your Business", "desc": "We coordinate a filming session at your Long Island location, with zero hassle for you." },
+    { "icon": "movie_edit", "title": "Professional Editing", "desc": "Our editor takes the footage and produces scroll-stopping Reels, TikToks, and ads." },
+    { "icon": "task_alt", "title": "You Approve", "desc": "You review and approve the final video — revisions included before it's delivered ready to post." }
+  ],
+  "plans": [
+    { "name": "Basic Editing", "sub": "Transitions, text, music", "price": "$75/video", "featured": false, "features": ["Transitions", "On-screen text", "Music", "Revisions included"] },
+    { "name": "Standard Editing", "sub": "+ Effects and mockups", "price": "$150/video", "featured": true, "features": ["Everything in Basic", "Effects", "Mockups", "Revisions included"] },
+    { "name": "Premium Editing", "sub": "Full production", "price": "$350/video", "featured": false, "features": ["Animations", "Full production", "Revisions included"] },
+    { "name": "Weekly Bundle", "sub": "4 basic videos/month", "price": "$160/mo", "featured": false, "features": ["4 basic videos per month", "Weekly content", "Savings vs. per-video"] },
+    { "name": "Weekly Bundle +", "sub": "4 standard videos/month", "price": "$360/mo", "featured": false, "features": ["4 standard videos per month", "Weekly content", "Savings vs. per-video"] }
+  ],
+  "ctaHeading": "Ready to shoot your next video?",
+  "ctaText": "We coordinate the shoot at your business and deliver content that's ready to post. Let's talk.",
+  "ctaButtonLabel": "Book My Free Consultation",
+  "ctaButtonIcon": "phone_in_talk"
+}

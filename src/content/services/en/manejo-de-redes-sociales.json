@@ -1,0 +1,29 @@
+{
+  "title": "Social Media Management",
+  "urlSlug": "social-media-management",
+  "metaDescription": "Social media management in Long Island: full Instagram, Facebook, and TikTok management, with content, design, and paid advertising. English and Spanish.",
+  "order": 1,
+  "icon": "thumb_up",
+  "heroHeading": "We take care of your social media so your business can grow",
+  "heroHighlight": "your business can grow",
+  "heroSub": "We fully manage your Instagram, Facebook, and TikTok — content, designs, copywriting, replies, and paid advertising. Every month you get a detailed growth report.",
+  "heroCtaLabel": "Book Your Free Consultation",
+  "image": "/uploads/servicio-redes.webp",
+  "imageAlt": "Social media management for Long Island businesses",
+  "features": [
+    { "icon": "calendar_month", "title": "Content Calendar", "desc": "15 designs per social network each month, with copywriting and posting handled by your dedicated team." },
+    { "icon": "forum", "title": "Community Management", "desc": "We respond to comments and messages Monday through Friday, plus a 24/7 AI agent after hours." },
+    { "icon": "bar_chart", "title": "Monthly Report", "desc": "Every month you get a detailed growth and performance report, with no confusing jargon." }
+  ],
+  "plans": [
+    { "name": "Starter", "sub": "1 social network", "price": "$199/mo", "featured": false, "features": ["1 social network", "Dedicated community manager", "15 designs/month", "Mon–Fri replies", "Monthly report"] },
+    { "name": "Growth", "sub": "2 social networks", "price": "$299/mo", "featured": false, "features": ["2 social networks", "15 designs per network/month", "Dedicated graphic designer", "Ads specialist", "Monthly report"] },
+    { "name": "Dominance", "sub": "3 social networks", "price": "$449/mo", "featured": true, "features": ["3 social networks", "15 designs per network/month", "24/7 AI agent", "Paid advertising included", "Monthly report"] },
+    { "name": "Pro", "sub": "4 social networks", "price": "$549/mo", "featured": false, "features": ["4 social networks", "15 designs per network/month", "Full dedicated team", "24/7 AI agent", "Monthly report"] },
+    { "name": "Omnipresence", "sub": "6 social networks", "price": "$699/mo", "featured": false, "features": ["6 social networks", "Maximum coverage", "15 designs per network/month", "24/7 AI agent", "Monthly report"] }
+  ],
+  "ctaHeading": "Ready to have us manage your social media?",
+  "ctaText": "Annual pricing available — save up to 15%. Book a free consultation and we'll build the right plan for your business.",
+  "ctaButtonLabel": "Book My Free Consultation",
+  "ctaButtonIcon": "calendar_month"
+}

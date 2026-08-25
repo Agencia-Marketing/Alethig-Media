@@ -1,0 +1,30 @@
+{
+  "title": "Paid Advertising",
+  "urlSlug": "paid-advertising",
+  "metaDescription": "Paid advertising in Long Island, NY. Meta and Google campaigns that generate real customers. Bilingual English and Spanish management — Alethig Media.",
+  "order": 3,
+  "icon": "ads_click",
+  "heroHeading": "Stop guessing and start getting real leads",
+  "heroHighlight": "real leads",
+  "heroSub": "Our specialists set up, launch, and manage your campaigns on Facebook, Instagram, TikTok, and Google — targeting exactly the right customers in the Long Island area.",
+  "heroCtaLabel": "Book Your Free Consultation",
+  "image": "/uploads/servicio-publicidad.webp",
+  "imageAlt": "Paid advertising for Long Island businesses",
+  "features": [
+    { "icon": "my_location", "title": "Precise Targeting", "desc": "Market analysis and audience targeting to reach the right customers in Long Island." },
+    { "icon": "design_services", "title": "Ad Creative", "desc": "We create the ad — image or video — ready to grab attention and convert." },
+    { "icon": "monitoring", "title": "30-Day Monitoring", "desc": "Setup, launch, and 30 days of monitoring, with a performance report at the end." }
+  ],
+  "plans": [
+    { "name": "Facebook Ads", "sub": "Meta · 1 campaign", "price": "$99/campaign", "featured": true, "features": ["Analysis and targeting", "Ad creative", "30 days of monitoring", "Final report", "Dedicated specialist"] },
+    { "name": "Instagram Ads", "sub": "Meta · 1 campaign", "price": "$99/campaign", "featured": false, "features": ["Analysis and targeting", "Ad creative", "30 days of monitoring", "Final report", "Dedicated specialist"] },
+    { "name": "TikTok Ads", "sub": "1 campaign", "price": "$99/campaign", "featured": false, "features": ["Analysis and targeting", "Ad creative", "30 days of monitoring", "Final report", "Dedicated specialist"] },
+    { "name": "Google Search", "sub": "1 campaign", "price": "$125/campaign", "featured": false, "features": ["Analysis and targeting", "Ad creative", "30 days of monitoring", "Final report", "Dedicated specialist"] },
+    { "name": "Google Display", "sub": "1 campaign", "price": "$125/campaign", "featured": false, "features": ["Analysis and targeting", "Ad creative", "30 days of monitoring", "Final report", "Dedicated specialist"] },
+    { "name": "Google YouTube", "sub": "1 campaign", "price": "$150/campaign", "featured": false, "features": ["Analysis and targeting", "Ad creative", "30 days of monitoring", "Final report", "Dedicated specialist"] }
+  ],
+  "ctaHeading": "Ready to get more customers?",
+  "ctaText": "Ad spend isn't included — you control how much you invest, we handle the strategy.",
+  "ctaButtonLabel": "Book My Free Consultation",
+  "ctaButtonIcon": "phone_in_talk"
+}

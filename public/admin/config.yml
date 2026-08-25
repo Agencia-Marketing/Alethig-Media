@@ -85,6 +85,41 @@ collections:
               - { name: href, label: "Enlace", widget: string }
           - { name: copyright, label: "Copyright", widget: string }
 
+      - name: site-en
+        label: "Navegación y footer (Inglés)"
+        file: "src/content/settings/site.en.json"
+        format: json
+        fields:
+          - { name: ctaLabel, label: "Texto botón CTA", widget: string }
+          - name: nav
+            label: "Menú de navegación"
+            widget: list
+            fields:
+              - { name: label, label: "Texto", widget: string }
+              - { name: href, label: "Enlace", widget: string }
+          - { name: contactHours, label: "Horario de contacto", widget: string }
+          - { name: whatsappMessage, label: "WhatsApp · Mensaje pre-escrito", widget: string }
+          - { name: footerTagline, label: "Eslogan del footer", widget: text }
+          - name: footerPages
+            label: "Footer — Páginas"
+            widget: list
+            fields:
+              - { name: label, label: "Texto", widget: string }
+              - { name: href, label: "Enlace", widget: string }
+          - name: footerLinks
+            label: "Footer — Enlaces"
+            widget: list
+            fields:
+              - { name: label, label: "Texto", widget: string }
+              - { name: href, label: "Enlace", widget: string }
+          - name: footerBottomLinks
+            label: "Footer — Enlaces inferiores"
+            widget: list
+            fields:
+              - { name: label, label: "Texto", widget: string }
+              - { name: href, label: "Enlace", widget: string }
+          - { name: copyright, label: "Copyright", widget: string }
+
   # ─────────────── PÁGINAS ───────────────
   - name: pages
     label: "Páginas"
@@ -134,9 +169,98 @@ collections:
           - { name: ctaButtonLabel, label: "CTA · Texto botón", widget: string }
           - { name: ctaButtonIcon, label: "CTA · Icono botón", widget: string }
 
+      - name: home-en
+        label: "Inicio (Inglés)"
+        file: "src/content/pages/home.en.json"
+        format: json
+        fields:
+          - { name: title, label: "Título de pestaña (SEO)", widget: string }
+          - { name: heroTag, label: "Hero · Etiqueta", widget: string }
+          - { name: heroHeading, label: "Hero · Titular", widget: string }
+          - { name: heroHighlight, label: "Hero · Palabra resaltada", widget: string, required: false }
+          - { name: heroParagraph, label: "Hero · Párrafo", widget: text }
+          - { name: heroCtaPrimary, label: "Hero · Botón principal", widget: object, fields: [ { name: label, widget: string }, { name: href, widget: string } ] }
+          - { name: heroCtaSecondary, label: "Hero · Botón secundario", widget: object, fields: [ { name: label, widget: string }, { name: href, widget: string } ] }
+          - { name: heroImage, label: "Hero · Imagen", widget: image }
+          - { name: heroImageAlt, label: "Hero · Texto alternativo", widget: string }
+          - { name: servicesTag, label: "Servicios · Etiqueta", widget: string }
+          - { name: servicesHeading, label: "Servicios · Titular", widget: string }
+          - { name: servicesHighlight, label: "Servicios · Palabra resaltada", widget: string, required: false }
+          - { name: servicesSubtitle, label: "Servicios · Subtítulo", widget: text }
+          - name: services
+            label: "Servicios (tarjetas del home)"
+            widget: list
+            fields:
+              - { name: icon, label: "Icono", widget: string }
+              - { name: title, label: "Título", widget: string }
+              - { name: desc, label: "Descripción", widget: text }
+              - { name: href, label: "Enlace", widget: string }
+          - { name: reasonsTag, label: "Por qué · Etiqueta", widget: string }
+          - { name: reasonsHeading, label: "Por qué · Titular", widget: string }
+          - { name: reasonsHighlight, label: "Por qué · Palabra resaltada", widget: string, required: false }
+          - name: reasons
+            label: "Razones"
+            widget: list
+            fields:
+              - { name: icon, label: "Icono", widget: string }
+              - { name: title, label: "Título", widget: string }
+              - { name: desc, label: "Descripción", widget: text }
+          - { name: ctaTag, label: "CTA · Etiqueta", widget: string }
+          - { name: ctaHeading, label: "CTA · Titular", widget: string }
+          - { name: ctaHighlight, label: "CTA · Palabra resaltada", widget: string, required: false }
+          - { name: ctaParagraph, label: "CTA · Párrafo", widget: text }
+          - { name: ctaButtonLabel, label: "CTA · Texto botón", widget: string }
+          - { name: ctaButtonIcon, label: "CTA · Icono botón", widget: string }
+
       - name: about
         label: "Nosotros"
         file: "src/content/pages/about.es.json"
+        format: json
+        fields:
+          - { name: title, label: "Título de pestaña (SEO)", widget: string }
+          - { name: heroTag, label: "Hero · Etiqueta", widget: string }
+          - { name: heroHeading, label: "Hero · Titular", widget: string }
+          - { name: heroHighlight, label: "Hero · Palabra resaltada", widget: string, required: false }
+          - { name: heroParagraph, label: "Hero · Párrafo", widget: text }
+          - { name: heroCtaPrimary, label: "Hero · Botón principal", widget: object, fields: [ { name: label, widget: string }, { name: href, widget: string } ] }
+          - { name: heroCtaSecondary, label: "Hero · Botón secundario", widget: object, fields: [ { name: label, widget: string }, { name: href, widget: string } ] }
+          - { name: heroImage, label: "Hero · Imagen", widget: image }
+          - { name: heroImageAlt, label: "Hero · Texto alternativo", widget: string }
+          - { name: aboutTag, label: "Esencia · Etiqueta", widget: string }
+          - { name: aboutHeading, label: "Esencia · Titular", widget: string }
+          - { name: aboutHighlight, label: "Esencia · Palabra resaltada", widget: string, required: false }
+          - { name: aboutImage, label: "Esencia · Imagen", widget: image }
+          - { name: aboutImageAlt, label: "Esencia · Texto alternativo", widget: string }
+          - { name: aboutBadgeValue, label: "Insignia · Valor", widget: string }
+          - { name: aboutBadgeLabel, label: "Insignia · Etiqueta", widget: string }
+          - { name: aboutParagraphs, label: "Esencia · Párrafos", widget: list, field: { name: text, label: "Párrafo", widget: text } }
+          - { name: aboutCtaLabel, label: "Esencia · Texto botón", widget: string }
+          - { name: statsTag, label: "Métricas · Etiqueta", widget: string }
+          - { name: statsHeading, label: "Métricas · Titular", widget: string }
+          - { name: statsHighlight, label: "Métricas · Palabra resaltada", widget: string, required: false }
+          - { name: statsParagraph, label: "Métricas · Párrafo", widget: text }
+          - name: stats
+            label: "Métricas"
+            widget: list
+            fields:
+              - { name: value, label: "Valor", widget: string }
+              - { name: label, label: "Etiqueta", widget: string }
+          - { name: teamTag, label: "Equipo · Etiqueta", widget: string }
+          - { name: teamHeading, label: "Equipo · Titular", widget: string }
+          - { name: teamHighlight, label: "Equipo · Palabra resaltada", widget: string, required: false }
+          - { name: teamQuote, label: "Equipo · Cita", widget: string }
+          - { name: teamCtaLabel, label: "Equipo · Texto botón", widget: string }
+          - name: team
+            label: "Equipo"
+            widget: list
+            fields:
+              - { name: name, label: "Nombre", widget: string }
+              - { name: role, label: "Cargo", widget: string }
+              - { name: img, label: "Foto", widget: image }
+
+      - name: about-en
+        label: "Nosotros (Inglés)"
+        file: "src/content/pages/about.en.json"
         format: json
         fields:
           - { name: title, label: "Título de pestaña (SEO)", widget: string }
@@ -226,6 +350,72 @@ collections:
               - { name: successHeading, label: "Éxito · Titular", widget: string }
               - { name: successText, label: "Éxito · Texto", widget: string }
 
+      - name: contact-en
+        label: "Contacto (Inglés)"
+        file: "src/content/pages/contact.en.json"
+        format: json
+        fields:
+          - { name: title, label: "Título de pestaña (SEO)", widget: string }
+          - { name: heroTag, label: "Hero · Etiqueta", widget: string }
+          - { name: heroHeading, label: "Hero · Titular", widget: string }
+          - { name: heroHighlight, label: "Hero · Palabra resaltada", widget: string, required: false }
+          - { name: heroParagraph, label: "Hero · Párrafo", widget: text }
+          - { name: heroImage, label: "Hero · Imagen", widget: image }
+          - { name: heroImageAlt, label: "Hero · Texto alternativo", widget: string }
+          - { name: formInfoHeading, label: "Formulario · Título", widget: string }
+          - { name: formInfoText, label: "Formulario · Texto", widget: text }
+          - { name: infoEmailLabel, label: "Info · Etiqueta email", widget: string }
+          - { name: infoHoursLabel, label: "Info · Etiqueta horario", widget: string }
+          - { name: socialHeading, label: "Info · Título redes sociales", widget: string }
+          - { name: submitLabel, label: "Formulario · Texto botón", widget: string }
+          - name: serviceOptions
+            label: "Opciones del select"
+            widget: list
+            fields:
+              - { name: value, label: "Valor", widget: string }
+              - { name: label, label: "Etiqueta", widget: string }
+          - { name: mapHeading, label: "Mapa · Título", widget: string }
+          - { name: mapText, label: "Mapa · Texto", widget: string }
+          - name: form
+            label: "Formulario · Campos y mensajes"
+            widget: object
+            fields:
+              - { name: nameLabel, label: "Nombre · Etiqueta", widget: string }
+              - { name: namePlaceholder, label: "Nombre · Placeholder", widget: string }
+              - { name: businessLabel, label: "Negocio · Etiqueta", widget: string }
+              - { name: businessPlaceholder, label: "Negocio · Placeholder", widget: string }
+              - { name: phoneLabel, label: "Teléfono · Etiqueta", widget: string }
+              - { name: phonePlaceholder, label: "Teléfono · Placeholder", widget: string }
+              - { name: emailLabel, label: "Email · Etiqueta", widget: string }
+              - { name: emailPlaceholder, label: "Email · Placeholder", widget: string }
+              - { name: serviceLabel, label: "Servicio · Etiqueta", widget: string }
+              - { name: servicePlaceholder, label: "Servicio · Placeholder (opción vacía)", widget: string }
+              - { name: messageLabel, label: "Mensaje · Etiqueta", widget: string }
+              - { name: messagePlaceholder, label: "Mensaje · Placeholder", widget: string }
+              - { name: errorMessage, label: "Mensaje de error", widget: string }
+              - { name: successHeading, label: "Éxito · Titular", widget: string }
+              - { name: successText, label: "Éxito · Texto", widget: string }
+
+      - name: gracias
+        label: "Gracias"
+        file: "src/content/pages/gracias.es.json"
+        format: json
+        fields:
+          - { name: title, label: "Título de pestaña (SEO)", widget: string }
+          - { name: heading, label: "Titular", widget: string }
+          - { name: paragraph, label: "Párrafo", widget: text }
+          - { name: ctaLabel, label: "Texto botón", widget: string }
+
+      - name: gracias-en
+        label: "Gracias (Inglés / Thank You)"
+        file: "src/content/pages/gracias.en.json"
+        format: json
+        fields:
+          - { name: title, label: "Título de pestaña (SEO)", widget: string }
+          - { name: heading, label: "Titular", widget: string }
+          - { name: paragraph, label: "Párrafo", widget: text }
+          - { name: ctaLabel, label: "Texto botón", widget: string }
+
       - name: alethig-media-os
         label: "Alethig Media OS (Próximamente)"
         file: "src/content/pages/alethig-media-os.es.json"
@@ -241,9 +431,24 @@ collections:
           - { name: ctaLabel, label: "Botón principal", widget: string }
           - { name: ctaSecondaryLabel, label: "Botón secundario", widget: string }
 
+      - name: alethig-media-os-en
+        label: "Alethig Media OS (Inglés / Coming Soon)"
+        file: "src/content/pages/alethig-media-os.en.json"
+        format: json
+        fields:
+          - { name: title, label: "Título de pestaña (SEO)", widget: string }
+          - { name: metaDescription, label: "Meta descripción (SEO)", widget: text }
+          - { name: heroTag, label: "Etiqueta", widget: string }
+          - { name: heading, label: "Titular", widget: string }
+          - { name: highlight, label: "Palabra resaltada", widget: string, required: false }
+          - { name: paragraph, label: "Párrafo", widget: text }
+          - { name: note, label: "Aclaración (nada disponible todavía)", widget: string }
+          - { name: ctaLabel, label: "Botón principal", widget: string }
+          - { name: ctaSecondaryLabel, label: "Botón secundario", widget: string }
+
   # ─────────── SERVICIOS UNIFORMES (features + planes) ───────────
   - name: services
-    label: "Servicios (features + planes)"
+    label: "Servicios (Español)"
     label_singular: "Servicio"
     editor:
       preview: false
@@ -257,6 +462,51 @@ collections:
     sortable_fields: [order, title]
     fields:
       - { name: title, label: "Nombre", widget: string }
+      - { name: order, label: "Orden", widget: number, value_type: int }
+      - { name: icon, label: "Icono", widget: string }
+      - { name: heroHeading, label: "Hero · Titular", widget: string }
+      - { name: heroHighlight, label: "Hero · Palabra resaltada", widget: string, required: false }
+      - { name: heroSub, label: "Hero · Subtítulo", widget: text }
+      - { name: heroCtaLabel, label: "Hero · Texto botón", widget: string }
+      - { name: image, label: "Imagen", widget: image }
+      - { name: imageAlt, label: "Texto alternativo", widget: string }
+      - name: features
+        label: "Características"
+        widget: list
+        fields:
+          - { name: icon, label: "Icono", widget: string }
+          - { name: title, label: "Título", widget: string }
+          - { name: desc, label: "Descripción", widget: text }
+      - name: plans
+        label: "Planes"
+        widget: list
+        fields:
+          - { name: name, label: "Nombre", widget: string }
+          - { name: sub, label: "Subtítulo", widget: string }
+          - { name: price, label: "Precio", widget: string }
+          - { name: featured, label: "¿Destacado?", widget: boolean, default: false }
+          - { name: features, label: "Incluye", widget: list, field: { name: item, label: "Ítem", widget: string } }
+      - { name: ctaHeading, label: "CTA · Titular", widget: string }
+      - { name: ctaText, label: "CTA · Texto", widget: text }
+      - { name: ctaButtonLabel, label: "CTA · Texto botón", widget: string }
+      - { name: ctaButtonIcon, label: "CTA · Icono botón", widget: string }
+
+  - name: services-en
+    label: "Servicios (Inglés)"
+    label_singular: "Service"
+    editor:
+      preview: false
+    folder: "src/content/services/en"
+    format: json
+    extension: json
+    create: true
+    identifier_field: title
+    slug: "{{fields.title | slugify}}"
+    summary: "{{order}} · {{title}}"
+    sortable_fields: [order, title]
+    fields:
+      - { name: title, label: "Nombre (Inglés)", widget: string }
+      - { name: urlSlug, label: "URL en inglés (p.ej. web-development)", widget: string }
       - { name: order, label: "Orden", widget: number, value_type: int }
       - { name: icon, label: "Icono", widget: string }
       - { name: heroHeading, label: "Hero · Titular", widget: string }

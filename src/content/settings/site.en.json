@@ -1,0 +1,29 @@
+{
+  "ctaLabel": "Free Consultation",
+  "nav": [
+    { "label": "Home", "href": "/" },
+    { "label": "About", "href": "/about" },
+    { "label": "Services", "href": "/#services" },
+    { "label": "Contact", "href": "/contact" }
+  ],
+  "contactHours": "Mon–Fri · 9:00 AM – 6:00 PM EST",
+  "whatsappMessage": "Hi Alethig Media, I'd like a free consultation.",
+  "footerTagline": "Long Island digital marketing agency. We grow local businesses online — in English and Spanish.",
+  "footerPages": [
+    { "label": "Home", "href": "/" },
+    { "label": "About", "href": "/about" },
+    { "label": "Services", "href": "/#services" },
+    { "label": "Contact", "href": "/contact" }
+  ],
+  "footerLinks": [
+    { "label": "Social Media", "href": "/services/social-media-management" },
+    { "label": "Video Production", "href": "/services/video-production" },
+    { "label": "Paid Advertising", "href": "/services/paid-advertising" },
+    { "label": "Web Development", "href": "/services/web-development" }
+  ],
+  "footerBottomLinks": [
+    { "label": "Contact", "href": "/contact" },
+    { "label": "WhatsApp", "href": "/contact" }
+  ],
+  "copyright": "© 2026 Alethig Media · Long Island, NY · All rights reserved."
+}

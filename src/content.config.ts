@@ -5,11 +5,19 @@ import { glob } from 'astro/loaders';
 // (agentes-ia, embudos-venta, creadores-ugc) son páginas propias y NO van aquí.
 //
 // Contenido bilingüe: cada idioma vive en su propia carpeta
-// (src/content/services/es/, src/content/services/en/ cuando exista),
-// una colección por idioma, mismo esquema. Fase 1 solo define la
-// colección en español — servicesEn se agrega junto con las rutas /en/.
+// (src/content/services/es/, src/content/services/en/), una colección
+// por idioma, mismo esquema. El id de la colección (nombre de archivo)
+// se mantiene igual entre idiomas a propósito — así se puede emparejar
+// un servicio ES con su equivalente EN por id, sin depender de la URL.
+//
+// urlSlug: solo lo usa el inglés. La URL pública en inglés
+// (/en/services/<urlSlug>) es distinta del id/nombre de archivo
+// (que se conserva en español, p.ej. "desarrollo-web", para el
+// emparejamiento); en español la URL pública SÍ es el id directamente,
+// por eso el campo queda opcional y sin uso ahí.
 const serviceSchema = z.object({
   title: z.string(),
+  urlSlug: z.string().optional(),
   metaDescription: z.string(),
   order: z.number(),
   icon: z.string(),
@@ -35,4 +43,12 @@ const servicesEs = defineCollection({
   schema: serviceSchema,
 });
 
-export const collections = { servicesEs };
+// Registrada para que el contenido en inglés se valide en cada build
+// (npm run build revisa su esquema aunque ninguna página la use todavía).
+// Las rutas /en/ que la consuman llegan en una fase aparte.
+const servicesEn = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/services/en' }),
+  schema: serviceSchema,
+});
+
+export const collections = { servicesEs, servicesEn };
