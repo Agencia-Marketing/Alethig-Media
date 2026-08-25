@@ -4,13 +4,14 @@
 
 Marketing site for **Alethig Media**, a digital-marketing agency in Long
 Island, NY (Amityville — Nassau + Suffolk counties). Bilingual service
-(English/Spanish), but the site itself is Spanish-only content — there is
-no English route or language switcher. Navy & gold glassmorphism design.
-Built with Astro 5 (server output) + Tailwind CSS v3, deployed to
-Cloudflare Workers via `@astrojs/cloudflare`. Content is edited through
-Decap CMS at `/admin` — see [`README.md`](README.md) for the fuller
-project write-up; this file is the quick-reference for making code
-changes correctly.
+(English/Spanish) — and the site itself is fully bilingual too: parallel
+`/es/` and `/en/` route trees, a manual language switcher, and browser-language
+detection at `/`. See **Bilingual Routing (ES/EN)** below for how that's
+wired. Navy & gold glassmorphism design. Built with Astro 5 (server
+output) + Tailwind CSS v3, deployed to Cloudflare Workers via
+`@astrojs/cloudflare`. Content is edited through Decap CMS at `/admin` —
+see [`README.md`](README.md) for the fuller project write-up; this file
+is the quick-reference for making code changes correctly.
 
 There is no `html/` standalone variant and no other template lineage —
 this is the only version of the site.
@@ -28,15 +29,18 @@ this is the only version of the site.
 - **Tailwind is v3**, not v4 — `@tailwind base/components/utilities`
   directives in `global.css`, JS config file, no CSS-first config.
 - **Content is CMS-driven JSON**, not hardcoded copy, wherever a Decap
-  field exists for it: `src/content/settings/site.json` (brand, nav,
-  footer, WhatsApp, social), `src/content/pages/*.json` (home, about,
-  contact, gracias), `src/content/services/*.json` (5 services, schema in
-  `src/content.config.ts`). The field list an editor sees in `/admin` is
-  defined in `public/admin/config.yml` and must stay in sync with what
-  each `.astro` page actually reads — a JSON field with no matching
-  `config.yml` entry can't be edited without a git change; a
-  `config.yml` entry with no matching template usage (this happened once
-  with `about.json`'s `team[].img`) silently does nothing.
+  field exists for it: `src/content/settings/site.json` (brand/contact/
+  WhatsApp/social facts, shared across both languages, never translated)
+  plus `site.es.json`/`site.en.json` (nav, footer, CTA copy — one per
+  language); `src/content/pages/<name>.es.json` / `<name>.en.json` (home,
+  about, contact, gracias/thank-you, alethig-media-os); `src/content/services/{es,en}/*.json`
+  (5 services × 2 languages, schema in `src/content.config.ts`). The
+  field list an editor sees in `/admin` is defined in
+  `public/admin/config.yml` and must stay in sync with what each `.astro`
+  page actually reads — a JSON field with no matching `config.yml` entry
+  can't be edited without a git change; a `config.yml` entry with no
+  matching template usage (this happened once with `about.json`'s
+  `team[].img`) silently does nothing.
 - **`astro preview` does not work with the Cloudflare adapter** — it
   errors immediately. To run the actual production build locally, use
   `npx wrangler dev` against `dist/` (after `npm run build`), not
@@ -182,15 +186,107 @@ source).
   behind a `PUBLIC_CF_BEACON_TOKEN` build-time env var — inert unless
   set (see `.env.example`).
 
+## Bilingual Routing (ES/EN)
+
+- Two parallel route trees, `src/pages/es/*` and `src/pages/en/*`, each a
+  full copy of the site in one language. **Slugs are translated, not
+  mirrored** — the ES and EN paths for the same page are deliberately
+  different strings:
+
+  | ES | EN |
+  |---|---|
+  | `/es/` | `/en/` |
+  | `/es/contacto/` | `/en/contact/` |
+  | `/es/nosotros/` | `/en/about/` |
+  | `/es/gracias/` (noindex) | `/en/thank-you/` (noindex) |
+  | `/es/alethig-media-os/` | `/en/alethig-media-os/` |
+  | `/es/servicios/desarrollo-web/` | `/en/services/web-development/` |
+  | `/es/servicios/diseno-de-marca/` | `/en/services/brand-design/` |
+  | `/es/servicios/manejo-de-redes-sociales/` | `/en/services/social-media-management/` |
+  | `/es/servicios/produccion-de-video/` | `/en/services/video-production/` |
+  | `/es/servicios/publicidad-pagada/` | `/en/services/paid-advertising/` |
+
+  This exact table is duplicated in three places that must stay in sync
+  if a slug ever changes: each page's own `altHref` prop passed to
+  `Layout`, the `LOCALE_PAIRS` array in `astro.config.mjs` (sitemap
+  hreflang), and the services' `urlSlug` field (English side only — the
+  Spanish public URL is the content-collection `id` directly, so the
+  same filename pairs `src/content/services/es/<id>.json` with
+  `src/content/services/en/<id>.json` regardless of the English
+  `urlSlug`).
+- `src/lib/basePath.ts`'s `withBase(base, href)` prefixes shared,
+  unprefixed hrefs from content JSON (`/contacto`, `/#servicios`, …) with
+  the active locale's base (`/es` or `/en`) at render time — this is why
+  content JSON hrefs are written without a locale prefix; never
+  hardcode `/es/...` or `/en/...` in a template except the language
+  switcher itself (see below), or an internal link will point outside
+  the visitor's current locale.
+- `Layout.astro` takes `locale` (`'es' | 'en'`, default `'es'`) and
+  `altHref` (the current page's equivalent URL in the *other* language —
+  every `/es/*` and `/en/*` page passes its own, per the table above).
+  From these it derives: `<html lang>`, which of `site.es.json` /
+  `site.en.json` supplies nav/footer/CTA copy, `og:locale`
+  (`es_US`/`en_US`), the hreflang `<link>` tags (see SEO below), and the
+  ES/EN switcher itself (desktop pill + mobile row) — clicking either
+  language sets a `pref_lang` cookie (1 year, `path=/`) and navigates
+  straight to `altHref`/the current page, never to the other language's
+  homepage. That cookie is the only thing that can override the
+  language a visitor lands on — the switcher itself never redirects
+  behind the scenes.
+- `src/pages/index.astro` (bare `/`) is a `prerender: false` dispatcher,
+  not a page: it reads `pref_lang`, falls back to `Accept-Language`, and
+  otherwise defaults to Spanish, then issues a 307 to `/es/` or `/en/`.
+  It must stay non-prerendered — a prerendered `/` is served as a static
+  file straight from Cloudflare's ASSETS binding, bypassing the Worker
+  (and this logic) entirely, the same reason the legacy redirects below
+  use Astro's `redirects` config instead of `src/middleware.ts`. `/es/`
+  and `/en/` are never redirected by this logic (only the bare `/` path
+  matches it) — crawlers and direct links always get the real page.
+- Legacy pre-bilingual URLs (`/contacto`, `/nosotros`, `/servicios/*`,
+  etc.) permanently 301-redirect to their `/es/...` equivalent via the
+  `redirects` map in `astro.config.mjs` — not middleware, for the same
+  prerender/ASSETS-binding reason as `/`.
+- `src/pages/api/contact.ts` reads a hidden `locale` form field (`es`/
+  `en`, set per-page) to pick the no-JS fallback redirect targets
+  (`/es/contacto/`↔`/es/gracias/` vs `/en/contact/`↔`/en/thank-you/`) —
+  these are full path pairs, not a shared prefix, because the path
+  segments themselves differ by language. The internal notification
+  email always stays in Spanish (business-internal, not visitor-facing)
+  but includes the visitor's locale as a line in the message.
+
 ## SEO
 
 - `astro.config.mjs` registers `@astrojs/sitemap`, filtered to exclude
-  `/gracias` (noindex) and `/api/*`. `public/robots.txt` points to it.
+  `/es/gracias/` and `/en/thank-you/` (both noindex) and `/api/*`.
+  Legacy redirect paths never appear in the sitemap on their own — the
+  integration only walks route-manifest entries of type `"page"`, and
+  redirects aren't that type. `public/robots.txt` points to it.
+- The sitemap also writes `<xhtml:link>` language-alternate entries per
+  page (`serialize` in `astro.config.mjs`, using the same `LOCALE_PAIRS`
+  table as the routing section above), **not** `@astrojs/sitemap`'s
+  built-in `i18n` option — that option pairs pages by matching the path
+  that remains after stripping the locale prefix, which only works when
+  both languages share the same slug. This site's slugs are translated
+  (`contacto`/`contact`, `desarrollo-web`/`web-development`, …), so the
+  built-in matching would silently drop alternates for 9 of the 10 page
+  pairs. If a page pair is ever added, add it to `LOCALE_PAIRS`, not to
+  an `i18n:` config block.
+- `Layout.astro` also emits per-page `<link rel="alternate" hreflang="…">`
+  tags (`es`, `en`, and `x-default` → `/`) built from the same
+  `locale`/`altHref` props as the switcher — reciprocal by construction,
+  since both pages of a pair reference each other's `altHref`. These are
+  emitted on every page including the two noindex thank-you pages
+  (hreflang and sitemap inclusion are independent: a page can declare
+  its language alternate without being crawlable itself).
 - `Layout.astro` emits an `AdvertisingAgency`/`LocalBusiness` JSON-LD
   block built only from fields present in `site.json` — it currently has
   **no street address, postal code, or geo coordinates**, because that
   data isn't in the repo. Don't invent placeholder values for these if
-  asked to "complete" the schema; get the real data first.
+  asked to "complete" the schema; get the real data first. The schema's
+  `description` field already follows the active locale (it's the same
+  `description` prop passed into `Layout` per page); the shared facts
+  (`site.json`) are intentionally identical text in both languages
+  (e.g. the "Amityville, Long Island, NY" place name).
 
 ## CMS (Decap)
 

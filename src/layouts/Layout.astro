@@ -130,6 +130,13 @@ businessSchema.openingHoursSpecification = {
   {noindex && <meta name="robots" content="noindex, nofollow" />}
   <title>{title}</title>
   <link rel="canonical" href={canonical} />
+  <!-- hreflang: cada página se declara a sí misma + su par en el otro
+       idioma (esHref/enHref, mismos valores que usa el selector ES/EN) +
+       x-default apuntando a "/" (el despachador de idioma). Recíproco por
+       construcción: ambas páginas del par comparten el mismo altHref. -->
+  <link rel="alternate" hreflang="es" href={new URL(esHref, Astro.url).href} />
+  <link rel="alternate" hreflang="en" href={new URL(enHref, Astro.url).href} />
+  <link rel="alternate" hreflang="x-default" href={siteRoot} />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
