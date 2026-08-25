@@ -4,11 +4,20 @@ import home from '../../content/pages/home.es.json';
 import { highlightHeading } from '../../lib/highlight';
 import { getSrcSet } from '../../lib/responsiveImage';
 import { withBase } from '../../lib/basePath';
+import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
 const BASE = '/es';
 const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
+
+// Testimonios (P2C-2a): la colección arranca vacía — sin entradas
+// publicadas, esta sección no renderiza absolutamente nada (ni título, ni
+// espacio en blanco). Cuando existan testimonios reales aparecerán aquí
+// solos, sin tocar esta plantilla.
+const testimonials = (await getCollection('testimonialsEs'))
+  .filter(t => t.data.published)
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
 ---
 <Layout title={home.title} description={home.metaDescription} image={home.heroImage} base={BASE} locale="es" altHref="/en/">
 
@@ -106,6 +115,47 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
       </div>
     </div>
   </section>
+
+  <!-- TESTIMONIOS: nada se renderiza mientras la colección esté vacía. -->
+  {testimonials.length > 0 && (
+    <section id="testimonios" class="bg-bg-depth py-section-py-sm md:py-section-py-lg">
+      <div class="max-w-container-max mx-auto px-gutter">
+        <div class="text-center mb-14 reveal">
+          <h2 class="font-display text-headline-lg-mobile md:text-headline-lg">Lo Que Dicen Nuestros Clientes</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger-fade">
+          {testimonials.map(t => (
+            <div class={`glass card-cyber rounded-2xl p-7 flex flex-col ${t.data.featured ? 'lumen-border' : ''}`}>
+              {t.data.rating && (
+                <div class="flex gap-1 mb-4" aria-label={`${t.data.rating} de 5`}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span class="material-symbols-outlined text-accent text-lg" aria-hidden="true">{i < t.data.rating! ? 'star' : 'star_outline'}</span>
+                  ))}
+                </div>
+              )}
+              <p class="text-text-secondary text-sm leading-relaxed mb-6 flex-1">"{t.data.quote}"</p>
+              <div class="flex items-center gap-3">
+                {t.data.photo && (
+                  <img
+                    src={t.data.photo}
+                    srcset={getSrcSet(t.data.photo)}
+                    sizes="64px"
+                    alt={t.data.clientName}
+                    class="w-12 h-12 rounded-full object-cover media-bright flex-shrink-0"
+                    loading="lazy"
+                  />
+                )}
+                <div>
+                  <p class="font-display font-bold text-text-primary text-sm">{t.data.clientName}</p>
+                  {t.data.businessName && <p class="text-text-dim text-xs">{t.data.businessName}</p>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- CTA STRIP -->
   <section class="bg-bg-depth py-section-py-sm">

@@ -65,4 +65,37 @@ const servicesEn = defineCollection({
   schema: serviceSchema,
 });
 
-export const collections = { servicesEs, servicesEn };
+// Testimonios (P2C-2a — solo infraestructura, sin contenido real ni de
+// prueba todavía). Mismo patrón bilingüe que los servicios: una carpeta
+// por idioma, mismo esquema, ambas colecciones arrancan vacías (solo un
+// .gitkeep, sin JSON) — getCollection() sobre una carpeta vacía devuelve
+// un array vacío, no un error, así que el build valida igual sin contenido.
+//
+// `published` por defecto es false a propósito: un testimonio cargado en
+// el CMS nunca aparece en el sitio hasta que alguien lo marque publicado
+// explícitamente — evita que un borrador se publique por accidente.
+const testimonialSchema = z.object({
+  clientName: z.string(),
+  businessName: z.string().optional(),
+  quote: z.string(),
+  rating: z.number().min(1).max(5).optional(),
+  photo: z.string().optional(),
+  // id de la colección de servicios (p.ej. "desarrollo-web" en ES,
+  // "web-development" en EN) — mismo valor que ya usa cada plantilla de
+  // servicio para engancharse a un enlace, sin acoplar el esquema a esa
+  // colección.
+  relatedService: z.string().optional(),
+  featured: z.boolean().default(false),
+  published: z.boolean().default(false),
+});
+
+const testimonialsEs = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/testimonials/es' }),
+  schema: testimonialSchema,
+});
+const testimonialsEn = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/testimonials/en' }),
+  schema: testimonialSchema,
+});
+
+export const collections = { servicesEs, servicesEn, testimonialsEs, testimonialsEn };

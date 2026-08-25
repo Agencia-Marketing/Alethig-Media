@@ -580,3 +580,50 @@ collections:
       - { name: ctaButtonLabel, label: "CTA · Texto botón", widget: string }
       - { name: ctaButtonIcon, label: "CTA · Icono botón", widget: string }
 
+  # ─────────── TESTIMONIOS (bilingüe, P2C-2a — infraestructura) ───────────
+  # Ambas colecciones arrancan vacías a propósito: nada se publica en el
+  # sitio hasta que un testimonio real se cargue aquí Y se marque
+  # "¿Publicado?" — ver el campo `published` y su default en content.config.ts.
+  - name: testimonials
+    label: "Testimonios (Español)"
+    label_singular: "Testimonio"
+    editor:
+      preview: false
+    folder: "src/content/testimonials/es"
+    format: json
+    extension: json
+    create: true
+    identifier_field: clientName
+    slug: "{{fields.clientName | slugify}}"
+    summary: "{{clientName}} · {{businessName}}"
+    fields:
+      - { name: clientName, label: "Nombre del cliente", widget: string }
+      - { name: businessName, label: "Negocio", widget: string, required: false }
+      - { name: quote, label: "Testimonio", widget: text }
+      - { name: rating, label: "Calificación (1 a 5)", widget: number, value_type: int, min: 1, max: 5, required: false }
+      - { name: photo, label: "Foto", widget: image, required: false }
+      - { name: relatedService, label: "Servicio relacionado (id, p.ej. desarrollo-web)", widget: string, required: false }
+      - { name: featured, label: "¿Destacado?", widget: boolean, default: false }
+      - { name: published, label: "¿Publicado? (no aparece en el sitio hasta marcar esto)", widget: boolean, default: false }
+
+  - name: testimonials-en
+    label: "Testimonials (Inglés)"
+    label_singular: "Testimonial"
+    editor:
+      preview: false
+    folder: "src/content/testimonials/en"
+    format: json
+    extension: json
+    create: true
+    identifier_field: clientName
+    slug: "{{fields.clientName | slugify}}"
+    summary: "{{clientName}} · {{businessName}}"
+    fields:
+      - { name: clientName, label: "Client Name", widget: string }
+      - { name: businessName, label: "Business", widget: string, required: false }
+      - { name: quote, label: "Testimonial", widget: text }
+      - { name: rating, label: "Rating (1 to 5)", widget: number, value_type: int, min: 1, max: 5, required: false }
+      - { name: photo, label: "Photo", widget: image, required: false }
+      - { name: relatedService, label: "Related service (id, e.g. web-development)", widget: string, required: false }
+      - { name: featured, label: "Featured?", widget: boolean, default: false }
+      - { name: published, label: "Published? (won't appear on the site until this is checked)", widget: boolean, default: false }
