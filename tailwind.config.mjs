@@ -12,6 +12,15 @@ export default {
       },
       fontSize: {
         'display-hero':        ['72px', { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '800' }],
+        // Intermediate tier for the 768–1279px range (Tailwind's md through
+        // lg, before xl kicks in at 1280px — matching the container's own
+        // max-w-container-max, where the two-column grid finally reaches
+        // its full 1280px width). Below that, the hero's grid columns stay
+        // narrower than 72px needs, and the longest word in either
+        // language's headline ("BUSINESSES") overflows into the image
+        // column — tested empirically at 768/820/1000/1024/1152/1279px for
+        // both locales before picking 46px. See homepage h1 classes.
+        'display-hero-tablet':  ['46px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '800' }],
         'display-hero-mobile': ['34px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '800' }],
         'headline-lg':         ['48px', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '700' }],
         'headline-lg-mobile':  ['30px', { lineHeight: '1.2',  letterSpacing: '-0.01em', fontWeight: '700' }],

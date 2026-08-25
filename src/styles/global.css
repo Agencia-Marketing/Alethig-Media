@@ -109,6 +109,23 @@
     var(--bg-depth);
 }
 
+/* ---- Homepage hero background (Visual P1.5) ----
+   A hero-only variant of .mesh-bg: same navy/indigo/gold family (reuses
+   rgba(27,42,107,…), the same rgb as --grad-indigo, and --bg-depth as the
+   base instead of --bg-void — no new hex values), but deliberately
+   lighter — stronger/larger indigo layers, plus a top-band wash so the
+   fixed nav sitting over the hero doesn't read as near-black. Scoped to
+   the homepage hero only; every other page's hero keeps .mesh-bg as-is. */
+.mesh-bg-hero {
+  background:
+    linear-gradient(180deg, rgba(27,42,107,0.60) 0%, rgba(27,42,107,0.22) 40%, transparent 72%),
+    radial-gradient(ellipse 78% 62% at 18% 20%, rgba(27,42,107,0.55) 0%, transparent 66%),
+    radial-gradient(ellipse 60% 50% at 88% 12%, rgba(216,166,42,0.10) 0%, transparent 58%),
+    radial-gradient(ellipse 65% 55% at 80% 78%, rgba(27,42,107,0.38) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 40% at 50% 55%, rgba(216,166,42,0.05) 0%, transparent 70%),
+    var(--bg-depth);
+}
+
 /* ---- Elevated section (Visual P1) ----
    Genuinely lighter than .mesh-bg / bg-bg-depth (which sit only ~13/255
    apart in raw value and don't read as a real break) — reuses the
