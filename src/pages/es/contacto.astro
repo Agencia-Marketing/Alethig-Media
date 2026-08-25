@@ -1,19 +1,20 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import contact from '../content/pages/contact.es.json';
-import site from '../content/settings/site.json';
-import siteEs from '../content/settings/site.es.json';
-import { highlightHeading } from '../lib/highlight';
-import { getSrcSet } from '../lib/responsiveImage';
+import Layout from '../../layouts/Layout.astro';
+import contact from '../../content/pages/contact.es.json';
+import site from '../../content/settings/site.json';
+import siteEs from '../../content/settings/site.es.json';
+import { highlightHeading } from '../../lib/highlight';
+import { getSrcSet } from '../../lib/responsiveImage';
 
 export const prerender = true;
 
+const BASE = '/es';
 const { email } = site.contact;
 const { social } = site;
 const { contactHours: phone } = siteEs;
 const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
 ---
-<Layout title={contact.title} description={contact.metaDescription} image={contact.heroImage}>
+<Layout title={contact.title} description={contact.metaDescription} image={contact.heroImage} base={BASE}>
 
   <!-- HERO -->
   <section class="mesh-bg relative pt-32 pb-section-py-sm overflow-hidden">
@@ -103,6 +104,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
               <span class="material-symbols-outlined text-sm" aria-hidden="true">error</span> {contact.form.errorMessage}
             </div>
             <form id="contact-form" class="space-y-5" method="POST" action="/api/contact" novalidate>
+              <input type="hidden" name="locale" value="es" />
               <div class="absolute left-[-9999px]" aria-hidden="true">
                 <label>No llenar<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
               </div>

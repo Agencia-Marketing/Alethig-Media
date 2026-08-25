@@ -1,11 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import os from '../content/pages/alethig-media-os.es.json';
-import { highlightHeading } from '../lib/highlight';
+import Layout from '../../layouts/Layout.astro';
+import os from '../../content/pages/alethig-media-os.es.json';
+import { highlightHeading } from '../../lib/highlight';
+import { withBase } from '../../lib/basePath';
 
 export const prerender = true;
+
+const BASE = '/es';
 ---
-<Layout title={os.title} description={os.metaDescription}>
+<Layout title={os.title} description={os.metaDescription} base={BASE}>
   <section class="mesh-bg relative pt-32 pb-section-py-lg overflow-hidden min-h-[70vh] flex items-center">
     <div class="absolute top-1/4 right-1/3 w-72 h-72 rounded-full bg-accent/5 blur-[100px] pointer-events-none"></div>
     <div class="absolute bottom-1/4 left-1/4 w-64 h-64 rounded-full bg-grad-violet/10 blur-[100px] pointer-events-none"></div>
@@ -26,10 +29,10 @@ export const prerender = true;
           {os.note}
         </p>
         <div class="flex flex-wrap items-center justify-center gap-4">
-          <a href="/contacto" class="btn-cyber-solid magnetic press inline-flex">
+          <a href={withBase(BASE, '/contacto')} class="btn-cyber-solid magnetic press inline-flex">
             <span class="icon-wrap">{os.ctaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span></span>
           </a>
-          <a href="/" class="btn-ghost magnetic press">{os.ctaSecondaryLabel}</a>
+          <a href={withBase(BASE, '/')} class="btn-ghost magnetic press">{os.ctaSecondaryLabel}</a>
         </div>
       </div>
     </div>

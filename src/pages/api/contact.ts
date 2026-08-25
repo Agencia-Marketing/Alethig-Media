@@ -28,13 +28,18 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     request.headers.get('accept')?.includes('application/json') ||
     request.headers.get('x-requested-with') === 'fetch';
 
+  // Base de idioma para los redirects del fallback sin JS. Por ahora solo
+  // existe /es/contacto — el campo oculto "locale" del formulario deja esto
+  // listo para /en/contact cuando esa página exista (fase de rutas en inglés).
+  let localeBase = '/es';
+
   const fail = (status: number, error: string) =>
     wantsJson
       ? new Response(JSON.stringify({ ok: false, error }), {
           status,
           headers: { 'content-type': 'application/json' },
         })
-      : redirect('/contacto?error=1', 303);
+      : redirect(`${localeBase}/contacto/?error=1`, 303);
 
   // --- Parse (JSON, urlencoded o FormData) ---
   let data: Record<string, string> = {};
@@ -52,6 +57,7 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
   } catch {
     return fail(400, 'Solicitud inválida.');
   }
+  if (data.locale === 'en') localeBase = '/en';
 
   // --- Honeypot: si el bot rellenó "website", fingir éxito sin guardar ni enviar ---
   if (data.website) {
@@ -59,7 +65,7 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
       ? new Response(JSON.stringify({ ok: true }), {
           headers: { 'content-type': 'application/json' },
         })
-      : redirect('/gracias', 303);
+      : redirect(`${localeBase}/gracias/`, 303);
   }
 
   // --- Turnstile: verificar token anti-bot server-side ---
@@ -154,5 +160,5 @@ export const POST: APIRoute = async ({ request, locals, redirect }) => {
     ? new Response(JSON.stringify({ ok: true }), {
         headers: { 'content-type': 'application/json' },
       })
-    : redirect('/gracias', 303);
+    : redirect(`${localeBase}/gracias/`, 303);
 };
