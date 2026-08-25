@@ -39,5 +39,40 @@
     "errorMessage": "Hubo un problema. Intenta de nuevo.",
     "successHeading": "¡Mensaje enviado!",
     "successText": "Gracias. Te responderemos muy pronto."
-  }
+  },
+  "faqHeading": "Preguntas Frecuentes",
+  "faq": [
+    {
+      "question": "¿Atienden negocios en Nassau y Suffolk County?",
+      "answer": "Sí. Atendemos a negocios locales en todo Long Island, incluyendo Nassau y Suffolk County. Trabajamos de forma presencial y remota según el servicio."
+    },
+    {
+      "question": "¿Ofrecen atención en español?",
+      "answer": "Sí. Alethig Media es una agencia bilingüe. Todo nuestro contenido, estrategias y atención al cliente están disponibles en español e inglés — una ventaja clave para negocios latinos de Long Island."
+    },
+    {
+      "question": "¿Los contratos son mensuales o requieren un mínimo de tiempo?",
+      "answer": "Nuestros servicios recurrentes (redes sociales, publicidad, agentes de IA) requieren un compromiso mínimo de 6 meses. El marketing digital es un proceso acumulativo: la mayoría de nuestros clientes comienza a ver resultados medibles — más tráfico, mensajes y llamadas — entre el mes 3 y el mes 6, dependiendo del servicio, la competencia en su mercado y el presupuesto de inversión publicitaria. Por eso recomendamos y requerimos este periodo: es el tiempo necesario para que la estrategia madure y se optimice con datos reales. Proyectos de entrega única (logotipo, sitio web, video) no requieren contrato de permanencia — se manejan por pago único o por etapas."
+    },
+    {
+      "question": "Si quiero cancelar, ¿cómo funciona?",
+      "answer": "Puede cancelar en cualquier momento después de cumplir el periodo mínimo de 6 meses, con un aviso de 15 a 30 días antes del siguiente ciclo de facturación. Si la cancelación ocurre antes de completar los 6 meses, se aplicará el pago del saldo restante del contrato o una penalización equivalente, según lo acordado al momento de la contratación."
+    },
+    {
+      "question": "Cuando terminan un proyecto (logo, sitio web, contenido), ¿soy dueño de los archivos?",
+      "answer": "Sí. Una vez completado el pago total, usted es dueño de todos los entregables finales (logo, diseños, contenido, sitio web). Las plantillas internas, sistemas de trabajo y accesos a plataformas de terceros (como Canva Pro, HighLevel/GHL o cuentas publicitarias) permanecen bajo licencia de Alethig Media o del proveedor correspondiente."
+    },
+    {
+      "question": "¿Cuántos cambios o revisiones están incluidos?",
+      "answer": "Cada servicio incluye un número definido de rondas de revisión (por ejemplo: 1 ronda para logotipos, 1-2 rondas por etapa en diseño web). Cambios adicionales o rediseños completos de piezas ya aprobadas tienen un costo extra, que se cotiza según el proyecto. Los tiempos de aprobación del cliente también están definidos: si no recibimos respuesta o material solicitado dentro del plazo acordado, el proyecto se pausa y el cronograma se ajusta."
+    },
+    {
+      "question": "¿Prometen resultados específicos o en un plazo determinado?",
+      "answer": "No garantizamos resultados específicos (número de leads, ventas o posición en buscadores), ya que estos dependen del servicio, mercado, competencia y presupuesto invertido. Sin embargo, con base en nuestra experiencia, la mayoría de los clientes ve avances medibles entre el mes 3 y el mes 6 de trabajo constante."
+    },
+    {
+      "question": "¿Qué pasa en la consulta gratuita de 15 minutos?",
+      "answer": "Es una llamada sin compromiso donde: conocemos su negocio y objetivos → identificamos sus necesidades de marketing → le recomendamos los servicios más adecuados → explicamos los próximos pasos. Al finalizar, si decide continuar, le enviamos una propuesta personalizada."
+    }
+  ]
 }

@@ -361,6 +361,13 @@ collections:
               - { name: errorMessage, label: "Mensaje de error", widget: string }
               - { name: successHeading, label: "Éxito · Titular", widget: string }
               - { name: successText, label: "Éxito · Texto", widget: string }
+          - { name: faqHeading, label: "FAQ · Titular", widget: string }
+          - name: faq
+            label: "FAQ · Preguntas"
+            widget: list
+            fields:
+              - { name: question, label: "Pregunta", widget: string }
+              - { name: answer, label: "Respuesta", widget: text }
 
       - name: contact-en
         label: "Contacto (Inglés)"
@@ -407,6 +414,13 @@ collections:
               - { name: errorMessage, label: "Mensaje de error", widget: string }
               - { name: successHeading, label: "Éxito · Titular", widget: string }
               - { name: successText, label: "Éxito · Texto", widget: string }
+          - { name: faqHeading, label: "FAQ · Titular", widget: string }
+          - name: faq
+            label: "FAQ · Preguntas"
+            widget: list
+            fields:
+              - { name: question, label: "Pregunta", widget: string }
+              - { name: answer, label: "Respuesta", widget: text }
 
       - name: gracias
         label: "Gracias"
