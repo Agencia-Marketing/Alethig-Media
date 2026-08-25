@@ -100,7 +100,12 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
         <div class="reveal">
           <div class="glass lumen-border rounded-2xl p-8">
             <div id="form-wrap">
-            <div id="form-error" class="hidden tag-cyber !text-red-300 !border-red-400/30 mb-4">
+            <!-- !hidden (with important), not hidden: .tag-cyber also sets
+                 display (inline-flex) and, since it compiles after
+                 Tailwind's utilities, wins the specificity tie against the
+                 "hidden" utility — the banner stayed visible always, even
+                 on a fresh visit with no ?error=1. -->
+            <div id="form-error" class="!hidden tag-cyber !text-red-300 !border-red-400/30 mb-4">
               <span class="material-symbols-outlined text-sm" aria-hidden="true">error</span> {contact.form.errorMessage}
             </div>
             <form id="contact-form" class="space-y-5" method="POST" action="/api/contact" novalidate>
@@ -212,11 +217,11 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
     const btn = form?.querySelector('button[type=submit]') as HTMLButtonElement | null;
 
     // Show error if the no-JS fallback redirected with ?error=1
-    if (new URLSearchParams(location.search).get('error') === '1') err?.classList.remove('hidden');
+    if (new URLSearchParams(location.search).get('error') === '1') err?.classList.remove('!hidden');
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      err?.classList.add('hidden');
+      err?.classList.add('!hidden');
       if (btn) { btn.disabled = true; btn.classList.add('opacity-60'); }
       try {
         const res = await fetch('/api/contact', {
@@ -233,7 +238,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
           throw new Error(data.error || 'fail');
         }
       } catch {
-        err?.classList.remove('hidden');
+        err?.classList.remove('!hidden');
         // Turnstile token is single-use: reset it to allow retrying.
         (window as any).turnstile?.reset();
       } finally {
