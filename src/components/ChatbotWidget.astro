@@ -1,0 +1,504 @@
+---
+// Chatbot V1 — widget flotante compacto. Historial de conversación:
+// SOLO sessionStorage (nada de servidor/DB), con una clave POR IDIOMA
+// (spec aprobada, adjuste 2) para que cambiar de /es/ a /en/ nunca
+// reutilice ni mezcle el historial del otro idioma.
+interface Props {
+  locale: 'es' | 'en';
+  // Enlace de Contacto ya resuelto (con base de idioma aplicada) y enlace
+  // de WhatsApp ya resuelto (mismos valores que ya usa el botón flotante
+  // de WhatsApp en Layout.astro) — se reutilizan tal cual en el fallback
+  // de error, sin inventar copy ni rutas nuevas.
+  contactHref: string;
+  waHref: string | null;
+}
+const { locale, contactHref, waHref } = Astro.props;
+
+const STRINGS = {
+  es: {
+    openLabel: 'Abrir chat de Alethig Media',
+    closeLabel: 'Cerrar chat',
+    panelLabel: 'Chat de Alethig Media',
+    inputLabel: 'Escribe tu mensaje',
+    placeholder: 'Escribe tu pregunta…',
+    sendLabel: 'Enviar mensaje',
+    disclaimer: 'Puede cometer errores. Para cotizaciones exactas, contáctanos.',
+    greeting: 'Hola 👋 ¿En qué puedo ayudarte sobre nuestros servicios, precios o la consulta gratuita?',
+    fallback: 'No pudimos responder en este momento. La página sigue funcionando normalmente.',
+    rateLimited: 'Estás enviando mensajes muy rápido. Espera un momento y vuelve a intentar.',
+    contactCta: 'Contáctanos',
+    whatsappCta: 'Escríbenos por WhatsApp',
+  },
+  en: {
+    openLabel: 'Open Alethig Media chat',
+    closeLabel: 'Close chat',
+    panelLabel: 'Alethig Media chat',
+    inputLabel: 'Type your message',
+    placeholder: 'Type your question…',
+    sendLabel: 'Send message',
+    disclaimer: 'May make mistakes. For exact quotes, contact us.',
+    greeting: 'Hi 👋 What would you like to know about our services, pricing, or the free consultation?',
+    fallback: "We couldn't reply right now. The rest of the page still works normally.",
+    rateLimited: "You're sending messages too fast. Please wait a moment and try again.",
+    contactCta: 'Contact us',
+    whatsappCta: 'Message us on WhatsApp',
+  },
+} as const;
+const t = STRINGS[locale] ?? STRINGS.es;
+---
+
+<div class="chat-widget" data-chat-root>
+  <button
+    id="chat-launcher"
+    class="chat-launcher"
+    type="button"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="chat-panel"
+    aria-label={t.openLabel}
+  >
+    <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+  </button>
+
+  <div id="chat-panel" class="chat-panel hidden" role="dialog" aria-modal="false" aria-label={t.panelLabel} aria-hidden="true">
+    <div class="chat-header">
+      <span class="chat-header-title">Alethig Media</span>
+      <button id="chat-close" class="chat-close" type="button" aria-label={t.closeLabel}>
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </div>
+
+    <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+
+    <div id="chat-typing" class="chat-typing hidden" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+
+    <form id="chat-form" class="chat-form" autocomplete="off">
+      <label for="chat-input" class="sr-only">{t.inputLabel}</label>
+      <input id="chat-input" name="message" type="text" maxlength="500" placeholder={t.placeholder} />
+      <button type="submit" class="chat-send" aria-label={t.sendLabel}>
+        <span class="material-symbols-outlined" aria-hidden="true">send</span>
+      </button>
+    </form>
+    <p class="chat-disclaimer">{t.disclaimer}</p>
+  </div>
+</div>
+
+<script define:vars={{ locale, contactHref, waHref, t }}>
+  (function () {
+    var STORAGE_KEY = 'alethig-chat-' + locale; // historial separado por idioma (alethig-chat-es / alethig-chat-en)
+    var MAX_HISTORY = 16;
+    var MAX_MSG_LEN = 500;
+    var REQUEST_TIMEOUT_MS = 20000;
+
+    var root = document.querySelector('[data-chat-root]');
+    var launcher = document.getElementById('chat-launcher');
+    var panel = document.getElementById('chat-panel');
+    var closeBtn = document.getElementById('chat-close');
+    var messagesEl = document.getElementById('chat-messages');
+    var typingEl = document.getElementById('chat-typing');
+    var form = document.getElementById('chat-form');
+    var input = document.getElementById('chat-input');
+    if (!root || !launcher || !panel || !closeBtn || !messagesEl || !typingEl || !form || !input) return;
+
+    function loadHistory() {
+      try {
+        var raw = sessionStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        var parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed
+          .filter(function (m) {
+            return (
+              m &&
+              (m.role === 'user' || m.role === 'assistant') &&
+              typeof m.content === 'string' &&
+              m.content.length > 0 &&
+              m.content.length <= MAX_MSG_LEN
+            );
+          })
+          .slice(-MAX_HISTORY);
+      } catch (e) {
+        return [];
+      }
+    }
+    function saveHistory(history) {
+      try {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-MAX_HISTORY)));
+      } catch (e) {
+        /* sessionStorage no disponible (privado/bloqueado) — el chat sigue funcionando, solo sin persistencia */
+      }
+    }
+
+    var history = loadHistory();
+
+    // Nunca innerHTML: ni la entrada del usuario ni la respuesta del modelo
+    // se interpretan como marcado — siempre textContent.
+    function renderMessage(role, content) {
+      var div = document.createElement('div');
+      div.className = 'chat-msg chat-msg-' + role;
+      div.textContent = content;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function renderFallback(text, showCtas) {
+      var div = document.createElement('div');
+      div.className = 'chat-msg chat-msg-assistant chat-msg-fallback';
+      div.textContent = text;
+      messagesEl.appendChild(div);
+      if (showCtas) {
+        var ctas = document.createElement('div');
+        ctas.className = 'chat-fallback-ctas';
+        var a1 = document.createElement('a');
+        a1.href = contactHref;
+        a1.textContent = t.contactCta;
+        ctas.appendChild(a1);
+        if (waHref) {
+          var a2 = document.createElement('a');
+          a2.href = waHref;
+          a2.target = '_blank';
+          a2.rel = 'noopener';
+          a2.textContent = t.whatsappCta;
+          ctas.appendChild(a2);
+        }
+        messagesEl.appendChild(ctas);
+      }
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // El saludo es solo UI (no se guarda en el historial ni se reenvía a
+    // la API como si fuera una respuesta real del modelo).
+    if (history.length === 0) {
+      renderMessage('assistant', t.greeting);
+    } else {
+      for (var i = 0; i < history.length; i++) renderMessage(history[i].role, history[i].content);
+    }
+
+    var lastFocused = null;
+    var mqMobile = window.matchMedia('(max-width: 480px)');
+
+    function openPanel() {
+      lastFocused = document.activeElement;
+      panel.classList.remove('hidden');
+      panel.setAttribute('aria-hidden', 'false');
+      launcher.setAttribute('aria-expanded', 'true');
+      if (mqMobile.matches) document.body.classList.add('chat-open');
+      input.focus();
+    }
+    function closePanel() {
+      panel.classList.add('hidden');
+      panel.setAttribute('aria-hidden', 'true');
+      launcher.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('chat-open');
+      (lastFocused || launcher).focus();
+    }
+
+    launcher.addEventListener('click', function () {
+      if (panel.classList.contains('hidden')) openPanel();
+      else closePanel();
+    });
+    closeBtn.addEventListener('click', closePanel);
+    panel.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closePanel();
+    });
+
+    var sending = false;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (sending) return;
+      var raw = input.value.trim();
+      if (!raw || raw.length > MAX_MSG_LEN) return;
+      input.value = '';
+      sending = true;
+
+      renderMessage('user', raw);
+      var historyForRequest = history.slice(-MAX_HISTORY);
+      history.push({ role: 'user', content: raw });
+      saveHistory(history);
+      typingEl.classList.remove('hidden');
+
+      var controller = new AbortController();
+      var timeoutId = setTimeout(function () {
+        controller.abort();
+      }, REQUEST_TIMEOUT_MS);
+
+      fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ locale: locale, message: raw, history: historyForRequest }),
+        signal: controller.signal,
+      })
+        .then(function (res) {
+          clearTimeout(timeoutId);
+          typingEl.classList.add('hidden');
+          if (res.status === 429) {
+            renderFallback(t.rateLimited, false);
+            return null;
+          }
+          if (!res.ok) {
+            renderFallback(t.fallback, true);
+            return null;
+          }
+          return res.json().catch(function () {
+            return null;
+          });
+        })
+        .then(function (data) {
+          if (data && data.ok && typeof data.reply === 'string') {
+            renderMessage('assistant', data.reply);
+            history.push({ role: 'assistant', content: data.reply });
+            saveHistory(history);
+          } else if (data === undefined) {
+            // ya se manejó arriba (429 / !res.ok)
+          } else if (data !== null) {
+            renderFallback(t.fallback, true);
+          }
+        })
+        .catch(function () {
+          clearTimeout(timeoutId);
+          typingEl.classList.add('hidden');
+          renderFallback(t.fallback, true);
+        })
+        .finally(function () {
+          sending = false;
+        });
+    });
+  })();
+</script>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Lanzador: circular, dorado, apilado justo encima del botón de WhatsApp
+     (que vive en Layout.astro: right/bottom 1.25rem desktop, 1rem en
+     ≤480px). Mismo eje horizontal, con espacio suficiente para no tocarlo. */
+  .chat-launcher {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 5.5rem;
+    z-index: 61;
+    width: 52px;
+    height: 52px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: var(--bg-void);
+    border: none;
+    box-shadow: var(--accent-glow);
+    cursor: pointer;
+    transition: transform 0.25s var(--ease-out-expo), box-shadow 0.25s var(--ease-out-expo);
+  }
+  .chat-launcher:hover { transform: translateY(-2px); box-shadow: var(--accent-glow-strong); }
+  .chat-launcher .material-symbols-outlined { font-size: 26px; }
+
+  @media (max-width: 480px) {
+    .chat-launcher { right: 1rem; bottom: 4.75rem; width: 48px; height: 48px; }
+  }
+
+  @keyframes chat-launcher-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .chat-launcher { animation: chat-launcher-in 0.5s var(--ease-out-expo) 0.35s both; }
+  }
+
+  /* Cuando el panel está abierto en móvil angosto, ocultar el propio
+     lanzador (el panel ocupa ese espacio) — el WhatsApp float se oculta
+     desde su propia regla en Layout.astro (body.chat-open). */
+  @media (max-width: 480px) {
+    :global(body.chat-open) .chat-launcher { display: none; }
+  }
+
+  .chat-panel {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 9.5rem;
+    z-index: 62;
+    width: min(360px, calc(100vw - 2.5rem));
+    max-height: min(70vh, 560px);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-depth);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-glass-lg);
+    overflow: hidden;
+    transition: opacity 0.3s var(--ease-out-expo), transform 0.3s var(--ease-out-expo);
+  }
+  .chat-panel.hidden { display: none; }
+
+  @media (max-width: 480px) {
+    .chat-panel {
+      right: 0.5rem;
+      left: 0.5rem;
+      bottom: 0.5rem;
+      width: auto;
+      max-height: min(75vh, 520px);
+    }
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--glass-border);
+    flex-shrink: 0;
+  }
+  .chat-header-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+  }
+  .chat-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    padding: 0.25rem;
+    border-radius: 8px;
+    transition: color 0.2s var(--ease-out-expo);
+  }
+  .chat-close:hover { color: var(--text-primary); }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-height: 180px;
+  }
+  .chat-msg {
+    max-width: 85%;
+    padding: 0.55rem 0.8rem;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .chat-msg-user {
+    align-self: flex-end;
+    background: var(--accent-dim);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
+    color: var(--text-primary);
+  }
+  .chat-msg-assistant {
+    align-self: flex-start;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+  }
+  .chat-msg-fallback { border-style: dashed; }
+  .chat-fallback-ctas {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: -0.2rem;
+  }
+  .chat-fallback-ctas a {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border-radius: 9999px;
+    padding: 0.3rem 0.7rem;
+    text-decoration: none;
+  }
+  .chat-fallback-ctas a:hover { border-color: var(--accent); }
+
+  .chat-typing {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0 1rem 0.5rem;
+    flex-shrink: 0;
+  }
+  .chat-typing.hidden { display: none; }
+  .chat-typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--text-dim);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .chat-typing span { animation: chat-typing-bounce 1s infinite ease-in-out; }
+    .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+    .chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+  }
+  @keyframes chat-typing-bounce {
+    0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+  }
+
+  .chat-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+    flex-shrink: 0;
+  }
+  .chat-form input {
+    flex: 1;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 9999px;
+    padding: 0.55rem 0.9rem;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+  }
+  .chat-form input:focus { outline: none; border-color: var(--accent); }
+  .chat-send {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 9999px;
+    background: var(--accent);
+    color: var(--bg-void);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s var(--ease-out-expo);
+  }
+  .chat-send:hover { transform: translateY(-1px); }
+  .chat-send .material-symbols-outlined { font-size: 18px; }
+
+  .chat-disclaimer {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 0 0.9rem 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* Motion reducido: sin transición del panel ni de la entrada del
+     lanzador, sin rebote de los puntos de "escribiendo" — mismo patrón
+     que .reveal/.hero-reveal en global.css. */
+  @media (prefers-reduced-motion: reduce) {
+    .chat-launcher { animation: none !important; }
+    .chat-panel { transition: none !important; }
+    .chat-typing span { animation: none !important; opacity: 0.7; }
+  }
+</style>

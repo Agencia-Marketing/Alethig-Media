@@ -10,6 +10,7 @@ import site from '../content/settings/site.json';
 import siteEs from '../content/settings/site.es.json';
 import siteEn from '../content/settings/site.en.json';
 import { withBase } from '../lib/basePath';
+import ChatbotWidget from '../components/ChatbotWidget.astro';
 const { brand, social } = site;
 interface Props {
   title: string;
@@ -37,6 +38,9 @@ const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encod
 const uiCopy = locale === 'en'
   ? { osComingSoon: 'Soon', osComingSoonLong: 'Coming soon', osAriaLabel: 'Alethig Media OS — coming soon', contactPath: '/contact', menuAriaLabel: 'Menu', langSwitchAriaLabel: 'Language' }
   : { osComingSoon: 'Pronto', osComingSoonLong: 'Próximamente', osAriaLabel: 'Alethig Media OS — próximamente', contactPath: '/contacto', menuAriaLabel: 'Menú', langSwitchAriaLabel: 'Idioma' };
+// Chatbot V1 — mismo enlace de Contacto ya resuelto (con base de idioma)
+// que usa el CTA del header, reutilizado tal cual en el fallback del chat.
+const chatContactHref = withBase(base, uiCopy.contactPath);
 // Entrada "Alethig Media OS" (producto en desarrollo, sección separada).
 // Un solo lugar para el link: cuando el producto esté listo, cambiar esta
 // única línea a la URL real (p.ej. "https://app.alethigmedia.com").
@@ -194,6 +198,10 @@ businessSchema.openingHoursSpecification = {
     }
     @media (max-width: 480px) {
       .wa-float { right: 1rem; bottom: 1rem; padding: 0.55rem 0.85rem; }
+      /* Chatbot V1: al abrir el panel del chat en móvil angosto, ocultar el
+         flotante de WhatsApp para que nunca se solapen (el propio lanzador
+         del chat se oculta desde su propio estilo en ChatbotWidget.astro). */
+      body.chat-open .wa-float { display: none; }
     }
     /* Entrada única y sutil (Visual P1.6): no es un bounce/pulso continuo,
        corre una sola vez al cargar la página. */
@@ -375,6 +383,9 @@ businessSchema.openingHoursSpecification = {
       <span class="wa-float-label">WhatsApp</span>
     </a>
   )}
+
+  <!-- CHATBOT V1 -->
+  <ChatbotWidget locale={locale} contactHref={chatContactHref} waHref={waHref} />
 
 </body>
 </html>

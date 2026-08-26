@@ -1,11 +1,34 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "alethig-media",
-  "account_id": "b4de9830e2439fbae8c22197183b60c3",
+  "account_id": "8cac8453639ca78caa6e08b2dd7e5a28",
   "main": "./dist/_worker.js/index.js",
   "compatibility_date": "2026-06-25",
   "compatibility_flags": ["nodejs_compat"],
   // Sirve el sitio (HTML/CSS/JS/imágenes) desde dist; el Worker maneja /api/*.
   // El formulario de contacto envía por Resend (secret RESEND_API_KEY).
-  "assets": { "binding": "ASSETS", "directory": "./dist" }
+  "assets": { "binding": "ASSETS", "directory": "./dist" },
+  // Chatbot V1 — Workers AI (src/pages/api/chat.ts). Binding de cuenta, sin
+  // API key/secret. Sintaxis verificada contra el schema de la versión de
+  // Wrangler instalada (4.126.0): node_modules/wrangler/config-schema.json.
+  "ai": { "binding": "AI" },
+  // Rate limit del chatbot (8 mensajes/IP/60s, obligatorio en V1 — ver
+  // chat.ts). Binding nativo de Rate Limiting de Cloudflare — evalúa el
+  // límite de forma atómica en el borde, sin la condición de carrera que
+  // tenía el conteo manual por KV (se probó en vivo: una ráfaga de 10
+  // solicitudes concurrentes lo saltaba por completo). No requiere crear
+  // ningún recurso — "namespace_id" es solo un identificador propio, no un
+  // recurso que se aprovisiona (a diferencia de un KV namespace). Sintaxis
+  // verificada contra el schema de la versión de Wrangler instalada
+  // (4.126.0): node_modules/wrangler/config-schema.json, y contra la
+  // documentación vigente de Cloudflare.
+  //
+  // Los dos KV namespaces creados para el intento anterior (producción
+  // 01a24a148ed24953b209d5a2a3ae8852, preview 7b15db1caf0741b88c6922c98941bb30)
+  // ya no se referencian desde el proyecto, pero se dejan intactos en la
+  // cuenta de Cloudflare a propósito, sin borrarlos, hasta que se confirme
+  // que no se necesitan.
+  "ratelimits": [
+    { "name": "CHAT_RATE_LIMIT", "namespace_id": "1001", "simple": { "limit": 8, "period": 60 } }
+  ]
 }
