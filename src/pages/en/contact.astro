@@ -47,7 +47,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
   <!-- FORM SECTION -->
   <section class="bg-bg-depth py-section-py-sm md:py-section-py-lg">
     <div class="max-w-container-max mx-auto px-gutter">
-      <div class="grid md:grid-cols-2 gap-14 items-start">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
         <!-- Left: info -->
         <div class="reveal">
           <h2 class="font-display text-headline-lg-mobile md:text-headline-md mb-4">{contact.formInfoHeading}</h2>
@@ -146,7 +146,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
                 <label for="contact-mensaje" class="block text-text-secondary text-xs uppercase tracking-widest font-display font-semibold mb-2">{contact.form.messageLabel}</label>
                 <textarea id="contact-mensaje" name="mensaje" rows="4" placeholder={contact.form.messagePlaceholder} class="input-cyber resize-none"></textarea>
               </div>
-              <div class="cf-turnstile" data-sitekey="0x4AAAAAADyNgzCpNMskdjTs" data-action="turnstile-spin-v1" data-theme="dark"></div>
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAADyNgzCpNMskdjTs" data-action="turnstile-spin-v1" data-theme="dark" data-size="compact"></div>
               <button type="submit" class="btn-cyber-solid w-full justify-center magnetic press">
                 {contact.submitLabel}
               </button>
