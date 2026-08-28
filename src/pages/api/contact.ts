@@ -6,7 +6,7 @@ export const prerender = false;
 
 // Envío vía Resend (API HTTP). El dominio del remitente debe estar verificado en Resend.
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
-const FROM = 'Alethig Media Web <no-reply@notify.programacionconecta.com>';
+const FROM = 'Alethig Media Web <no-reply@notify.alethigmedia.com>';
 
 // Turnstile (anti-bot). El token del widget se verifica server-side aquí.
 const TURNSTILE_VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
