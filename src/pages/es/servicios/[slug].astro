@@ -127,8 +127,10 @@ const altHref = enMatch ? `/en/services/${enMatch.data.urlSlug}/` : '/en/';
       <div class="glass lumen-border rounded-3xl p-12 text-center reveal" style="background: linear-gradient(135deg, rgba(27,42,107,0.25) 0%, rgba(216,166,42,0.08) 100%);">
         <h2 class="font-display text-headline-lg-mobile md:text-headline-lg mb-4">{s.ctaHeading}</h2>
         <p class="text-text-secondary mb-8 max-w-xl mx-auto">{s.ctaText}</p>
-        <a href={withBase(BASE, '/contacto')} class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">{s.ctaButtonLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">{s.ctaButtonIcon}</span></span>
+        <!-- PREMIUM EXPERIENCE V1: CTA de cierre convertido a reserva con
+             Cal.com (href de respaldo intacto). -->
+        <a href={withBase(BASE, '/contacto')} data-booking-trigger class="btn-cyber-solid magnetic press inline-flex">
+          <span class="icon-wrap">Agenda una consulta gratis <span class="material-symbols-outlined text-base" aria-hidden="true">{s.ctaButtonIcon}</span></span>
         </a>
       </div>
     </div>

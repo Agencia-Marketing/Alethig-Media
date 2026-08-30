@@ -46,8 +46,11 @@ const portfolio = (await getCollection('portfolioEs'))
             {home.heroParagraph}
           </p>
           <div class="flex flex-wrap gap-4">
-            <a href={withBase(BASE, home.heroCtaPrimary.href)} class="btn-cyber-solid magnetic press">
-              <span class="icon-wrap">{home.heroCtaPrimary.label} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_downward</span></span>
+            <!-- PREMIUM EXPERIENCE V1: CTA de reserva con Cal.com. href de
+                 respaldo intacto (misma página de Contacto); data-booking-trigger
+                 lo intercepta con JS para abrir el modal en vez de navegar. -->
+            <a href={withBase(BASE, home.heroCtaPrimary.href)} data-booking-trigger class="btn-cyber-solid magnetic press">
+              <span class="icon-wrap">Agenda una consulta gratis <span class="material-symbols-outlined text-base" aria-hidden="true">calendar_month</span></span>
             </a>
             <a href={withBase(BASE, home.heroCtaSecondary.href)} class="btn-ghost magnetic press">{home.heroCtaSecondary.label}</a>
           </div>
@@ -223,8 +226,10 @@ const portfolio = (await getCollection('portfolioEs'))
         <p class="text-text-secondary text-body-md max-w-xl mx-auto mb-8">
           {home.ctaParagraph}
         </p>
-        <a href={withBase(BASE, '/contacto')} class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">{home.ctaButtonLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">{home.ctaButtonIcon}</span></span>
+        <!-- PREMIUM EXPERIENCE V1: CTA de cierre convertido a reserva con
+             Cal.com (href de respaldo intacto). -->
+        <a href={withBase(BASE, '/contacto')} data-booking-trigger class="btn-cyber-solid magnetic press inline-flex">
+          <span class="icon-wrap">Agenda una consulta gratis <span class="material-symbols-outlined text-base" aria-hidden="true">{home.ctaButtonIcon}</span></span>
         </a>
       </div>
     </div>

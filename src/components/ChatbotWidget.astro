@@ -16,8 +16,13 @@ interface Props {
   waHref: string | null;
   phoneHref: string;
   emailHref: string;
+  // PREMIUM EXPERIENCE V1 — href de respaldo para el 4to CTA "Reservar
+  // llamada" (ya resuelto con la base de idioma correcta, igual que los
+  // otros tres). Si Cal.com no carga, el clic navega aquí en vez de abrir
+  // el modal — ver src/scripts/cal-booking.ts.
+  bookingHref: string;
 }
-const { locale, waHref, phoneHref, emailHref } = Astro.props;
+const { locale, waHref, phoneHref, emailHref, bookingHref } = Astro.props;
 
 const STRINGS = {
   es: {
@@ -34,6 +39,7 @@ const STRINGS = {
     ctaWhatsapp: 'WhatsApp',
     ctaCall: 'Llamar ahora',
     ctaEmail: 'Enviar email',
+    ctaBooking: 'Reservar llamada',
   },
   en: {
     openLabel: 'Open Alethig Media chat',
@@ -49,6 +55,7 @@ const STRINGS = {
     ctaWhatsapp: 'WhatsApp',
     ctaCall: 'Call Now',
     ctaEmail: 'Send Email',
+    ctaBooking: 'Schedule a Call',
   },
 } as const;
 const t = STRINGS[locale] ?? STRINGS.es;
@@ -75,7 +82,9 @@ const t = STRINGS[locale] ?? STRINGS.es;
       </button>
     </div>
 
-    <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+    <!-- data-lenis-prevent: el scroll interno de la lista de mensajes debe
+         permanecer 100% nativo — Lenis (motion.ts) nunca debe interceptarlo. -->
+    <div id="chat-messages" class="chat-messages" aria-live="polite" data-lenis-prevent></div>
 
     <div id="chat-typing" class="chat-typing hidden" aria-hidden="true">
       <span></span><span></span><span></span>
@@ -92,7 +101,7 @@ const t = STRINGS[locale] ?? STRINGS.es;
   </div>
 </div>
 
-<script define:vars={{ locale, waHref, phoneHref, emailHref, t }}>
+<script define:vars={{ locale, waHref, phoneHref, emailHref, bookingHref, t }}>
   (function () {
     var STORAGE_KEY = 'alethig-chat-' + locale; // historial separado por idioma (alethig-chat-es / alethig-chat-en)
     // V2: si ya se envió un lead en esta conversación, se recuerda por
@@ -174,13 +183,20 @@ const t = STRINGS[locale] ?? STRINGS.es;
     // como elementos <a> de verdad — nunca texto plano ni URLs crudas. Se
     // usan tanto en el momento de conversión como en el fallback de error,
     // mismo bloque, mismos hrefs ya resueltos (waHref/phoneHref/emailHref).
+    // PREMIUM EXPERIENCE V1: se agrega un 4to CTA real "Reservar llamada" —
+    // puramente aditivo en la UI, no cambia la lógica de calificación ni de
+    // lead-capture (chat.ts / chat-lead.ts / chatbot-context.ts intactos).
+    // Es un <a href={bookingHref}> normal (funciona sin JS); con JS, el
+    // listener delegado de cal-booking.ts (data-booking-trigger) intercepta
+    // el clic y abre el modal de Cal.com en vez de navegar.
     function renderContactActions() {
       var wrap = document.createElement('div');
       wrap.className = 'chat-cta-group';
       var items = [];
-      if (waHref) items.push({ href: waHref, label: t.ctaWhatsapp, external: true });
-      items.push({ href: phoneHref, label: t.ctaCall, external: false });
-      items.push({ href: emailHref, label: t.ctaEmail, external: false });
+      if (waHref) items.push({ href: waHref, label: t.ctaWhatsapp, external: true, booking: false });
+      items.push({ href: phoneHref, label: t.ctaCall, external: false, booking: false });
+      items.push({ href: emailHref, label: t.ctaEmail, external: false, booking: false });
+      items.push({ href: bookingHref, label: t.ctaBooking, external: false, booking: true });
       for (var i = 0; i < items.length; i++) {
         var a = document.createElement('a');
         a.href = items[i].href;
@@ -189,6 +205,9 @@ const t = STRINGS[locale] ?? STRINGS.es;
         if (items[i].external) {
           a.target = '_blank';
           a.rel = 'noopener';
+        }
+        if (items[i].booking) {
+          a.setAttribute('data-booking-trigger', '');
         }
         wrap.appendChild(a);
       }

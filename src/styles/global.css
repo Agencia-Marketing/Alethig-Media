@@ -290,63 +290,49 @@
   text-transform: uppercase;
 }
 
-/* ---- Reveal animations ---- */
+/* ---- Reveal animations (PREMIUM EXPERIENCE V1) ----
+   These classes now only set the INITIAL hidden state. The actual entrance
+   animation (opacity/transform/scale, easing, stagger, scroll-triggering) is
+   owned entirely by GSAP/ScrollTrigger — see src/scripts/motion.ts — which
+   animates these elements directly via inline styles. No `transition` and
+   no `.visible` end-state live here anymore: toggling a class is no longer
+   how these elements become visible, so a leftover CSS transition here would
+   just fight GSAP's own tween engine (two animation systems running at
+   once, which is exactly what this migration removes).
+   Visibility safety nets (independent of GSAP running correctly):
+     - <noscript> in Layout.astro forces full visibility when JS is off.
+     - The reduced-motion block below forces full visibility with
+       !important regardless of what any script does.
+     - motion.ts also has its own JS-side fallback (forceVisible()) in case
+       GSAP throws or takes too long. */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
-  transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .stagger-fade > * {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
-}
-.stagger-fade.visible > *:nth-child(1) { transition-delay: 0ms; }
-.stagger-fade.visible > *:nth-child(2) { transition-delay: 70ms; }
-.stagger-fade.visible > *:nth-child(3) { transition-delay: 140ms; }
-.stagger-fade.visible > *:nth-child(4) { transition-delay: 210ms; }
-.stagger-fade.visible > *:nth-child(5) { transition-delay: 280ms; }
-.stagger-fade.visible > *:nth-child(6) { transition-delay: 350ms; }
-.stagger-fade.visible > *:nth-child(7) { transition-delay: 420ms; }
-.stagger-fade.visible > *:nth-child(8) { transition-delay: 490ms; }
-.stagger-fade.visible > *:nth-child(9) { transition-delay: 560ms; }
-.stagger-fade.visible > * {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* ---- Hero reveal (Visual P1.6) ----
-   Smaller translate + shorter duration than .reveal — the homepage hero's
-   content/image are already above the fold and read immediately on load,
-   so this is a quick, restrained polish rather than a scroll-triggered
-   reveal. Same IntersectionObserver drives it (Layout.astro's reveal
-   script also observes .hero-reveal). */
+   Smaller translate than .reveal — the homepage hero's content/image are
+   already above the fold and read immediately on load, so this is a quick,
+   restrained polish rather than a scroll-triggered reveal. Animated as one
+   GSAP timeline (motion.ts), not independently. */
 .hero-reveal {
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
 }
-.hero-reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-/* Small extra delay so a second .hero-reveal element (the hero image)
-   settles in just after the first (the hero text) — a stagger, not a new
-   animation system. */
-.reveal-delay {
-  transition-delay: 120ms;
-}
+/* .reveal-delay is now purely a marker: motion.ts staggers the hero
+   timeline itself (no CSS transition-delay involved anymore). */
 
 /* ---- Reduced motion ----
-   .reveal/.stagger-fade/.hero-reveal all start hidden and rely on JS
-   (IntersectionObserver) to reveal them. Under reduced motion we drop the
-   animated transition AND force full visibility immediately, so nothing
-   depends on motion to be seen and nothing is ever left hidden. */
+   .reveal/.stagger-fade/.hero-reveal all start hidden above and rely on JS
+   (GSAP, see motion.ts) to reveal them. Under reduced motion, motion.ts
+   itself skips all entrance animations and never initializes Lenis — this
+   block is the belt-and-suspenders CSS guarantee that nothing is ever left
+   hidden, independent of any script running correctly. */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .stagger-fade > *,

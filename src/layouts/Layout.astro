@@ -52,6 +52,10 @@ const uiCopy = locale === 'en'
 // el resto del sitio, site.json, sin datos nuevos).
 const chatPhoneHref = `tel:+${site.whatsapp.number}`;
 const chatEmailHref = `mailto:${site.contact.email}`;
+// PREMIUM EXPERIENCE V1 — 4to CTA del chatbot ("Reservar llamada"): mismo
+// href de respaldo que ya usa el CTA de "Contacto" del header (uiCopy.contactPath
+// con la base de idioma aplicada). Si Cal.com no carga, el clic navega aquí.
+const chatBookingHref = withBase(base, uiCopy.contactPath);
 // Entrada "Alethig Media OS" (producto en desarrollo, sección separada).
 // Un solo lugar para el link: cuando el producto esté listo, cambiar esta
 // única línea a la URL real (p.ej. "https://app.alethigmedia.com").
@@ -224,6 +228,15 @@ businessSchema.openingHoursSpecification = {
       .wa-float { animation: wa-float-in 0.5s var(--ease-out-expo) 0.3s both; }
     }
   </style>
+  <!-- PREMIUM EXPERIENCE V1: si JS está deshabilitado por completo, motion.ts
+       nunca se ejecuta — esta es la única red de seguridad que aplica en ese
+       caso, forzando visibilidad total en el contenido que .reveal /
+       .stagger-fade / .hero-reveal dejan oculto por defecto (global.css). -->
+  <noscript>
+    <style>
+      .reveal, .stagger-fade > *, .hero-reveal { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
 </head>
 <body class="noise-overlay">
 
@@ -398,12 +411,19 @@ businessSchema.openingHoursSpecification = {
   )}
 
   <!-- CHATBOT V1 -->
-  <ChatbotWidget locale={locale} waHref={waHref} phoneHref={chatPhoneHref} emailHref={chatEmailHref} />
+  <ChatbotWidget locale={locale} waHref={waHref} phoneHref={chatPhoneHref} emailHref={chatEmailHref} bookingHref={chatBookingHref} />
 
 </body>
 </html>
 
 <script>
+  // PREMIUM EXPERIENCE V1: GSAP/ScrollTrigger + Lenis + Cal.com. Reemplaza
+  // atómicamente el antiguo IntersectionObserver de reveal (ver git
+  // history) — ver src/scripts/motion.ts para el detalle completo,
+  // incluyendo las redes de seguridad de visibilidad.
+  import { initMotion } from '../scripts/motion';
+  import { initBookingTriggers } from '../scripts/cal-booking';
+
   // ---- Scroll: sticky nav glassify ----
   const nav = document.getElementById('site-nav');
   const navInner = document.getElementById('nav-inner');
@@ -433,13 +453,9 @@ businessSchema.openingHoursSpecification = {
     });
   });
 
-  // ---- IntersectionObserver: reveal + stagger-fade ----
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal, .stagger-fade, .hero-reveal').forEach(el => io.observe(el));
+  // ---- Reveal (GSAP) + smooth scroll (Lenis) + triggers de reserva ----
+  initMotion();
+  initBookingTriggers();
 
   // ---- Magnetic buttons ----
   document.querySelectorAll('.magnetic').forEach(el => {
