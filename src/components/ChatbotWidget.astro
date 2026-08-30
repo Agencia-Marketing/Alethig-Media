@@ -5,14 +5,19 @@
 // reutilice ni mezcle el historial del otro idioma.
 interface Props {
   locale: 'es' | 'en';
-  // Enlace de Contacto ya resuelto (con base de idioma aplicada) y enlace
-  // de WhatsApp ya resuelto (mismos valores que ya usa el botón flotante
-  // de WhatsApp en Layout.astro) — se reutilizan tal cual en el fallback
-  // de error, sin inventar copy ni rutas nuevas.
-  contactHref: string;
+  // Enlace de Contacto ya resuelto (con base de idioma aplicada) — ya no se
+  // usa en el fallback (V2 usa acciones reales de contacto, ver abajo), se
+  // conserva por si algún llamador externo aún lo pasa.
+  contactHref?: string;
+  // WhatsApp (mismo wa.me ya usado por el botón flotante en Layout.astro),
+  // teléfono y email — ya resueltos con la base correcta, reutilizados tal
+  // cual en las acciones de contacto reales (conversión y fallback), sin
+  // inventar rutas ni datos nuevos aquí.
   waHref: string | null;
+  phoneHref: string;
+  emailHref: string;
 }
-const { locale, contactHref, waHref } = Astro.props;
+const { locale, waHref, phoneHref, emailHref } = Astro.props;
 
 const STRINGS = {
   es: {
@@ -24,10 +29,11 @@ const STRINGS = {
     sendLabel: 'Enviar mensaje',
     disclaimer: 'Puede cometer errores. Para cotizaciones exactas, contáctanos.',
     greeting: 'Hola 👋 ¿En qué puedo ayudarte sobre nuestros servicios, precios o la consulta gratuita?',
-    fallback: 'No pudimos responder en este momento. La página sigue funcionando normalmente.',
+    fallback: 'No pude responder en este momento, pero podemos ayudarte directamente.',
     rateLimited: 'Estás enviando mensajes muy rápido. Espera un momento y vuelve a intentar.',
-    contactCta: 'Contáctanos',
-    whatsappCta: 'Escríbenos por WhatsApp',
+    ctaWhatsapp: 'WhatsApp',
+    ctaCall: 'Llamar ahora',
+    ctaEmail: 'Enviar email',
   },
   en: {
     openLabel: 'Open Alethig Media chat',
@@ -38,10 +44,11 @@ const STRINGS = {
     sendLabel: 'Send message',
     disclaimer: 'May make mistakes. For exact quotes, contact us.',
     greeting: 'Hi 👋 What would you like to know about our services, pricing, or the free consultation?',
-    fallback: "We couldn't reply right now. The rest of the page still works normally.",
+    fallback: "I couldn't respond right now, but you can reach our team directly.",
     rateLimited: "You're sending messages too fast. Please wait a moment and try again.",
-    contactCta: 'Contact us',
-    whatsappCta: 'Message us on WhatsApp',
+    ctaWhatsapp: 'WhatsApp',
+    ctaCall: 'Call Now',
+    ctaEmail: 'Send Email',
   },
 } as const;
 const t = STRINGS[locale] ?? STRINGS.es;
@@ -85,9 +92,14 @@ const t = STRINGS[locale] ?? STRINGS.es;
   </div>
 </div>
 
-<script define:vars={{ locale, contactHref, waHref, t }}>
+<script define:vars={{ locale, waHref, phoneHref, emailHref, t }}>
   (function () {
     var STORAGE_KEY = 'alethig-chat-' + locale; // historial separado por idioma (alethig-chat-es / alethig-chat-en)
+    // V2: si ya se envió un lead en esta conversación, se recuerda por
+    // idioma (misma partición que el historial) para no reenviar el mismo
+    // correo si el visitante sigue chateando después del momento de
+    // conversión — ver el campo leadSent enviado a /api/chat.
+    var LEAD_SENT_KEY = 'alethig-chat-leadsent-' + locale;
     var MAX_HISTORY = 16;
     var MAX_MSG_LEN = 500;
     var REQUEST_TIMEOUT_MS = 20000;
@@ -130,8 +142,23 @@ const t = STRINGS[locale] ?? STRINGS.es;
         /* sessionStorage no disponible (privado/bloqueado) — el chat sigue funcionando, solo sin persistencia */
       }
     }
+    function loadLeadSent() {
+      try {
+        return sessionStorage.getItem(LEAD_SENT_KEY) === '1';
+      } catch (e) {
+        return false;
+      }
+    }
+    function saveLeadSent() {
+      try {
+        sessionStorage.setItem(LEAD_SENT_KEY, '1');
+      } catch (e) {
+        /* igual que el historial: si no hay sessionStorage, el chat sigue funcionando */
+      }
+    }
 
     var history = loadHistory();
+    var leadSent = loadLeadSent();
 
     // Nunca innerHTML: ni la entrada del usuario ni la respuesta del modelo
     // se interpretan como marcado — siempre textContent.
@@ -143,29 +170,61 @@ const t = STRINGS[locale] ?? STRINGS.es;
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    function renderFallback(text, showCtas) {
+    // V2: las tres acciones reales de contacto (WhatsApp / Llamar / Email),
+    // como elementos <a> de verdad — nunca texto plano ni URLs crudas. Se
+    // usan tanto en el momento de conversión como en el fallback de error,
+    // mismo bloque, mismos hrefs ya resueltos (waHref/phoneHref/emailHref).
+    function renderContactActions() {
+      var wrap = document.createElement('div');
+      wrap.className = 'chat-cta-group';
+      var items = [];
+      if (waHref) items.push({ href: waHref, label: t.ctaWhatsapp, external: true });
+      items.push({ href: phoneHref, label: t.ctaCall, external: false });
+      items.push({ href: emailHref, label: t.ctaEmail, external: false });
+      for (var i = 0; i < items.length; i++) {
+        var a = document.createElement('a');
+        a.href = items[i].href;
+        a.className = 'chat-cta';
+        a.textContent = items[i].label;
+        if (items[i].external) {
+          a.target = '_blank';
+          a.rel = 'noopener';
+        }
+        wrap.appendChild(a);
+      }
+      messagesEl.appendChild(wrap);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // V2: chips de respuesta rápida — tocar uno envía ese texto como si el
+    // visitante lo hubiera escrito. Se retiran del DOM al usarlos para que
+    // no queden chips “viejos” de un paso anterior de la conversación.
+    function renderQuickReplies(options) {
+      var wrap = document.createElement('div');
+      wrap.className = 'chat-quick-replies';
+      options.forEach(function (opt) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'chat-quick-reply';
+        btn.textContent = opt;
+        btn.addEventListener('click', function () {
+          wrap.remove();
+          sendMessage(opt);
+        });
+        wrap.appendChild(btn);
+      });
+      messagesEl.appendChild(wrap);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    // V2: un único fallback limpio (sin repetir texto ni acumularse en el
+    // historial) + las mismas tres acciones reales de contacto.
+    function renderFallback(text) {
       var div = document.createElement('div');
       div.className = 'chat-msg chat-msg-assistant chat-msg-fallback';
       div.textContent = text;
       messagesEl.appendChild(div);
-      if (showCtas) {
-        var ctas = document.createElement('div');
-        ctas.className = 'chat-fallback-ctas';
-        var a1 = document.createElement('a');
-        a1.href = contactHref;
-        a1.textContent = t.contactCta;
-        ctas.appendChild(a1);
-        if (waHref) {
-          var a2 = document.createElement('a');
-          a2.href = waHref;
-          a2.target = '_blank';
-          a2.rel = 'noopener';
-          a2.textContent = t.whatsappCta;
-          ctas.appendChild(a2);
-        }
-        messagesEl.appendChild(ctas);
-      }
-      messagesEl.scrollTop = messagesEl.scrollHeight;
+      renderContactActions();
     }
 
     // El saludo es solo UI (no se guarda en el historial ni se reenvía a
@@ -205,11 +264,9 @@ const t = STRINGS[locale] ?? STRINGS.es;
     });
 
     var sending = false;
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (sending) return;
-      var raw = input.value.trim();
-      if (!raw || raw.length > MAX_MSG_LEN) return;
+    function sendMessage(raw) {
+      raw = (raw || '').trim();
+      if (sending || !raw || raw.length > MAX_MSG_LEN) return;
       input.value = '';
       sending = true;
 
@@ -227,18 +284,22 @@ const t = STRINGS[locale] ?? STRINGS.es;
       fetch('/api/chat', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ locale: locale, message: raw, history: historyForRequest }),
+        body: JSON.stringify({ locale: locale, message: raw, history: historyForRequest, leadSent: leadSent }),
         signal: controller.signal,
       })
         .then(function (res) {
           clearTimeout(timeoutId);
           typingEl.classList.add('hidden');
           if (res.status === 429) {
-            renderFallback(t.rateLimited, false);
+            var div = document.createElement('div');
+            div.className = 'chat-msg chat-msg-assistant chat-msg-fallback';
+            div.textContent = t.rateLimited;
+            messagesEl.appendChild(div);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
             return null;
           }
           if (!res.ok) {
-            renderFallback(t.fallback, true);
+            renderFallback(t.fallback);
             return null;
           }
           return res.json().catch(function () {
@@ -250,20 +311,37 @@ const t = STRINGS[locale] ?? STRINGS.es;
             renderMessage('assistant', data.reply);
             history.push({ role: 'assistant', content: data.reply });
             saveHistory(history);
+            if (data.leadSent === true) {
+              leadSent = true;
+              saveLeadSent();
+            }
+            // Nunca ambos a la vez: el momento de conversión (acciones de
+            // contacto) tiene prioridad sobre los quick-replies si el
+            // modelo, por error, mandara los dos en el mismo turno.
+            if (data.showContactActions === true) {
+              renderContactActions();
+            } else if (Array.isArray(data.quickReplies) && data.quickReplies.length > 0) {
+              renderQuickReplies(data.quickReplies);
+            }
           } else if (data === undefined) {
             // ya se manejó arriba (429 / !res.ok)
           } else if (data !== null) {
-            renderFallback(t.fallback, true);
+            renderFallback(t.fallback);
           }
         })
         .catch(function () {
           clearTimeout(timeoutId);
           typingEl.classList.add('hidden');
-          renderFallback(t.fallback, true);
+          renderFallback(t.fallback);
         })
         .finally(function () {
           sending = false;
         });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      sendMessage(input.value);
     });
   })();
 </script>
@@ -409,22 +487,57 @@ const t = STRINGS[locale] ?? STRINGS.es;
     color: var(--text-secondary);
   }
   .chat-msg-fallback { border-style: dashed; }
-  .chat-fallback-ctas {
+
+  /* V2: acciones reales de contacto (WhatsApp / Llamar / Email) — tarjetas
+     apiladas, no texto ni URLs crudas. Mismo lenguaje visual que
+     .btn-cyber-solid (dorado sólido sobre navy) para que se sientan como el
+     CTA principal que son, tanto en el momento de conversión como en el
+     fallback de error. */
+  .chat-cta-group {
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: -0.2rem;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.1rem;
   }
-  .chat-fallback-ctas a {
-    font-size: 0.75rem;
+  .chat-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--accent);
-    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    color: var(--bg-void);
+    background: var(--accent);
+    border: 1px solid var(--accent);
     border-radius: 9999px;
-    padding: 0.3rem 0.7rem;
+    padding: 0.55rem 0.9rem;
     text-decoration: none;
+    transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo);
   }
-  .chat-fallback-ctas a:hover { border-color: var(--accent); }
+  .chat-cta:hover { transform: translateY(-1px); box-shadow: var(--accent-glow); }
+
+  /* V2: chips de respuesta rápida — tono más discreto (glass) que las
+     acciones de contacto, ya que son un paso intermedio de la
+     conversación, no el CTA final. */
+  .chat-quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.1rem;
+  }
+  .chat-quick-reply {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 9999px;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s var(--ease-out-expo), color 0.2s var(--ease-out-expo);
+  }
+  .chat-quick-reply:hover { border-color: var(--accent); color: var(--accent); }
 
   .chat-typing {
     display: flex;

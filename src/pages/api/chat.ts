@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { buildChatContext, buildSystemPrompt, type ChatLocale } from '../../lib/chatbot-context';
+import { sendChatLead, type ChatLead } from '../../lib/chat-lead';
 
 export const prerender = false;
 
@@ -10,7 +11,12 @@ export const prerender = false;
 // multilingüe). Si Cloudflare lo retira en el futuro, cambiar solo esta
 // constante.
 const MODEL = '@cf/meta/llama-3.1-8b-instruct-fast';
-const MAX_TOKENS = 400;
+// V2: subido de 400 a 550 — el modelo ahora responde con un objeto JSON
+// (message + quickReplies/showContactActions/lead opcionales), que pesa más
+// en tokens que el texto plano de V1. Sin este margen, el JSON podía
+// truncarse a mitad y fallar el parseo (ver el fallback seguro más abajo,
+// que igual nunca rompe la UI, pero es mejor evitarlo).
+const MAX_TOKENS = 550;
 
 // --- Validación de entrada (spec aprobada, sección F/G) ---
 const MAX_MESSAGE_LEN = 500;
@@ -56,6 +62,138 @@ const isValidHistory = (v: unknown): v is ChatMessage[] => {
   );
 };
 
+// --- Chatbot V2: contrato de respuesta estructurada del modelo ---
+// El modelo (instruido en el system prompt, ver chatbot-context.ts) responde
+// SIEMPRE con un único objeto JSON. Nunca se confía ciegamente en su forma:
+// si el JSON sale mal formado o no calza con lo esperado, se degrada a texto
+// plano sin romper la UI (ver parseModelReply). Nada de esto crashea nunca.
+type ParsedReply = {
+  message: string;
+  quickReplies?: string[];
+  showContactActions?: boolean;
+  lead?: ChatLead;
+};
+
+const MAX_QUICK_REPLIES = 6;
+const MAX_QUICK_REPLY_LEN = 60;
+const LEAD_FIELDS: (keyof ChatLead)[] = [
+  'name', 'business', 'business_type', 'location', 'phone', 'email', 'service_interest', 'marketing_goal',
+];
+
+// Extrae solo los campos de lead reconocidos y con forma de string — nunca
+// se copia nada que el modelo haya inventado fuera de este esquema fijo.
+function sanitizeLead(raw: unknown): ChatLead | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const out: ChatLead = {};
+  let any = false;
+  for (const key of LEAD_FIELDS) {
+    const v = (raw as Record<string, unknown>)[key];
+    if (typeof v === 'string' && v.trim().length > 0 && v.length <= 200) {
+      out[key] = v.trim();
+      any = true;
+    }
+  }
+  return any ? out : undefined;
+}
+
+function sanitizeQuickReplies(raw: unknown): string[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const cleaned = raw
+    .filter((x): x is string => typeof x === 'string' && x.trim().length > 0 && x.length <= MAX_QUICK_REPLY_LEN)
+    .slice(0, MAX_QUICK_REPLIES);
+  return cleaned.length > 0 ? cleaned : undefined;
+}
+
+// El modelo a veces envuelve el JSON en fences de markdown pese a la
+// instrucción de no hacerlo — se despoja de forma barata antes de parsear,
+// sin cambiar el comportamiento si no están presentes.
+function stripCodeFences(s: string): string {
+  return s.trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+}
+
+// Caso observado en pruebas reales: el modelo responde en prosa normal y
+// luego, en vez de JSON válido, pega líneas sueltas tipo
+// "quickReplies: [...]" / "showContactActions: false" / "lead: {}" sin
+// llaves — no es extraíble como JSON (ver parseModelReply), así que se
+// recorta desde abajo cualquier bloque final de líneas que empiece con una
+// de esas claves, para no mostrarle ese eco crudo del esquema al visitante.
+function stripTrailingSchemaEcho(text: string): string {
+  // De arriba hacia abajo: en cuanto aparece una línea que empieza con una
+  // de las claves del esquema, se corta todo desde ahí hasta el final —
+  // sin exigir que las líneas siguientes TAMBIÉN calcen con el patrón, ya
+  // que en pruebas reales el eco a veces sigue como una lista con viñetas
+  // ("quickReplies:\n- Opción 1\n- Opción 2...") que no repite la clave en
+  // cada línea.
+  const lines = text.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    if (/^\s*(quickReplies|showContactActions|lead)\s*:/i.test(lines[i])) {
+      const stripped = lines.slice(0, i).join('\n').trim();
+      // Si por alguna razón todo el texto era eco del esquema (nada antes),
+      // es mejor mostrar el texto original tal cual que una burbuja vacía.
+      return stripped.length > 0 ? stripped : text.trim();
+    }
+  }
+  return text.trim();
+}
+
+// Nunca lanza. Acepta `raw` en DOS formas posibles de result.response de
+// Workers AI: normalmente un string (que puede o no ser JSON válido), pero
+// quando el modelo produce una salida que "parece" JSON, Workers AI a veces
+// entrega result.response YA COMO OBJETO parseado, no como string — esto se
+// confirmó en pruebas reales (ver historial): el mismo prompt, con el mismo
+// modelo, devolvió un objeto directamente en algunos turnos. Si no se
+// contempla este caso, un reply perfectamente válido se trataba como
+// "vacío" (typeof !== 'string') y fallaba con 502 — un bug real, no una
+// falla del modelo. Si el JSON (en cualquiera de las dos formas) no calza
+// con el esquema esperado, se degrada a texto plano sin romper la UI.
+function parseModelReply(raw: unknown): ParsedReply | null {
+  let obj: any;
+  let rawText: string | null = null;
+
+  if (typeof raw === 'string') {
+    rawText = raw;
+    try {
+      obj = JSON.parse(stripCodeFences(raw));
+    } catch {
+      // A veces el modelo responde con texto normal Y ADEMÁS pega un bloque
+      // JSON suelto (por ejemplo, repite su propia instrucción de formato) —
+      // se probó en vivo: prosa + "\n\n{...}" al final, lo que no es JSON
+      // válido como string completo. Se intenta extraer el primer bloque
+      // {...} balanceado ingenuamente (primera '{' a última '}') como
+      // segundo intento antes de rendirse al texto plano completo (que en
+      // ese caso mostraría el JSON crudo al visitante — justo lo que se
+      // quiere evitar).
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (match) {
+        try {
+          obj = JSON.parse(match[0]);
+        } catch {
+          obj = undefined;
+        }
+      }
+      if (!obj) {
+        console.error('Chatbot: el modelo no devolvió JSON válido, usando texto plano. Salida cruda (primeros 300 caracteres):', raw.slice(0, 300));
+        return { message: stripTrailingSchemaEcho(raw) };
+      }
+    }
+  } else if (raw && typeof raw === 'object') {
+    obj = raw; // Workers AI ya lo entregó parseado — ver nota arriba
+  } else {
+    return null;
+  }
+
+  if (obj && typeof obj === 'object' && typeof obj.message === 'string' && obj.message.trim().length > 0) {
+    return {
+      message: obj.message.trim(),
+      quickReplies: sanitizeQuickReplies(obj.quickReplies),
+      showContactActions: obj.showContactActions === true,
+      lead: sanitizeLead(obj.lead),
+    };
+  }
+  console.error('Chatbot: el modelo devolvió JSON con forma inesperada.', JSON.stringify(obj).slice(0, 300));
+  return rawText ? { message: stripTrailingSchemaEcho(rawText) } : null;
+}
+
 export const POST: APIRoute = async ({ request, locals }) => {
   const env = (locals as any).runtime?.env ?? {};
 
@@ -80,6 +218,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const locale = body?.locale;
   const message = body?.message;
   const history = body?.history ?? [];
+  // V2: el cliente marca leadSent=true una vez que un lead ya se envió en
+  // esta conversación (ver ChatbotWidget.astro) — evita reenviar el mismo
+  // correo si el visitante sigue chateando después del momento de
+  // conversión y el modelo vuelve a incluir "lead" en un turno posterior.
+  const leadAlreadySent = body?.leadSent === true;
 
   if (!isValidLocale(locale)) return json(400, { ok: false, error: 'invalid_request' });
   if (typeof message !== 'string') return json(400, { ok: false, error: 'invalid_request' });
@@ -133,6 +276,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     console.error('Falta el binding AI: Workers AI no está configurado.');
     return json(503, { ok: false, error: 'unavailable' });
   }
+  let parsed: ParsedReply;
   try {
     const messages = [
       { role: 'system', content: systemPrompt },
@@ -140,13 +284,44 @@ export const POST: APIRoute = async ({ request, locals }) => {
       { role: 'user', content: trimmedMessage },
     ];
     const result = await ai.run(MODEL, { messages, max_tokens: MAX_TOKENS });
+    // result.response normalmente es un string, pero Workers AI a veces lo
+    // entrega ya como objeto parseado cuando la salida "parece" JSON — ver
+    // la nota detallada en parseModelReply, que acepta ambas formas.
     const reply = result?.response;
-    if (typeof reply !== 'string' || reply.trim().length === 0) {
-      throw new Error('Respuesta vacía o con forma inesperada del modelo.');
+    const isEmptyString = typeof reply === 'string' && reply.trim().length === 0;
+    if (reply === undefined || reply === null || isEmptyString) {
+      throw new Error('Respuesta vacía del modelo.');
     }
-    return json(200, { ok: true, reply: reply.trim() });
+    const parsedOrNull = parseModelReply(reply);
+    if (!parsedOrNull) {
+      throw new Error('El modelo devolvió una respuesta sin forma utilizable.');
+    }
+    parsed = parsedOrNull;
   } catch (e) {
     console.error('Workers AI falló:', e);
     return json(502, { ok: false, error: 'unavailable' });
   }
+
+  // --- Captura de lead (V2) — nunca debe romper la respuesta del chat ---
+  // Solo se envía si el modelo trajo un "lead" en ESTE turno Y el cliente
+  // no había marcado ya leadSent=true (evita reenvíos duplicados). Un fallo
+  // de Resend aquí se registra y se ignora — ver sendChatLead, que ya nunca
+  // lanza; el try/catch de aquí es una segunda capa de seguridad.
+  let leadSent: boolean | undefined;
+  if (parsed.lead && !leadAlreadySent) {
+    try {
+      await sendChatLead(env, locale, parsed.lead, [...history, { role: 'user', content: trimmedMessage }]);
+    } catch (e) {
+      console.error('Chatbot: sendChatLead falló inesperadamente (ignorado, no afecta la respuesta):', e);
+    }
+    leadSent = true;
+  }
+
+  return json(200, {
+    ok: true,
+    reply: parsed.message,
+    quickReplies: parsed.quickReplies,
+    showContactActions: parsed.showContactActions,
+    leadSent,
+  });
 };

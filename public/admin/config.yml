@@ -331,6 +331,7 @@ collections:
           - { name: formInfoHeading, label: "Formulario · Título", widget: string }
           - { name: formInfoText, label: "Formulario · Texto", widget: text }
           - { name: infoEmailLabel, label: "Info · Etiqueta email", widget: string }
+          - { name: infoPhoneLabel, label: "Info · Etiqueta teléfono", widget: string }
           - { name: infoHoursLabel, label: "Info · Etiqueta horario", widget: string }
           - { name: socialHeading, label: "Info · Título redes sociales", widget: string }
           - { name: submitLabel, label: "Formulario · Texto botón", widget: string }
@@ -384,6 +385,7 @@ collections:
           - { name: formInfoHeading, label: "Formulario · Título", widget: string }
           - { name: formInfoText, label: "Formulario · Texto", widget: text }
           - { name: infoEmailLabel, label: "Info · Etiqueta email", widget: string }
+          - { name: infoPhoneLabel, label: "Info · Etiqueta teléfono", widget: string }
           - { name: infoHoursLabel, label: "Info · Etiqueta horario", widget: string }
           - { name: socialHeading, label: "Info · Título redes sociales", widget: string }
           - { name: submitLabel, label: "Formulario · Texto botón", widget: string }

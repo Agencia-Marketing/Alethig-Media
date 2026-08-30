@@ -31,16 +31,27 @@ interface Props {
 const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', image = '/uploads/home-hero.webp', noindex = false, base = '', locale = 'es', altHref } = Astro.props;
 const siteCopy = locale === 'en' ? siteEn : siteEs;
 const { ctaLabel, nav, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = siteCopy;
-const contact = { phone: siteCopy.contactHours, email: site.contact.email, location: site.contact.location };
+// "phone" = horario de atención (no es un número); "callPhone" es el número
+// real, clickeable — se agregan como entradas separadas a propósito (Chatbot
+// V2, mejoras mínimas de contacto): horario y teléfono son datos distintos.
+const contact = { phone: siteCopy.contactHours, callPhone: site.whatsapp.display, email: site.contact.email, location: site.contact.location };
+// Hrefs solo para las entradas que son enlaces reales (email/teléfono); el
+// resto del loop del footer no cambia.
+const contactHrefs: Record<string, string> = {
+  callPhone: `tel:+${site.whatsapp.number}`,
+  email: `mailto:${site.contact.email}`,
+};
 const whatsapp = { ...site.whatsapp, message: siteCopy.whatsappMessage };
 const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message ?? '')}` : null;
 // Textos de UI (chrome del layout, no contenido de página) por idioma.
 const uiCopy = locale === 'en'
   ? { osComingSoon: 'Soon', osComingSoonLong: 'Coming soon', osAriaLabel: 'Alethig Media OS — coming soon', contactPath: '/contact', menuAriaLabel: 'Menu', langSwitchAriaLabel: 'Language' }
   : { osComingSoon: 'Pronto', osComingSoonLong: 'Próximamente', osAriaLabel: 'Alethig Media OS — próximamente', contactPath: '/contacto', menuAriaLabel: 'Menú', langSwitchAriaLabel: 'Idioma' };
-// Chatbot V1 — mismo enlace de Contacto ya resuelto (con base de idioma)
-// que usa el CTA del header, reutilizado tal cual en el fallback del chat.
-const chatContactHref = withBase(base, uiCopy.contactPath);
+// Chatbot V2 — acciones reales de contacto (WhatsApp ya se resuelve más
+// abajo como waHref; teléfono y email salen de la misma fuente que ya usa
+// el resto del sitio, site.json, sin datos nuevos).
+const chatPhoneHref = `tel:+${site.whatsapp.number}`;
+const chatEmailHref = `mailto:${site.contact.email}`;
 // Entrada "Alethig Media OS" (producto en desarrollo, sección separada).
 // Un solo lugar para el link: cuando el producto esté listo, cambiar esta
 // única línea a la URL real (p.ej. "https://app.alethigmedia.com").
@@ -51,7 +62,7 @@ const currentPath = Astro.url.pathname;
 const resolvedAltHref = altHref ?? (locale === 'en' ? '/es/' : '/en/');
 const esHref = locale === 'es' ? currentPath : resolvedAltHref;
 const enHref = locale === 'en' ? currentPath : resolvedAltHref;
-const contactIcons: Record<string, string> = { phone: 'schedule', email: 'mail', location: 'location_on' };
+const contactIcons: Record<string, string> = { phone: 'schedule', callPhone: 'call', email: 'mail', location: 'location_on' };
 const ogImage = new URL(image, Astro.url).href;
 const canonical = new URL(Astro.url.pathname, Astro.url).href;
 
@@ -330,7 +341,9 @@ businessSchema.openingHoursSpecification = {
             {Object.entries(contact).map(([key, value]) => (
               <li class="flex items-center gap-3 text-text-secondary text-sm">
                 <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">{contactIcons[key] ?? 'circle'}</span>
-                {value}
+                {contactHrefs[key]
+                  ? <a href={contactHrefs[key]} class="hover:text-accent transition-colors duration-200">{value}</a>
+                  : value}
               </li>
             ))}
           </ul>
@@ -385,7 +398,7 @@ businessSchema.openingHoursSpecification = {
   )}
 
   <!-- CHATBOT V1 -->
-  <ChatbotWidget locale={locale} contactHref={chatContactHref} waHref={waHref} />
+  <ChatbotWidget locale={locale} waHref={waHref} phoneHref={chatPhoneHref} emailHref={chatEmailHref} />
 
 </body>
 </html>

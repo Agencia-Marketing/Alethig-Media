@@ -61,7 +61,16 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
               </div>
               <div>
                 <p class="text-text-dim text-xs uppercase tracking-widest font-display font-semibold mb-0.5">{contact.infoEmailLabel}</p>
-                <p class="text-text-primary text-sm">{email}</p>
+                <a href={`mailto:${email}`} class="text-text-primary text-sm hover:text-accent transition-colors duration-200">{email}</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">call</span>
+              </div>
+              <div>
+                <p class="text-text-dim text-xs uppercase tracking-widest font-display font-semibold mb-0.5">{contact.infoPhoneLabel}</p>
+                <a href={`tel:+${site.whatsapp.number}`} class="text-text-primary text-sm hover:text-accent transition-colors duration-200">{site.whatsapp.display}</a>
               </div>
             </div>
             <div class="flex items-center gap-4">
