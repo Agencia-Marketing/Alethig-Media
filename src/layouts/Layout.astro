@@ -1,4 +1,5 @@
 ---
+import Icon from '../components/Icon.astro';
 import '../styles/global.css';
 import { colors, fonts, logo } from '../config/theme.mjs';
 // site.json: datos de marca compartidos entre idiomas (hechos, no se traducen).
@@ -184,7 +185,11 @@ businessSchema.openingHoursSpecification = {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href={fonts.googleHref} rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+  <!-- PERFORMANCE OPTIMIZATION V1: el ícono-fuente Material Symbols
+       (~3.78MB, variable, todos los ejes) se eliminó por completo — todos
+       los íconos ahora son SVG en línea vía <Icon>, ver
+       src/components/Icon.astro / src/lib/icons.ts. Sin este <link>, cero
+       requests nuevos y cero dependencia de fuente externa para íconos. -->
   <style set:html={rootStyle}></style>
   <style>
     .wa-float {
@@ -271,17 +276,17 @@ businessSchema.openingHoursSpecification = {
             class="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-text-dim hover:text-accent border border-white/10 hover:border-accent/30 rounded-full px-3 py-1.5 transition-colors duration-200"
             aria-label={uiCopy.osAriaLabel}
           >
-            <span class="material-symbols-outlined text-sm" aria-hidden="true">bolt</span>
+            <Icon name="bolt" class="text-sm" />
             Alethig Media OS
             <span class="uppercase tracking-wider opacity-70">· {uiCopy.osComingSoon}</span>
           </a>
           <div class="hidden md:block">
             <a href={withBase(base, uiCopy.contactPath)} class="btn-cyber press">
-              <span class="icon-wrap">{ctaLabel} <span class="material-symbols-outlined text-base" aria-hidden="true">arrow_forward</span></span>
+              <span class="icon-wrap">{ctaLabel} <Icon name="arrow_forward" class="text-base" /></span>
             </a>
           </div>
           <button id="menu-btn" class="md:hidden glass p-2 rounded-lg" aria-label={uiCopy.menuAriaLabel} aria-expanded="false" aria-controls="mobile-menu">
-            <span class="material-symbols-outlined text-text-primary" aria-hidden="true">menu</span>
+            <Icon name="menu" class="text-text-primary" />
           </button>
         </div>
       </div>
@@ -298,7 +303,7 @@ businessSchema.openingHoursSpecification = {
           <a href={enHref} data-set-lang="en" aria-current={locale === 'en' ? 'page' : undefined} class={`flex-1 text-center py-2 rounded-lg text-xs font-display font-semibold uppercase tracking-widest transition-colors ${locale === 'en' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary border border-white/10'}`}>English</a>
         </div>
         <a href={osHref} class="px-4 py-3 text-text-dim hover:text-accent rounded-lg transition-all flex items-center gap-3">
-          <span class="material-symbols-outlined text-sm flex-shrink-0" aria-hidden="true">bolt</span>
+          <Icon name="bolt" class="text-sm flex-shrink-0" />
           <span class="flex flex-col leading-tight">
             <span class="text-xs font-display font-semibold uppercase tracking-widest">Alethig Media OS</span>
             <span class="text-[10px] opacity-70">{uiCopy.osComingSoonLong}</span>
@@ -353,7 +358,7 @@ businessSchema.openingHoursSpecification = {
           <ul class="space-y-3">
             {Object.entries(contact).map(([key, value]) => (
               <li class="flex items-center gap-3 text-text-secondary text-sm">
-                <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">{contactIcons[key] ?? 'circle'}</span>
+                <Icon name={contactIcons[key] ?? 'circle'} class="text-accent text-base" />
                 {contactHrefs[key]
                   ? <a href={contactHrefs[key]} class="hover:text-accent transition-colors duration-200">{value}</a>
                   : value}

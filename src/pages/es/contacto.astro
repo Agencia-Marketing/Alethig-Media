@@ -1,4 +1,5 @@
 ---
+import Icon from '../../components/Icon.astro';
 import Layout from '../../layouts/Layout.astro';
 import contact from '../../content/pages/contact.es.json';
 import site from '../../content/settings/site.json';
@@ -22,7 +23,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="reveal">
-          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">mail</span>{contact.heroTag}</span>
+          <span class="tag-cyber mb-5 inline-flex"><Icon name="mail" class="text-sm" />{contact.heroTag}</span>
           <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(contact.heroHeading, contact.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary">
             {contact.heroParagraph}
@@ -57,7 +58,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
           <div class="space-y-5 mb-10">
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">mail</span>
+                <Icon name="mail" class="text-accent text-base" />
               </div>
               <div>
                 <p class="text-text-dim text-xs uppercase tracking-widest font-display font-semibold mb-0.5">{contact.infoEmailLabel}</p>
@@ -66,7 +67,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
             </div>
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">call</span>
+                <Icon name="call" class="text-accent text-base" />
               </div>
               <div>
                 <p class="text-text-dim text-xs uppercase tracking-widest font-display font-semibold mb-0.5">{contact.infoPhoneLabel}</p>
@@ -75,7 +76,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
             </div>
             <div class="flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-accent text-base" aria-hidden="true">schedule</span>
+                <Icon name="schedule" class="text-accent text-base" />
               </div>
               <div>
                 <p class="text-text-dim text-xs uppercase tracking-widest font-display font-semibold mb-0.5">{contact.infoHoursLabel}</p>
@@ -89,7 +90,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
                formulario más abajo en esta misma página. -->
           <div class="mb-10">
             <a href="#contact-nombre" data-booking-trigger class="btn-ghost magnetic press inline-flex items-center gap-2">
-              <span class="material-symbols-outlined text-base" aria-hidden="true">calendar_month</span>
+              <Icon name="calendar_month" class="text-base" />
               Reservar llamada
             </a>
           </div>
@@ -125,7 +126,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
                  contra la utilidad "hidden" — el banner quedaba visible
                  siempre, incluso en una visita nueva sin ?error=1. -->
             <div id="form-error" class="!hidden tag-cyber !text-red-300 !border-red-400/30 mb-4">
-              <span class="material-symbols-outlined text-sm" aria-hidden="true">error</span> {contact.form.errorMessage}
+              <Icon name="error" class="text-sm" /> {contact.form.errorMessage}
             </div>
             <form id="contact-form" class="space-y-5" method="POST" action="/api/contact" novalidate>
               <input type="hidden" name="locale" value="es" />
@@ -172,7 +173,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
             </form>
             <div id="form-success" class="hidden text-center py-6">
               <div class="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-5">
-                <span class="material-symbols-outlined text-accent text-3xl" aria-hidden="true">check_circle</span>
+                <Icon name="check_circle" class="text-accent text-3xl" />
               </div>
               <h3 class="font-display text-headline-lg-mobile mb-2">{contact.form.successHeading}</h3>
               <p class="text-text-secondary text-body-md">{contact.form.successText}</p>
@@ -188,7 +189,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
   <section class="mesh-bg-alt py-16">
     <div class="max-w-container-max mx-auto px-gutter flex justify-center">
       <div class="glass lumen-border rounded-2xl px-8 py-5 flex items-center gap-4">
-        <span class="material-symbols-outlined text-accent text-2xl" aria-hidden="true">location_on</span>
+        <Icon name="location_on" class="text-accent text-2xl" />
         <div>
           <p class="font-display font-bold text-text-primary">{contact.mapHeading}</p>
           <p class="text-text-secondary text-sm">{contact.mapText}</p>
@@ -215,7 +216,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
                 id={`faq-trigger-${i}`}
               >
                 <span class="font-display font-semibold text-text-primary text-base md:text-lg">{item.question}</span>
-                <span class="material-symbols-outlined text-accent flex-shrink-0 transition-transform duration-200" aria-hidden="true">expand_more</span>
+                <Icon name="expand_more" class="text-accent flex-shrink-0 transition-transform duration-200" />
               </button>
             </h3>
             <div id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-trigger-${i}`} class="px-6 pb-5">
@@ -273,7 +274,7 @@ const RESPONSIVE_SIZES = '(min-width: 768px) 50vw, 100vw';
     // toggle('hidden')" que el menú móvil en Layout.astro.
     document.querySelectorAll<HTMLButtonElement>('.faq-trigger').forEach((btn) => {
       const panel = document.getElementById(btn.getAttribute('aria-controls') ?? '');
-      const icon = btn.querySelector('.material-symbols-outlined');
+      const icon = btn.querySelector('.icon');
       btn.setAttribute('aria-expanded', 'false');
       panel?.classList.add('hidden');
       btn.addEventListener('click', () => {

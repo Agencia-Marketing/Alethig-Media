@@ -1,4 +1,5 @@
 ---
+import Icon from '../../../components/Icon.astro';
 import Layout from '../../../layouts/Layout.astro';
 import PlanCard from '../../../components/PlanCard.astro';
 import { getCollection } from 'astro:content';
@@ -34,7 +35,7 @@ const altHref = `/es/servicios/${id}/`;
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="reveal">
-          <span class="tag-cyber mb-5 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">{s.icon}</span>{s.title}</span>
+          <span class="tag-cyber mb-5 inline-flex"><Icon name={s.icon} class="text-sm" />{s.title}</span>
           <h1 class="font-display text-display-hero-mobile md:text-5xl font-extrabold mb-5" set:html={highlightHeading(s.heroHeading, s.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary mb-8">{s.heroSub}</p>
           <div class="flex gap-4 flex-wrap">
@@ -64,7 +65,7 @@ const altHref = `/es/servicios/${id}/`;
         {s.features.map(f => (
           <div class="glass card-cyber rounded-2xl p-7">
             <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-4">
-              <span class="material-symbols-outlined text-accent text-2xl" aria-hidden="true">{f.icon}</span>
+              <Icon name={f.icon} class="text-accent text-2xl" />
             </div>
             <h3 class="font-display font-bold text-lg mb-2">{f.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed">{f.desc}</p>
@@ -113,7 +114,7 @@ const altHref = `/es/servicios/${id}/`;
         {relatedServices.map(r => (
           <a href={withBase(BASE, `/services/${r.data.urlSlug ?? r.id}`)} class="glass card-cyber rounded-xl p-5 flex items-center gap-3 group">
             <span class="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center flex-shrink-0">
-              <span class="material-symbols-outlined text-accent text-lg" aria-hidden="true">{r.data.icon}</span>
+              <Icon name={r.data.icon} class="text-accent text-lg" />
             </span>
             <span class="font-display font-semibold text-sm group-hover:text-accent transition-colors duration-300">{r.data.title}</span>
           </a>
@@ -130,7 +131,7 @@ const altHref = `/es/servicios/${id}/`;
         <!-- PREMIUM EXPERIENCE V1: closing CTA converted to Cal.com booking
              (fallback href unchanged). -->
         <a href={withBase(BASE, '/contact')} data-booking-trigger class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">Book a Free Consultation <span class="material-symbols-outlined text-base" aria-hidden="true">{s.ctaButtonIcon}</span></span>
+          <span class="icon-wrap">Book a Free Consultation <Icon name={s.ctaButtonIcon} class="text-base" /></span>
         </a>
       </div>
     </div>

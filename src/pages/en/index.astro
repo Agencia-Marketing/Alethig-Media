@@ -1,4 +1,5 @@
 ---
+import Icon from '../../components/Icon.astro';
 import Layout from '../../layouts/Layout.astro';
 import home from '../../content/pages/home.en.json';
 import { highlightHeading } from '../../lib/highlight';
@@ -40,7 +41,7 @@ const portfolio = (await getCollection('portfolioEn'))
     <div class="max-w-container-max mx-auto px-gutter w-full">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div class="hero-reveal">
-          <span class="tag-cyber mb-6 inline-flex"><span class="material-symbols-outlined text-sm" aria-hidden="true">bolt</span>{home.heroTag}</span>
+          <span class="tag-cyber mb-6 inline-flex"><Icon name="bolt" class="text-sm" />{home.heroTag}</span>
           <h1 class="font-display text-display-hero-mobile md:text-display-hero-tablet xl:text-display-hero mb-6" set:html={highlightHeading(home.heroHeading, home.heroHighlight)}></h1>
           <p class="text-body-lg text-text-secondary mb-8 max-w-xl">
             {home.heroParagraph}
@@ -51,7 +52,7 @@ const portfolio = (await getCollection('portfolioEn'))
                  intercepts the click with JS to open the modal instead of
                  navigating. -->
             <a href={withBase(BASE, home.heroCtaPrimary.href)} data-booking-trigger class="btn-cyber-solid magnetic press">
-              <span class="icon-wrap">Book a Free Consultation <span class="material-symbols-outlined text-base" aria-hidden="true">calendar_month</span></span>
+              <span class="icon-wrap">Book a Free Consultation <Icon name="calendar_month" class="text-base" /></span>
             </a>
             <a href={withBase(BASE, home.heroCtaSecondary.href)} class="btn-ghost magnetic press">{home.heroCtaSecondary.label}</a>
           </div>
@@ -79,7 +80,7 @@ const portfolio = (await getCollection('portfolioEn'))
       <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-12 stagger-fade">
         {home.trustBar.map(item => (
           <div class="flex items-center gap-2 text-text-secondary text-sm md:text-base">
-            <span class="material-symbols-outlined text-accent text-lg md:text-xl" aria-hidden="true">{item.icon}</span>
+            <Icon name={item.icon} class="text-accent text-lg md:text-xl" />
             <span class="font-display font-semibold tracking-wide">{item.label}</span>
           </div>
         ))}
@@ -99,12 +100,12 @@ const portfolio = (await getCollection('portfolioEn'))
         {home.services.map(s => (
           <a href={withBase(BASE, s.href)} class="glass card-cyber rounded-2xl p-7 group block">
             <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors duration-300">
-              <span class="material-symbols-outlined text-accent text-2xl" aria-hidden="true">{s.icon}</span>
+              <Icon name={s.icon} class="text-accent text-2xl" />
             </div>
             <h3 class="font-display text-headline-md mb-3 group-hover:text-accent transition-colors duration-300">{s.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed mb-5">{s.desc}</p>
             <span class="inline-flex items-center gap-2 text-accent text-sm font-display font-semibold">
-              + Learn more <span class="material-symbols-outlined text-sm transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
+              + Learn more <Icon name="arrow_forward" class="text-sm transition-transform duration-200 group-hover:translate-x-1" />
             </span>
           </a>
         ))}
@@ -146,7 +147,7 @@ const portfolio = (await getCollection('portfolioEn'))
                     class="inline-flex items-center gap-2 text-accent text-sm font-display font-semibold mt-auto"
                     aria-label={`View project: ${p.data.title}`}
                   >
-                    View project <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
+                    View project <Icon name="arrow_forward" class="text-sm" />
                   </a>
                 )}
               </div>
@@ -167,7 +168,7 @@ const portfolio = (await getCollection('portfolioEn'))
       <div class="grid sm:grid-cols-2 gap-6 stagger-fade">
         {home.reasons.map(r => (
           <div class="glass card-cyber rounded-2xl p-8">
-            <span class="material-symbols-outlined text-accent text-3xl mb-4 block" aria-hidden="true">{r.icon}</span>
+            <Icon name={r.icon} class="text-accent text-3xl mb-4 block" />
             <h3 class="font-display text-headline-md mb-3">{r.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed">{r.desc}</p>
           </div>
@@ -189,7 +190,7 @@ const portfolio = (await getCollection('portfolioEn'))
               {t.data.rating && (
                 <div class="flex gap-1 mb-4" aria-label={`${t.data.rating} out of 5`}>
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <span class="material-symbols-outlined text-accent text-lg" aria-hidden="true">{i < t.data.rating! ? 'star' : 'star_outline'}</span>
+                    <Icon name={i < t.data.rating! ? 'star' : 'star_outline'} class="text-accent text-lg" />
                   ))}
                 </div>
               )}
@@ -230,7 +231,7 @@ const portfolio = (await getCollection('portfolioEn'))
         <!-- PREMIUM EXPERIENCE V1: closing CTA converted to Cal.com booking
              (fallback href unchanged). -->
         <a href={withBase(BASE, '/contact')} data-booking-trigger class="btn-cyber-solid magnetic press inline-flex">
-          <span class="icon-wrap">Book a Free Consultation <span class="material-symbols-outlined text-base" aria-hidden="true">{home.ctaButtonIcon}</span></span>
+          <span class="icon-wrap">Book a Free Consultation <Icon name={home.ctaButtonIcon} class="text-base" /></span>
         </a>
       </div>
     </div>

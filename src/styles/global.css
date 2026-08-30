@@ -374,6 +374,20 @@
 }
 a:hover .icon-wrap, button:hover .icon-wrap { gap: 8px; }
 
+/* ---- Icon (PERFORMANCE OPTIMIZATION V1) ----
+   SVG en línea que reemplaza el ícono-fuente Material Symbols Outlined (ver
+   src/components/Icon.astro / src/lib/icons.ts). Tamaño vía 1em (hereda
+   font-size, igual que el glyph de fuente anterior) y color vía currentColor
+   — las mismas clases de Tailwind (text-2xl, text-accent, etc.) siguen
+   funcionando sin cambios. Todo uso existente ya vive dentro de un
+   contenedor flex con align-items:center (icon-wrap, tarjetas, chat-launcher,
+   etc.), así que esto es solo un default seguro para cualquier caso futuro
+   que no lo esté. */
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 /* ---- Input fields ---- */
 .input-cyber {
   width: 100%;

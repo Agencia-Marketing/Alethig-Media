@@ -1,0 +1,48 @@
+---
+// PERFORMANCE OPTIMIZATION V1 — reemplazo local del ícono Material Symbols
+// Outlined (Google Fonts, ~3.78MB) por SVG en línea. Cero requests, cero JS
+// en runtime, mismo estilo visual "Outlined" oficial (ver src/lib/icons.ts).
+//
+// Uso (idéntico en espíritu al ícono-fuente anterior, incluyendo valores
+// dinámicos de CMS/contenido sin cambios):
+//   <Icon name="chat" />
+//   <Icon name={service.icon} class="text-accent text-2xl" />
+//
+// Tamaño y color: el <svg> usa width/height="1em" y fill="currentColor", así
+// que hereda font-size y color exactamente como lo hacía el ícono-fuente —
+// las mismas clases de Tailwind (text-sm, text-2xl, text-accent, etc.) que
+// ya se pasaban siguen funcionando sin cambios.
+//
+// Cómo agregar un ícono nuevo: ver el comentario en src/lib/icons.ts — un
+// campo "icon" de Decap CMS con un nombre no mapeado aquí no rompe la
+// página (ver abajo), solo no muestra ESE ícono puntual hasta que se agregue
+// su entrada al mapa.
+import { ICON_PATHS, ICON_VIEWBOX } from '../lib/icons';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const path = ICON_PATHS[name];
+
+if (!path && import.meta.env.DEV) {
+  console.warn(
+    `[Icon] No hay SVG mapeado para el ícono "${name}". Agrega una entrada en src/lib/icons.ts (ver el comentario ahí para la fuente oficial). No se renderiza nada para este ícono hasta entonces.`
+  );
+}
+---
+{path && (
+  <svg
+    class={['icon', className].filter(Boolean).join(' ')}
+    viewBox={ICON_VIEWBOX}
+    width="1em"
+    height="1em"
+    fill="currentColor"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d={path} />
+  </svg>
+)}
