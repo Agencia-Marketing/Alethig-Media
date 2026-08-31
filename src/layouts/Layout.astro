@@ -45,9 +45,13 @@ const contactHrefs: Record<string, string> = {
 const whatsapp = { ...site.whatsapp, message: siteCopy.whatsappMessage };
 const waHref = whatsapp?.number ? `https://wa.me/${whatsapp.number}?text=${encodeURIComponent(whatsapp.message ?? '')}` : null;
 // Textos de UI (chrome del layout, no contenido de página) por idioma.
+// Los nombres de estas claves (osComingSoon...) quedaron de cuando el
+// producto todavía no existía — la app ya está lista (osHref arriba), así
+// que sus VALORES ahora son la etiqueta "Abrir"/"Open", no "Pronto"/"Soon".
+// No se renombraron las claves para mantener el diff mínimo.
 const uiCopy = locale === 'en'
-  ? { osComingSoon: 'Soon', osComingSoonLong: 'Coming soon', osAriaLabel: 'Alethig Media OS — coming soon', contactPath: '/contact', menuAriaLabel: 'Menu', langSwitchAriaLabel: 'Language' }
-  : { osComingSoon: 'Pronto', osComingSoonLong: 'Próximamente', osAriaLabel: 'Alethig Media OS — próximamente', contactPath: '/contacto', menuAriaLabel: 'Menú', langSwitchAriaLabel: 'Idioma' };
+  ? { osComingSoon: 'Open', osComingSoonLong: 'Open app', osAriaLabel: 'Alethig Media OS — open app', contactPath: '/contact', menuAriaLabel: 'Menu', langSwitchAriaLabel: 'Language' }
+  : { osComingSoon: 'Abrir', osComingSoonLong: 'Abrir aplicación', osAriaLabel: 'Alethig Media OS — abrir aplicación', contactPath: '/contacto', menuAriaLabel: 'Menú', langSwitchAriaLabel: 'Idioma' };
 // Chatbot V2 — acciones reales de contacto (WhatsApp ya se resuelve más
 // abajo como waHref; teléfono y email salen de la misma fuente que ya usa
 // el resto del sitio, site.json, sin datos nuevos).
@@ -57,10 +61,11 @@ const chatEmailHref = `mailto:${site.contact.email}`;
 // href de respaldo que ya usa el CTA de "Contacto" del header (uiCopy.contactPath
 // con la base de idioma aplicada). Si Cal.com no carga, el clic navega aquí.
 const chatBookingHref = withBase(base, uiCopy.contactPath);
-// Entrada "Alethig Media OS" (producto en desarrollo, sección separada).
-// Un solo lugar para el link: cuando el producto esté listo, cambiar esta
-// única línea a la URL real (p.ej. "https://app.alethigmedia.com").
-const osHref = withBase(base, '/alethig-media-os');
+// Entrada "Alethig Media OS": el producto ya está listo, así que este único
+// lugar apunta directo a la app real en vez de a la página interna
+// "próximamente" (que sigue existiendo en /alethig-media-os por si se
+// necesita enlazar a ella aparte, pero ya no es el destino de este botón).
+const osHref = 'https://app.alethigmedia.com';
 // Selector ES/EN: el link del idioma activo apunta a la página actual;
 // el del otro idioma usa altHref (o el home de ese idioma si no se pasó).
 const currentPath = Astro.url.pathname;
