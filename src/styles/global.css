@@ -178,6 +178,95 @@
 }
 .card-cyber:hover::after { opacity: 1; }
 
+/* ============================================================
+   VISUAL REDESIGN V2 — superficies claras + adaptación de componentes
+   ------------------------------------------------------------
+   Nada de lo de arriba (.mesh-bg, .glass, .btn-ghost, .tag-cyber,
+   .gradient-text, etc.) se toca ni se elimina — sigue siendo el sistema
+   por defecto de toda página que no participe de este rediseño. Lo de
+   abajo es ADITIVO: nuevas utilidades de fondo claro para las secciones
+   del home que pasan a claro, más un envoltorio ".on-light" que reafina
+   los componentes compartidos de arriba (que están pensados para fondo
+   oscuro) cuando aparecen dentro de una sección clara — sin duplicar
+   markup ni crear variantes de componente separadas.
+   ============================================================ */
+
+/* ---- Superficies claras ---- */
+.section-surface {
+  background: var(--surface-base);
+}
+.section-surface-alt {
+  background: var(--surface-tint);
+}
+.section-surface-white {
+  background: var(--surface-white);
+}
+
+/* Hero claro: mismos halos radiales suaves que .mesh-bg-hero (oro/navy a
+   muy baja opacidad), pero sobre base clara en vez de oscura. */
+.mesh-bg-light-hero {
+  background:
+    radial-gradient(ellipse 60% 50% at 85% 12%, rgba(var(--accent-rgb), 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 60% at 8% 88%,  rgba(var(--ink-rgb), 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 40% at 50% 45%, rgba(var(--accent-rgb), 0.05) 0%, transparent 70%),
+    var(--surface-base);
+}
+
+/* ---- .on-light: reafina componentes compartidos para fondo claro ----
+   Se aplica a la SECCIÓN (o a un contenedor que envuelva el contenido de
+   esa sección), nunca al <body> — el resto de la página (footer, sección
+   Alethig Media OS, CTA final) se queda oscura a propósito.
+   IMPORTANTE: body/h1-h5 fijan su color dentro de @layer base (línea
+   ~68-84) — Tailwind reordena las capas @layer al inicio de la cascada,
+   así que una regla SIN capa (como esta) les gana automáticamente sin
+   necesitar más especificidad ni !important. */
+.on-light {
+  color: var(--ink-dim);
+}
+.on-light h1, .on-light h2, .on-light h3, .on-light h4, .on-light h5 {
+  color: var(--ink);
+}
+.on-light .gradient-text {
+  background: none;
+  -webkit-text-fill-color: var(--gold-ink);
+  color: var(--gold-ink);
+}
+.on-light .tag-cyber {
+  background: rgba(var(--ink-rgb), 0.05);
+  border-color: rgba(var(--ink-rgb), 0.12);
+  color: var(--gold-ink);
+}
+.on-light .btn-ghost {
+  color: var(--ink);
+  border-color: rgba(var(--ink-rgb), 0.18);
+}
+.on-light .btn-ghost:hover {
+  border-color: var(--gold-ink);
+  color: var(--gold-ink);
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.12);
+}
+.on-light .glass {
+  background: var(--surface-white);
+  border: 1px solid rgba(var(--ink-rgb), 0.08);
+  box-shadow: 0 4px 20px rgba(var(--ink-rgb), 0.06), 0 1px 3px rgba(var(--ink-rgb), 0.05);
+}
+.on-light .glass:hover {
+  background: var(--surface-white);
+  border-color: rgba(var(--ink-rgb), 0.16);
+  box-shadow: 0 14px 34px rgba(var(--ink-rgb), 0.10), 0 2px 8px rgba(var(--ink-rgb), 0.06);
+  transform: translateY(-4px);
+}
+
+/* ---- Editorial numbering (01 / 02 / 03…) — servicios y proceso ---- */
+.editorial-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  color: var(--gold-ink);
+  opacity: 0.55;
+}
+
 /* ---- Buttons ---- */
 .btn-cyber {
   display: inline-flex;

@@ -26,6 +26,11 @@
     { "icon": "palette", "title": "Diseño de Marca", "desc": "Logotipos, tarjetas, flyers, menús y todo el material visual para que tu negocio se vea profesional y destaque.", "href": "/servicios/diseno-de-marca" },
     { "icon": "language", "title": "Desarrollo Web", "desc": "Sitios web profesionales con hosting, SSL y correo corporativo incluidos. Funcionan en todos los dispositivos.", "href": "/servicios/desarrollo-web" }
   ],
+  "osTag": "Alethig Media OS",
+  "osHeading": "Nuestro Sistema Para Gestionar Marketing Más Inteligentemente.",
+  "osHighlight": "Marketing Más Inteligentemente",
+  "osBody": "Alethig Media OS es la plataforma que usamos para organizar contenido, aprobaciones, proyectos y flujos de trabajo de marketing desde un solo lugar.",
+  "osCtaLabel": "Abrir Alethig Media OS",
   "reasonsTag": "Por qué elegirnos",
   "reasonsHeading": "Por Qué los Negocios de Long Island Eligen Alethig Media.",
   "reasonsHighlight": "Alethig Media",
@@ -34,6 +39,14 @@
     { "icon": "translate", "title": "Bilingües Inglés y Español", "desc": "Servimos a toda la comunidad de Long Island. Nuestro equipo se comunica contigo en el idioma que prefieras." },
     { "icon": "payments", "title": "Precios Fijos y Transparentes", "desc": "Sin sorpresas, sin cargos ocultos. Sabes exactamente cuánto pagas y qué recibes cada mes." },
     { "icon": "groups", "title": "Equipo Real, Resultados Reales", "desc": "Cada cuenta tiene community manager, diseñador y especialista en anuncios dedicados. Personas reales trabajando para tu negocio." }
+  ],
+  "processTag": "Nuestro Proceso",
+  "processHeading": "Cómo Trabajamos.",
+  "processSteps": [
+    { "num": "01", "title": "Descubrimos", "desc": "Entendemos tu negocio, tus clientes y tus objetivos." },
+    { "num": "02", "title": "Creamos la Estrategia", "desc": "Definimos los canales, contenido y campañas adecuados para tu negocio." },
+    { "num": "03", "title": "Creamos y Lanzamos", "desc": "Diseñamos, producimos y ponemos en marcha el trabajo aprobado." },
+    { "num": "04", "title": "Optimizamos", "desc": "Revisamos resultados y hacemos ajustes para seguir mejorando." }
   ],
   "ctaTag": "¿Listo para crecer?",
   "ctaHeading": "¿Listo para Hacer Crecer Tu Negocio?",

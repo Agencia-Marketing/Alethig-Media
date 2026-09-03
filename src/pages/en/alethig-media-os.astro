@@ -16,21 +16,20 @@ const BASE = '/en';
     <div class="max-w-container-max mx-auto px-gutter w-full">
       <div class="glass lumen-border rounded-2xl p-10 md:p-14 text-center reveal max-w-2xl mx-auto">
         <span class="tag-cyber mb-6 inline-flex">
-          <Icon name="construction" class="text-sm" />
+          <Icon name="bolt" class="text-sm" />
           {os.heroTag}
         </span>
         <div class="w-16 h-16 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-6">
           <Icon name="rocket_launch" class="text-accent text-3xl" />
         </div>
         <h1 class="font-display text-headline-lg-mobile md:text-headline-lg mb-5" set:html={highlightHeading(os.heading, os.highlight)}></h1>
-        <p class="text-body-lg text-text-secondary mb-4 max-w-xl mx-auto">
+        <p class="text-body-lg text-text-secondary mb-10 max-w-xl mx-auto">
           {os.paragraph}
         </p>
-        <p class="text-text-dim text-sm mb-10">
-          {os.note}
-        </p>
+        <!-- Phase 7: primary CTA now opens the real app directly (previously
+             /contact, from when the product didn't exist yet). -->
         <div class="flex flex-wrap items-center justify-center gap-4">
-          <a href={withBase(BASE, '/contact')} class="btn-cyber-solid magnetic press inline-flex">
+          <a href="https://app.alethigmedia.com" class="btn-cyber-solid magnetic press inline-flex">
             <span class="icon-wrap">{os.ctaLabel} <Icon name="arrow_forward" class="text-base" /></span>
           </a>
           <a href={withBase(BASE, '/')} class="btn-ghost magnetic press">{os.ctaSecondaryLabel}</a>

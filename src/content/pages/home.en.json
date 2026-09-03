@@ -26,6 +26,11 @@
     { "icon": "palette", "title": "Brand Design", "desc": "Logos, business cards, flyers, menus, and all the visual materials your business needs to look professional and stand out.", "href": "/services/brand-design" },
     { "icon": "language", "title": "Web Development", "desc": "Professional websites with hosting, SSL, and business email included. Works on every device.", "href": "/services/web-development" }
   ],
+  "osTag": "Alethig Media OS",
+  "osHeading": "Our System for Smarter Marketing Operations.",
+  "osHighlight": "Smarter Marketing Operations",
+  "osBody": "Alethig Media OS is the platform we use to organize content, approvals, projects and marketing workflows from one place.",
+  "osCtaLabel": "Open Alethig Media OS",
   "reasonsTag": "Why Choose Us",
   "reasonsHeading": "Why Long Island Businesses Choose Alethig Media.",
   "reasonsHighlight": "Alethig Media",
@@ -34,6 +39,14 @@
     { "icon": "translate", "title": "Bilingual in English and Spanish", "desc": "We serve the entire Long Island community. Our team talks to you in whichever language you prefer." },
     { "icon": "payments", "title": "Fixed, Transparent Pricing", "desc": "No surprises, no hidden fees. You know exactly what you pay and what you get every month." },
     { "icon": "groups", "title": "Real Team, Real Results", "desc": "Every account gets a dedicated community manager, designer, and ads specialist. Real people working for your business." }
+  ],
+  "processTag": "Our Process",
+  "processHeading": "How We Work.",
+  "processSteps": [
+    { "num": "01", "title": "Discover", "desc": "We understand your business, customers and goals." },
+    { "num": "02", "title": "Build the Strategy", "desc": "We define the right channels, content and campaigns for your business." },
+    { "num": "03", "title": "Create & Launch", "desc": "We design, produce and launch the approved work." },
+    { "num": "04", "title": "Optimize", "desc": "We review performance and make adjustments to keep improving." }
   ],
   "ctaTag": "Ready to grow?",
   "ctaHeading": "Ready to Grow Your Business?",

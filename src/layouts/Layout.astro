@@ -28,8 +28,42 @@ interface Props {
   // Cada página la calcula (par estático o, en servicios, por urlSlug/id).
   // Si no se pasa, cae al home del otro idioma.
   altHref?: string;
+  // VISUAL REDESIGN V2 — 'dark' (default, sin cambios) es el nav de
+  // siempre, pensado para hero oscuro; SOLO el home pasa 'light' (hero
+  // claro). Cualquier página que no pase esta prop se comporta exactamente
+  // igual que antes de este rediseño.
+  navTheme?: 'dark' | 'light';
 }
-const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', image = '/uploads/home-hero.webp', noindex = false, base = '', locale = 'es', altHref } = Astro.props;
+const { title, description = 'Alethig Media — Agencia de marketing digital de Long Island. Manejo de redes sociales, producción de video y publicidad pagada en inglés y español.', image = '/uploads/home-hero.webp', noindex = false, base = '', locale = 'es', altHref, navTheme = 'dark' } = Astro.props;
+// Clases/colores del nav que dependen del tema — ver navTheme arriba. Solo
+// se listan aquí los puntos del nav que SÍ usan colores sensibles al fondo
+// (texto claro-sobre-oscuro vs texto oscuro-sobre-claro); todo lo demás
+// del nav (logo, selector activo ES/EN, CTA .btn-cyber, iconos) ya es
+// theme-agnostic por diseño y no necesita variantes.
+const navIsLight = navTheme === 'light';
+const navColors = navIsLight
+  ? {
+      link: 'text-ink-dim hover:text-ink',
+      selectorBorder: 'border-ink/10',
+      selectorInactive: 'text-ink-dim hover:text-ink',
+      osBadge: 'text-ink-dim hover:text-gold-ink border-ink/10 hover:border-accent/30',
+      menuIcon: 'text-ink',
+      mobileLink: 'text-ink-dim hover:text-gold-ink',
+      mobileOs: 'text-ink-dim hover:text-gold-ink',
+      mobileDivider: 'border-[rgba(11,31,58,0.10)]',
+      logoFallback: 'text-ink group-hover:text-accent',
+    }
+  : {
+      link: 'text-text-secondary hover:text-text-primary',
+      selectorBorder: 'border-white/10',
+      selectorInactive: 'text-text-dim hover:text-text-secondary',
+      osBadge: 'text-text-dim hover:text-accent border-white/10 hover:border-accent/30',
+      menuIcon: 'text-text-primary',
+      mobileLink: 'text-text-secondary hover:text-accent',
+      mobileOs: 'text-text-dim hover:text-accent',
+      mobileDivider: 'border-[rgba(255,255,255,0.07)]',
+      logoFallback: 'text-text-primary group-hover:text-accent',
+    };
 const siteCopy = locale === 'en' ? siteEn : siteEs;
 const { ctaLabel, nav, footerTagline, footerPages, footerLinks, footerBottomLinks, copyright } = siteCopy;
 // "phone" = horario de atención (no es un número); "callPhone" es el número
@@ -100,6 +134,16 @@ const cssVars: Record<string, string> = {
   '--accent-glow': `0 0 40px rgba(${accentRgb}, 0.30)`,
   '--accent-glow-strong': `0 0 80px rgba(${accentRgb}, 0.45)`,
   '--glass-border-accent': `rgba(${accentRgb}, 0.28)`,
+  // VISUAL REDESIGN V2 — superficies claras + tinta de texto sobre claro
+  // (ver theme.mjs para el detalle/justificación de cada valor).
+  '--surface-white': colors['surface-white'],
+  '--surface-base': colors['surface-base'],
+  '--surface-tint': colors['surface-tint'],
+  '--surface-cool': colors['surface-cool'],
+  '--ink': colors.ink,
+  '--ink-dim': colors['ink-dim'],
+  '--gold-ink': colors['gold-ink'],
+  '--ink-rgb': hexToRgb(colors.ink),
   '--font-display': fonts.display,
   '--font-body': fonts.body,
 };
@@ -251,34 +295,34 @@ businessSchema.openingHoursSpecification = {
 <body class="noise-overlay">
 
   <!-- NAV -->
-  <header id="site-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+  <header id="site-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500" data-nav-theme={navTheme}>
     <div class="max-w-container-max mx-auto px-gutter">
       <div class="flex items-center justify-between h-20 transition-all duration-300" id="nav-inner">
         <!-- Logo -->
         <a href={withBase(base, '/')} class="flex items-center group" aria-label={brand}>
           {logo.image
             ? <img src={logo.image} alt={logo.alt} class="h-12 w-auto md:h-16" />
-            : <span class="font-display font-bold text-lg tracking-tight text-text-primary group-hover:text-accent transition-colors duration-300">{brand}</span>
+            : <span class={`font-display font-bold text-lg tracking-tight transition-colors duration-300 ${navColors.logoFallback}`}>{brand}</span>
           }
         </a>
 
         <!-- Desktop Nav -->
         <nav class="hidden md:flex items-center gap-8">
           {nav.map(item => (
-            <a href={withBase(base, item.href)} class="text-label-sm text-text-secondary hover:text-text-primary transition-colors duration-200 uppercase tracking-widest">{item.label}</a>
+            <a href={withBase(base, item.href)} class={`text-label-sm transition-colors duration-200 uppercase tracking-widest ${navColors.link}`}>{item.label}</a>
           ))}
         </nav>
 
         <!-- CTA + Mobile toggle -->
         <div class="flex items-center gap-4">
           <!-- Selector ES/EN -->
-          <div class="hidden md:flex items-center gap-0.5 text-xs border border-white/10 rounded-full p-0.5" role="group" aria-label={uiCopy.langSwitchAriaLabel}>
-            <a href={esHref} data-set-lang="es" aria-current={locale === 'es' ? 'page' : undefined} class={`px-2.5 py-1 rounded-full font-display font-semibold uppercase tracking-wider transition-colors duration-200 ${locale === 'es' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary'}`}>ES</a>
-            <a href={enHref} data-set-lang="en" aria-current={locale === 'en' ? 'page' : undefined} class={`px-2.5 py-1 rounded-full font-display font-semibold uppercase tracking-wider transition-colors duration-200 ${locale === 'en' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary'}`}>EN</a>
+          <div class={`hidden md:flex items-center gap-0.5 text-xs border rounded-full p-0.5 ${navColors.selectorBorder}`} role="group" aria-label={uiCopy.langSwitchAriaLabel}>
+            <a href={esHref} data-set-lang="es" aria-current={locale === 'es' ? 'page' : undefined} class={`px-2.5 py-1 rounded-full font-display font-semibold uppercase tracking-wider transition-colors duration-200 ${locale === 'es' ? 'bg-accent/15 text-accent' : navColors.selectorInactive}`}>ES</a>
+            <a href={enHref} data-set-lang="en" aria-current={locale === 'en' ? 'page' : undefined} class={`px-2.5 py-1 rounded-full font-display font-semibold uppercase tracking-wider transition-colors duration-200 ${locale === 'en' ? 'bg-accent/15 text-accent' : navColors.selectorInactive}`}>EN</a>
           </div>
           <a
             href={osHref}
-            class="hidden lg:inline-flex items-center gap-1.5 text-[11px] text-text-dim hover:text-accent border border-white/10 hover:border-accent/30 rounded-full px-3 py-1.5 transition-colors duration-200"
+            class={`hidden lg:inline-flex items-center gap-1.5 text-[11px] rounded-full px-3 py-1.5 border transition-colors duration-200 ${navColors.osBadge}`}
             aria-label={uiCopy.osAriaLabel}
           >
             <Icon name="bolt" class="text-sm" />
@@ -291,7 +335,7 @@ businessSchema.openingHoursSpecification = {
             </a>
           </div>
           <button id="menu-btn" class="md:hidden glass p-2 rounded-lg" aria-label={uiCopy.menuAriaLabel} aria-expanded="false" aria-controls="mobile-menu">
-            <Icon name="menu" class="text-text-primary" />
+            <Icon name="menu" class={navColors.menuIcon} />
           </button>
         </div>
       </div>
@@ -301,20 +345,20 @@ businessSchema.openingHoursSpecification = {
     <div id="mobile-menu" class="hidden md:hidden glass mx-4 mb-4 rounded-2xl overflow-hidden">
       <nav class="flex flex-col p-4 gap-1">
         {nav.map(item => (
-          <a href={withBase(base, item.href)} class="px-4 py-3 text-text-secondary hover:text-accent rounded-lg transition-all text-sm font-display font-semibold uppercase tracking-widest">{item.label}</a>
+          <a href={withBase(base, item.href)} class={`px-4 py-3 rounded-lg transition-all text-sm font-display font-semibold uppercase tracking-widest ${navColors.mobileLink}`}>{item.label}</a>
         ))}
         <div class="flex items-center gap-2 px-4 py-2" role="group" aria-label={uiCopy.langSwitchAriaLabel}>
-          <a href={esHref} data-set-lang="es" aria-current={locale === 'es' ? 'page' : undefined} class={`flex-1 text-center py-2 rounded-lg text-xs font-display font-semibold uppercase tracking-widest transition-colors ${locale === 'es' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary border border-white/10'}`}>Español</a>
-          <a href={enHref} data-set-lang="en" aria-current={locale === 'en' ? 'page' : undefined} class={`flex-1 text-center py-2 rounded-lg text-xs font-display font-semibold uppercase tracking-widest transition-colors ${locale === 'en' ? 'bg-accent/15 text-accent' : 'text-text-dim hover:text-text-secondary border border-white/10'}`}>English</a>
+          <a href={esHref} data-set-lang="es" aria-current={locale === 'es' ? 'page' : undefined} class={`flex-1 text-center py-2 rounded-lg text-xs font-display font-semibold uppercase tracking-widest transition-colors ${locale === 'es' ? 'bg-accent/15 text-accent' : `${navColors.selectorInactive} border ${navColors.selectorBorder}`}`}>Español</a>
+          <a href={enHref} data-set-lang="en" aria-current={locale === 'en' ? 'page' : undefined} class={`flex-1 text-center py-2 rounded-lg text-xs font-display font-semibold uppercase tracking-widest transition-colors ${locale === 'en' ? 'bg-accent/15 text-accent' : `${navColors.selectorInactive} border ${navColors.selectorBorder}`}`}>English</a>
         </div>
-        <a href={osHref} class="px-4 py-3 text-text-dim hover:text-accent rounded-lg transition-all flex items-center gap-3">
+        <a href={osHref} class={`px-4 py-3 rounded-lg transition-all flex items-center gap-3 ${navColors.mobileOs}`}>
           <Icon name="bolt" class="text-sm flex-shrink-0" />
           <span class="flex flex-col leading-tight">
             <span class="text-xs font-display font-semibold uppercase tracking-widest">Alethig Media OS</span>
             <span class="text-[10px] opacity-70">{uiCopy.osComingSoonLong}</span>
           </span>
         </a>
-        <div class="pt-2 mt-1 border-t border-[rgba(255,255,255,0.07)]">
+        <div class={`pt-2 mt-1 border-t ${navColors.mobileDivider}`}>
           <a href={withBase(base, uiCopy.contactPath)} class="btn-cyber-solid w-full justify-center text-center block">{ctaLabel}</a>
         </div>
       </nav>
@@ -435,11 +479,20 @@ businessSchema.openingHoursSpecification = {
   import { initBookingTriggers } from '../scripts/cal-booking';
 
   // ---- Scroll: sticky nav glassify ----
+  // VISUAL REDESIGN V2: data-nav-theme (puesto en <header id="site-nav">
+  // desde Layout.astro, ver navTheme prop) decide qué glass usar al
+  // scrollear — navy translúcido (default, todas las páginas) o claro
+  // (solo el home). El nav en reposo (scrollY <= 20) ya se resuelve por
+  // completo con clases (navColors en Layout.astro), sin JS.
   const nav = document.getElementById('site-nav');
   const navInner = document.getElementById('nav-inner');
+  const navIsLightTheme = nav?.dataset.navTheme === 'light';
+  const navScrolledStyle = navIsLightTheme
+    ? 'background:rgba(255,255,255,0.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(11,31,58,0.08);'
+    : 'background:rgba(11,31,58,0.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(255,255,255,0.07);';
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {
-      nav!.style.cssText = 'background:rgba(0,3,38,0.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(255,255,255,0.07);';
+      nav!.style.cssText = navScrolledStyle;
       navInner!.style.height = '64px';
     } else {
       nav!.style.cssText = '';

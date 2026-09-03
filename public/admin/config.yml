@@ -158,6 +158,11 @@ collections:
               - { name: title, label: "Título", widget: string }
               - { name: desc, label: "Descripción", widget: text }
               - { name: href, label: "Enlace", widget: string }
+          - { name: osTag, label: "Alethig Media OS · Etiqueta", widget: string }
+          - { name: osHeading, label: "Alethig Media OS · Titular", widget: string }
+          - { name: osHighlight, label: "Alethig Media OS · Palabra resaltada", widget: string, required: false }
+          - { name: osBody, label: "Alethig Media OS · Párrafo", widget: text }
+          - { name: osCtaLabel, label: "Alethig Media OS · Texto botón", widget: string }
           - { name: reasonsTag, label: "Por qué · Etiqueta", widget: string }
           - { name: reasonsHeading, label: "Por qué · Titular", widget: string }
           - { name: reasonsHighlight, label: "Por qué · Palabra resaltada", widget: string, required: false }
@@ -166,6 +171,15 @@ collections:
             widget: list
             fields:
               - { name: icon, label: "Icono", widget: string }
+              - { name: title, label: "Título", widget: string }
+              - { name: desc, label: "Descripción", widget: text }
+          - { name: processTag, label: "Proceso · Etiqueta", widget: string }
+          - { name: processHeading, label: "Proceso · Titular", widget: string }
+          - name: processSteps
+            label: "Proceso · Pasos"
+            widget: list
+            fields:
+              - { name: num, label: "Número (01, 02…)", widget: string }
               - { name: title, label: "Título", widget: string }
               - { name: desc, label: "Descripción", widget: text }
           - { name: ctaTag, label: "CTA · Etiqueta", widget: string }
@@ -207,6 +221,11 @@ collections:
               - { name: title, label: "Título", widget: string }
               - { name: desc, label: "Descripción", widget: text }
               - { name: href, label: "Enlace", widget: string }
+          - { name: osTag, label: "Alethig Media OS · Etiqueta", widget: string }
+          - { name: osHeading, label: "Alethig Media OS · Titular", widget: string }
+          - { name: osHighlight, label: "Alethig Media OS · Palabra resaltada", widget: string, required: false }
+          - { name: osBody, label: "Alethig Media OS · Párrafo", widget: text }
+          - { name: osCtaLabel, label: "Alethig Media OS · Texto botón", widget: string }
           - { name: reasonsTag, label: "Por qué · Etiqueta", widget: string }
           - { name: reasonsHeading, label: "Por qué · Titular", widget: string }
           - { name: reasonsHighlight, label: "Por qué · Palabra resaltada", widget: string, required: false }
@@ -215,6 +234,15 @@ collections:
             widget: list
             fields:
               - { name: icon, label: "Icono", widget: string }
+              - { name: title, label: "Título", widget: string }
+              - { name: desc, label: "Descripción", widget: text }
+          - { name: processTag, label: "Proceso · Etiqueta", widget: string }
+          - { name: processHeading, label: "Proceso · Titular", widget: string }
+          - name: processSteps
+            label: "Proceso · Pasos"
+            widget: list
+            fields:
+              - { name: num, label: "Número (01, 02…)", widget: string }
               - { name: title, label: "Título", widget: string }
               - { name: desc, label: "Descripción", widget: text }
           - { name: ctaTag, label: "CTA · Etiqueta", widget: string }
@@ -445,7 +473,7 @@ collections:
           - { name: ctaLabel, label: "Texto botón", widget: string }
 
       - name: alethig-media-os
-        label: "Alethig Media OS (Próximamente)"
+        label: "Alethig Media OS"
         file: "src/content/pages/alethig-media-os.es.json"
         format: json
         fields:
@@ -455,12 +483,11 @@ collections:
           - { name: heading, label: "Titular", widget: string }
           - { name: highlight, label: "Palabra resaltada", widget: string, required: false }
           - { name: paragraph, label: "Párrafo", widget: text }
-          - { name: note, label: "Aclaración (nada disponible todavía)", widget: string }
-          - { name: ctaLabel, label: "Botón principal", widget: string }
+          - { name: ctaLabel, label: "Botón principal (abre app.alethigmedia.com)", widget: string }
           - { name: ctaSecondaryLabel, label: "Botón secundario", widget: string }
 
       - name: alethig-media-os-en
-        label: "Alethig Media OS (Inglés / Coming Soon)"
+        label: "Alethig Media OS (Inglés)"
         file: "src/content/pages/alethig-media-os.en.json"
         format: json
         fields:
@@ -470,8 +497,7 @@ collections:
           - { name: heading, label: "Titular", widget: string }
           - { name: highlight, label: "Palabra resaltada", widget: string, required: false }
           - { name: paragraph, label: "Párrafo", widget: text }
-          - { name: note, label: "Aclaración (nada disponible todavía)", widget: string }
-          - { name: ctaLabel, label: "Botón principal", widget: string }
+          - { name: ctaLabel, label: "Botón principal (abre app.alethigmedia.com)", widget: string }
           - { name: ctaSecondaryLabel, label: "Botón secundario", widget: string }
 
   # ─────────── SERVICIOS UNIFORMES (features + planes) ───────────
